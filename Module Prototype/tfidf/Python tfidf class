@@ -1,0 +1,31 @@
+#Python template for a parsing 
+ 
+Class Initializer
+
+  #expose a map of retriever
+  retriever={key,value}
+ 
+class Retriever:
+  #
+  configurationLine
+  #top level node of the retriever
+  node=node(start)
+  
+  # return List<String>
+  getInfo() :
+    ger
+  
+ 
+ 
+ 
+class Node :
+  #read From the conf files
+  rawString
+  
+  childNode
+  
+  #convert from the rawString
+  analyzed tag from
+  
+  
+  private String
