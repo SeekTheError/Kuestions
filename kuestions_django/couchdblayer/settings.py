@@ -1,4 +1,4 @@
-# Django settings for kuestions_django project.
+# Django settings for couchdblayer project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -58,7 +58,7 @@ MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '0zdz)%dnyl5@1w@p6t9-u1^wn&fuk9ux%^c_!m=-^1!e#nks6n'
+SECRET_KEY = '5hs(1#oqzrkacvmz08!x+iwn7#86kx*!c7pd-+7xj&ucgivvyq'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -75,7 +75,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'kuestions_django.urls'
+ROOT_URLCONF = 'couchdblayer.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -89,7 +89,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'couchdblayer'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
