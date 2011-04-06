@@ -1,6 +1,9 @@
 from couchdb import *
 
-def getDatabase (dbname) :
+DB_NAME='kuestiondb'
+SERVER_URL='http://localhost:5984'
+
+def getDatabase (dbname=DB_NAME) :
   try :
     db = server[dbname]
     return db
@@ -14,9 +17,6 @@ def getDatabase (dbname) :
     
 def getServer(url) :
   return Server(url)
-
-DB_NAME='kuestiondb'
-SERVER_URL='http://localhost:5984'
 
 #the defaut database 
 server=getServer(SERVER_URL)
@@ -41,6 +41,8 @@ from couchdb.mapping import *
 class User(Document) :
   login=TextField()
   password=TextField()
+  #re for mail: '\w*@\w*\.\w*'
+  mail=TextField()
   type=TextField()
   TYPE='user'
   FIND_BY_LOGIN='function(u) { if(u.type == \'user\') {if( u.login == \'$login\') {emit (u.id,u);}}}'
