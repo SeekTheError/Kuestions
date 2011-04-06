@@ -1,5 +1,5 @@
 from couchdb import *
-from couchdb.mapping import *
+
 from couchdblayer import *
 
 
@@ -21,12 +21,7 @@ class User(Document):
   type=TextField()
     
  
-    
-  def __init__(self,login='',password='') :
-    self.login=login
-    self.password=password
-    self.type=type
-    
+   
 class UserDao (Dao) :
   FIND_BY_LOGIN='function(u) { if(u.type == \'user\') {if( u.login == \'$login\') {emit (u.login,u);}}}'
   
@@ -64,20 +59,6 @@ class UserDao (Dao) :
   def updateUser(self, user) :
     self.em.updateDocument(user)
       
-# param : doc, a couchdb Document instance about a user
-# return: a user, or none if the provided document is None
 
-
-def DocumentToUser (doc) :
-  if doc != None :
-    user=User(doc.value[LOGIN],doc.value[PASSWORD])
-    user.dict[ID]=doc.value[ID]
-    return user
-  else :
-    print 'the provided document is null'
-  
-'''
-End User Part
-'''
 
   

@@ -1,5 +1,4 @@
 from couchdb import *
-import uuid
 
 # static function that give a database to the couchdbinterface
 def getDatabase (url,dbname) :
@@ -17,78 +16,109 @@ def getDatabase (url,dbname) :
     print 'server don\'t exist, creating a new one'
     return server.create(dbname)  
 
-'''
-Convention:
-return 0 or the object if succes
-return None if failure
-'''
-class CouchDbInterface :
+DB_NAME='kuestiondb'
+SERVER_URL='http://localhost:5984'
 
-  DB_NAME='kuestiondb'
-  SERVER_URL='http://localhost:5984'
-  database=getDatabase(SERVER_URL,DB_NAME)
+#the database instance
+db=getDatabase(SERVER_URL,DB_NAME)
 
-  # param  : content(map), id(string)
-  # return : the newly created document, None otherwise
-  def createDocument (self,content) :
-    try :
-      doc=self.database[uuid.uuid1().hex]=content
-      return doc
-    except ResourceConflict :
-      print 'document already exist, creation fail'
-      return None;
+def query (query) :
+  try :
+    return db.query(query)
+  except ServerError :
+    print 'ServerError, error in query'
+
+
+class IntegrityConstraintException :
+  pass
+
+class ProtectedException :
+  pass
+
+from couchdb.mapping import *
+class User(Document) :
+  login=TextField()
+  password=TextField()
+  type=TextField()
   
-  # param  : id(string)
-  # return : a document, or None if not found
-  def findDocumentById (self,id) :
-    try :
-      return self.database[id]
-    except ResourceNotFound : 
-      print 'fail to find ressource with id: ',id,',Ressource Not Found'
+  FIND_BY_LOGIN='function(u) { if(u.type == \'user\') {if( u.login == \'$login\') {emit (u.id,u);}}}'
+  
+  def findByLogin(self) :
+    view=query(User.FIND_BY_LOGIN.replace('$login',self.login))
+    if len(view) == 0 :
       return None
+    elif len(view) == 1:
+      for u in view : return User.load(db,u.id)
+    else :
+      print 'WARNING: critical error, more than one user for same login'
+      raise IntegrityConstraintException
+    
+  
+  def create(user) :
+  #to ensure database integrity, it is mandatory to use this method the first time the is a new user
+    if user.findByLogin() == None :
+      user.type='user'
+      user.store(db)
+      return user
+    else :
+      print 'a user already exist for login: ', user.login
+      
+  def update(self) :
+    if self.id :
+      self.store(db)
+    else :
+      print 'invalid state, attemp to update a non existing user'
+
    
-  # param  : id(string)
-  # return : 0 if the deletion is succesful , None otherwise
-  def deleteDocumentById (self, id) :
-    try :
-      doc=self.findDocumentById(id);
-      print 'deleting the doc with id: ', id
-      self.database.delete(doc)
-      return 0
-    except  ResourceNotFound :
-      print 'fail to delete ressource with id: ',id,',Ressource Not Found'
-      return None 
-      
-  def deleteDocument (self, doc) :
-    try :
-      print 'trying to delete document with id: ',doc.value['id'],' rev: ', doc.value['rev']
-      self.database.delete(doc)
-      return 0
-    except  ResourceNotFound :
-      print 'fail to delete ressource Ressource Not Found'
-      return None
+'''
+this test highlight the way to create user 
+
+#for a new user :
+u=User(login='rem',password='pass')   
+print User.create(u)
+
+#to find a user by login(login are unique in the database)
+u=User(login='rem')
+u=u.findByLogin()
+
+#to update a user(need a existing user):
+u=User(login='rem')
+u=u.findByLogin()
+u.password='strong'
+u.update()
+
+'''
+
+def testCouch () :
+  #creating a user
+  u=User(login='rem',password='pass')   
+  print User.create(u) , '\n'
   
-  # param : a doc that posses a representation in the database    
-  def updateDocument(self, doc) :
-    try :
-      print doc.get('id')
-      print self.database[doc.get('id')]
-    except  ResourceNotFound :
-      print 'fail to delete ressource with id: ',id,',Ressource Not Found'
-      return None 
+  #finding & updating a user
+  u=User(login='rem')
+  u=u.findByLogin()
+  print 'user before update: ', u
+  print 'changing password to strong'
+  u.password='strong'
+  u.update()
+  print u.findByLogin()
+  print 'changing password to VERYstrong'
+  u.password='VERYstrong'
+  u.update()
+  print u.findByLogin()
+  
+  #try to update a non existing user
+  print '\ntrying to update jose, but he don\'t exist'
+  u=User(login='jose',password='de')
+  u.update()
+ 
+  
+  
+    
+if __name__ == '__main__' :
+  testCouch()
+    
 
-
-  # param  : query(string),
-  # return : an iterable, or None if the query is not well formated
-  def getViewResultsForQuery(self,query) :
-    try :
-      view= self.database.query(query)
-      len(view)
-      return view
-    except ServerError :
-      print 'query error'
-      return None
-      
   
  
     
