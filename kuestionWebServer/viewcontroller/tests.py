@@ -6,18 +6,12 @@ Replace these with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from couchdbinterface.couchdblayer import *
 
 class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
-
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
+  def test_conect_to_db(self):
+    server=getServer('http://127.0.0.1:5984')
+    print 'connected to server: ',server
+    print 'connection test\nnumber of database in the server :', len(server)
+   
 
