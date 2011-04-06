@@ -3,13 +3,14 @@ from entities import *
 from json import *
 
 def main() :
- # basicObjectCreation()
+  #basicObjectCreation()
   entityTest()
   
 def entityTest() :
   dao=UserDao()
   u=User('rem','mdp')
   dao.createUser(u)
+  dao.deleteUserByLogin('rem')
   
 def basicObjectCreation() :
   print 'running test BasicObjectCreation'

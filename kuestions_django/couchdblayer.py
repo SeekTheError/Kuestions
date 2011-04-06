@@ -57,7 +57,15 @@ class CouchDbInterface :
       return 0
     except  ResourceNotFound :
       print 'fail to delete ressource with id: ',id,',Ressource Not Found'
-      return None   
+      return None 
+      
+  def deleteDocument (self, doc) :
+    try :
+      self.database.delete(doc)
+      return 0
+    except  ResourceNotFound :
+      print 'fail to delete ressource Ressource Not Found'
+      return None  
 
 
   # param  : query(string),
