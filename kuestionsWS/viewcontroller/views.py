@@ -16,8 +16,6 @@ def user(request,login) :
   t = loader.get_template('viewcontroller/user.html')
   c=Context({'user':user})
   if user != None :
-    title= 'acces to profile ',user.login
-    sendMail(title,'this is a test from the django','remi.bouchar@gmail.com')
     return HttpResponse(t.render(c))
   else :
     return HttpResponse("User not found: %s" %login)
