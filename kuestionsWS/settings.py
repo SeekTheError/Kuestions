@@ -75,7 +75,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'kuestionWebServer.urls'
+ROOT_URLCONF = 'kuestionsWS.urls'
 
 TEMPLATE_DIRS = (
    "/home/rem/git/Kuestions/kuestions_templates", 
