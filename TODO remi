@@ -1,0 +1,15 @@
+Todo kuestion web
+  general
+    split entity and couchdblayer
+  
+  model
+    add profile yo user(also uml
+    add topic to user
+    code question entity
+    
+  
+  
+  register
+    setup django account for couchdb
+    code mail module
+    code base view + javascript validator

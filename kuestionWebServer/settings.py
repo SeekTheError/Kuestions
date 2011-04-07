@@ -78,7 +78,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'kuestionWebServer.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+   "/home/rem/git/Kuestions/kuestions_templates", 
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -90,9 +90,21 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'couchdbinterface',
-    'viewcontroller'
+    'viewcontroller',
+    'mailsender'
     # Uncomment the next line to enable the admin:
     #'django.contrib.admin'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+#Mail configuration
+'''
+Mail is sent using the SMTP host and port specified in the EMAIL_HOST and EMAIL_PORT settings. The EMAIL_HOST_USER and EMAIL_HOST_PASSWORD settings, if set, are used to authenticate to the SMTP server, and the EMAIL_USE_TLS setting controls whether a secure connection is used.
+'''
+EMAIL_HOST= 'smtp.gmail.com'
+EMAIL_PORT= '25'
+EMAIL_HOST_USER = 'kuestions.kaist@gmail.com'
+EMAIL_HOST_PASSWORD = 'kuestions123456'
+EMAIL_USE_TLS = True
+

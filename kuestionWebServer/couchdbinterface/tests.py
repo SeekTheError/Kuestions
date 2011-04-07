@@ -5,7 +5,7 @@ import couchdblayer
 
 TEST_DB_NAME='kuestiondbtest'
 def switchToTestDatabase() :
-  
+  print '\n------------------Running the couchdbinterface test -------------------------\n'
   print 'switching to test database'
   #easy way to make sure we have a clean database
   db=getDatabase(TEST_DB_NAME)

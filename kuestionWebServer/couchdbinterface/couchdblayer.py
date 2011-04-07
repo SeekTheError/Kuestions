@@ -1,4 +1,8 @@
+
+#-----------------couchdriver------
+
 from couchdb import *
+
 
 DB_NAME='kuestiondb'
 SERVER_URL='http://localhost:5984'
@@ -36,13 +40,23 @@ class IntegrityConstraintException :
 class IllegalAttempt :
   pass
 
+#-----------------------Entities-------------------------
+
+#-------------------------User---------------------------
 from couchdb.mapping import *
 
+
+#TODO add list field
 class User(Document) :
   login=TextField()
   password=TextField()
   #re for mail: '\w*@\w*\.\w*'
   mail=TextField()
+  #resume is a kind of description in ram text
+  resume=TextField()
+  #topics=ListField()
+  is_activated=BooleanField()
+  
   type=TextField()
   TYPE='user'
   FIND_BY_LOGIN='function(u) { if(u.type == \'user\') {if( u.login == \'$login\') {emit (u.id,u);}}}'
