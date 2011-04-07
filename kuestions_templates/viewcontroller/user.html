@@ -1,0 +1,15 @@
+<html>
+<head>
+<title>Kuestions - User {{ user.login }}</title>
+</head>
+<body>
+<h3>Welcome to {{ user.login }} profile</h3>
+{% if user.resume %}
+
+<h3>Resume</h3>
+<p>{{user.resume}}</p>
+
+{% endif %}
+
+<body>
+</html>
