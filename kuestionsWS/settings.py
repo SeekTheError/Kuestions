@@ -78,7 +78,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'kuestionsWS.urls'
 
 TEMPLATE_DIRS = (
-   "/home/rem/git/Kuestions/kuestions_templates", 
+   "/home/rem/git/Kuestions/WebPages", 
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -90,7 +90,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'couchdbinterface',
-    'viewcontroller',
+    'controller',
     'mailsender'
     # Uncomment the next line to enable the admin:
     #'django.contrib.admin'

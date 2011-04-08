@@ -6,8 +6,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
-    (r'^kuestions/$', 'viewcontroller.views.index'),
-    (r'^kuestions/user/(?P<login>\w+)$', 'viewcontroller.views.user'),
+    (r'^kuestions/$', 'controller.indexcontroller.view'),
+    (r'^kuestions/user/(?P<login>\w+)$', 'controller.profilecontroller.view'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
