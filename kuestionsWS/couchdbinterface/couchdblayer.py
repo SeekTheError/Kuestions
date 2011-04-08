@@ -54,11 +54,12 @@ class User(Document) :
   resume=TextField()
   activationCode=TextField()
   #topics=ListField()
-  is_activated=BooleanField()
+  isActivated=BooleanField()
   
   type=TextField()
   TYPE='user'
   FIND_BY_LOGIN='function(u) { if(u.type == \'user\') {if( u.login == \'$login\') {emit (u.id,u);}}}'
+  FIND_BY_ACTIVATION_CODE='function(u) { if(u.type == \'user\') {if( u.activationCode == \'$activationCode\') {emit (u.id,u);}}}'
   
   def findByLogin(self) :
     view=query(User.FIND_BY_LOGIN.replace('$login',self.login))
@@ -68,6 +69,16 @@ class User(Document) :
       for u in view : return User.load(db,u.id)
     else :
       print 'WARNING: critical error, more than one user for same login'
+      raise IntegrityConstraintException
+
+  def findByActivationCode(self) :
+    view=query(User.FIND_BY_ACTIVATION_CODE.replace('$activationCode',self.activationCode))
+    if len(view) == 0 :
+      return None
+    elif len(view) == 1:
+      for u in view : return User.load(db,u.id)
+    else :
+      print 'WARNING: critical error, more than one user with same activation code'
       raise IntegrityConstraintException
     
   
