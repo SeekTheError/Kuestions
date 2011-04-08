@@ -8,5 +8,24 @@
 <p>This the Kuestions main page, where everything happen</p>
 
 
+<p>
+
+<h1>Register</h1>
+
+{% if form_message %}<p><strong>{{ form_message }}</strong></p>{% endif %}
+
+<form action="/kuestions/register/" method="post">
+{% csrf_token %}
+login<input type="text" name="login"/><br/>
+password<input type="password" name="password"/><br/>
+email<input type="text" name="email"/><br/>
+<input type="submit" value="Register"/>
+</form>
+
+
+<!-- TODO  1 change this form to a POST-->
+<!-- TODO  2 change this form to a an ajax one with hash of the password before sending the request-->
+
+
 <body>
 </html>

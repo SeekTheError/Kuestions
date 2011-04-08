@@ -46,14 +46,13 @@ class IllegalAttempt :
 from couchdb.mapping import *
 
 
-#TODO add list field
+#TODO add topics field
 class User(Document) :
   login=TextField()
   password=TextField()
-  #re for mail: '\w*@\w*\.\w*'
-  mail=TextField()
-  #resume is a kind of description in ram text
+  email=TextField()
   resume=TextField()
+  activationCode=TextField()
   #topics=ListField()
   is_activated=BooleanField()
   
@@ -76,6 +75,7 @@ class User(Document) :
   #to ensure database integrity, it is mandatory to use this method the first time to creat a new user
     if user.findByLogin() == None :
       user.type=User.TYPE
+      user.is_activated=False
       user.store(db)
       return user
     else :

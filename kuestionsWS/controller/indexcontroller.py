@@ -1,9 +1,9 @@
 from django.http import HttpResponse
-from django.template import Context, loader
+from django.template import RequestContext, loader
 
 def view(request) :
   t = loader.get_template('index.html')
-  c=Context()
+  c=RequestContext(request)
   return HttpResponse(t.render(c))
 
 

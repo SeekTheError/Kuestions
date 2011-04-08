@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Example:
     (r'^kuestions/$', 'controller.indexcontroller.view'),
     (r'^kuestions/user/(?P<login>\w+)$', 'controller.profilecontroller.view'),
+    (r'^kuestions/register/$', 'controller.registercontroller.register'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
