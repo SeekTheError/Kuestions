@@ -52,6 +52,8 @@ class User(Document) :
   email=TextField()
   resume=TextField()
   activationCode=TextField()
+  sessionId=TextField()
+  sessionExpire=DateTimeField()
   #topics=ListField()
   isActivated=BooleanField()
   
@@ -90,6 +92,8 @@ class User(Document) :
       return self
     else :
       print 'a user already exist for login: ', self.login
+      
+      
   def update(self) :
     if self.id :
       self.store(db)

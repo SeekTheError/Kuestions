@@ -108,3 +108,6 @@ EMAIL_HOST_USER = 'kuestions.kaist@gmail.com'
 EMAIL_HOST_PASSWORD = 'kuestions123456'
 EMAIL_USE_TLS = True
 
+
+
+
