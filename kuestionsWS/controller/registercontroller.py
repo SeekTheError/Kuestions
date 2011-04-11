@@ -1,5 +1,5 @@
 #Author: RemiBouchar
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import  render_to_response
 import logging
@@ -10,7 +10,7 @@ logger=logging.getLogger(__name__)
 
 
 from couchdbinterface.couchdblayer import *
-from hashlib import sha1
+from util.encode import encode
 import re
 
 
@@ -28,11 +28,11 @@ def register(request) :
   
   #parameter validation
   loginIsValid= re.match('[\w0-9]*',login) and len(login) > 3 and len(login) < 16
-  passwordIsValid=len(password) > 8 
+  passwordIsValid=len(password) >= 6 
   emailIsValid=re.match('[\w.]*@\w*\.[\w.]*',email)
   
   #encrypt the password with the sha1 function
-  password=sha1(password).hexdigest()
+  password=encode(password)
   logger.info(login+' '+password+' '+email)
   
   if loginIsValid and passwordIsValid and emailIsValid :
@@ -60,7 +60,7 @@ from hashlib import sha1
 
 def sendActivationMail(login,email) :   
   shaSource= login + email
-  code=sha1(shaSource).hexdigest()
+  code=encode(shaSource)
   subject='Activation mail for Kuestions!'
   message= code
   sendMail(subject,message,email)

@@ -14,13 +14,14 @@
 <h2>log in</h2>
 
 
-<form action="/kuestions/login/" method="post">
+<form action="/kuestions/security/in/" method="post">
 {% csrf_token %}
 login<input type="text" name="login"/><br/>
 password<input type="password" name="password"/><br/>
+<input type="submit" value="Sign In"/>
+</form>
 
 <h2>Register</h2>
-
 
 <form action="/kuestions/register/" method="post">
 {% csrf_token %}

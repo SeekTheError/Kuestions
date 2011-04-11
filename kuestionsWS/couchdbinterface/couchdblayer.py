@@ -1,5 +1,4 @@
-
-#-----------------couchdriver------
+#Author: RemiBouchar
 
 from couchdb import *
 

@@ -1,3 +1,4 @@
+#Author: RemiBouchar
 from django.test import TestCase  
 from couchdblayer import *
 import couchdblayer
