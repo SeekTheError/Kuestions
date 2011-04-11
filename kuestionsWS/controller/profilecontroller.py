@@ -1,15 +1,25 @@
 from django.http import HttpResponse
-from django.template import Context, loader
+from django.template import Context,RequestContext, loader
 
 from couchdbinterface.couchdblayer import *
 import  couchdbinterface.couchdblayer
-from mailsender.sender import *
+import security
+
+def current(request) :
+  print 'current'
+  context = RequestContext(request)
+  context=security.addUserInfoToContext(request,context)
+  t = loader.get_template('profile.html')
+  if context['sessionIsOpen']== True :
+    return HttpResponse(t.render(context))
+  else : 
+    return HttpResponse(t.render(context))
+  
 
 
 def view(request,login) :
   #TODO distinguish those case: the user see his page, the user see another page
   #And : Distinguish GET/POST method (need to split in different method)
-  db=getDatabase()
   user=User(login=login)
   user=user.findByLogin()
   t = loader.get_template('profile.html')

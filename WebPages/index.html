@@ -11,27 +11,51 @@
 {% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
 
 
-<h2>Sign in</h2>
+<h2>User</h2>
 
 
+<!-- if there is no user logged in, display the sign pannel -->
+{% if not sessionIsOpen%}
 <form action="/kuestions/security/in/" method="post">
 {% csrf_token %}
-login<input type="text" name="login"/><br/>
-password<input type="password" name="password"/><br/>
-<input type="submit" value="Sign In"/>
+<table>
+<tr>
+<td>login</td><td><input type="text" name="login"/><td></tr>
+<tr>
+<td>password</td><td><input type="password" name="password"/></td></tr>
+<tr><td><input type="submit" value="Sign In"/><td><tr>
+</table>
 </form>
+
+<!-- else, display a sign out button -->
+{% else %}
+<form action="/kuestions/security/out/" method="get">
+<table>
+<tr>
+<td>{{ user.login }}</td>
+</tr>
+<tr>
+<td><input type="submit" value="Sign Out"/></td>
+</tr>
+</table>
+</form>
+
+{% endif %}
+
+{% if not sessionIsOpen %}
 
 <h2>Register</h2>
 
 <form action="/kuestions/register/" method="post">
 {% csrf_token %}
-login<input type="text" name="login"/><br/>
-password<input type="password" name="password"/><br/>
-email<input type="text" name="email"/><br/>
-<input type="submit" value="Register"/>
-
+<table>
+<tr><td>login</td><td><input type="text" name="login"/></td></tr>
+<tr><td>password</td><td><input type="password" name="password"/></td></tr>
+<tr><td>email</td><td><input type="text" name="email"/></td></tr>
+<tr><td><input type="submit" value="Register"/></td></tr>
+<table>
 <!-- TODO change this form to a an ajax one with hash of the password before sending the request-->
 
-
+{% endif %}
 <body>
 </html>

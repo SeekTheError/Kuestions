@@ -60,6 +60,7 @@ class User(Document) :
   type=TextField()
   TYPE='user'
   FIND_BY_LOGIN='function(u) { if(u.type == \'user\') {if( u.login == \'$login\') {emit (u.id,u);}}}'
+  FIND_BY_SESSION_ID='function(u) { if(u.type == \'user\') {if( u.sessionId == \'$sessionId\') {emit (u.id,u);}}}'
   FIND_BY_ACTIVATION_CODE='function(u) { if(u.type == \'user\') {if( u.activationCode == \'$activationCode\') {emit (u.id,u);}}}'
   
   def findByLogin(self) :
@@ -74,6 +75,16 @@ class User(Document) :
 
   def findByActivationCode(self) :
     view=query(User.FIND_BY_ACTIVATION_CODE.replace('$activationCode',self.activationCode))
+    if len(view) == 0 :
+      return None
+    elif len(view) == 1:
+      for u in view : return User.load(db,u.id)
+    else :
+      print 'WARNING: critical error, more than one user with same activation '
+      raise IntegrityConstraintException
+      
+  def findBySessionId(self) :
+    view=query(User.FIND_BY_SESSION_ID.replace('$sessionId',self.sessionId))
     if len(view) == 0 :
       return None
     elif len(view) == 1:
