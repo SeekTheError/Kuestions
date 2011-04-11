@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import Context,RequestContext, loader
 
 from couchdbinterface.couchdblayer import *
@@ -37,7 +37,7 @@ def view(request,login) :
     return HttpResponse(t.render(context))
   #TODO code the user not found aspect
   else :
-    return HttpResponse("User not found: %s" %login)
+    return HttpResponse(t.render(context))
     
     
     

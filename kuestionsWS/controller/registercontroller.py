@@ -8,7 +8,6 @@ logger=logging.getLogger(__name__)
 
 ACTIVATION_LINK_BASE_URL='http://127.0.0.1:8000/kuestions/register/'
 
-
 from couchdbinterface.couchdblayer import *
 from util.encode import encode
 import re

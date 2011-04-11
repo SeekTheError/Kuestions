@@ -1,7 +1,12 @@
 <html>
 <head>
-<title>Kuestions - Welcome to {{ user.login }} profile</title>
+{% if user.login %}
+<title>Kuestions - {{ user.login }} profile</title>
+{% else %}
+<title>Kuestions -404 :  User not found</title>
+{% endif %}
 </head>
+{% if user.login %}
 <body>
 {% if not isAdmin %}
 <h3>Welcome to {{ user.login }}'s profile</h3>
@@ -14,6 +19,11 @@
 <p>{{user.resume}}</p>
 {% endif %}
 
+
+
+{% else %}
+<h1>404 - User Not Found </h1>
+{% endif %}
 <a href='/kuestions/'>Home Page</a>
 <body>
 </html>

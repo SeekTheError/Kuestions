@@ -34,13 +34,11 @@ def signout(request) :
   if request.COOKIES.__contains__(security.COOKIE_KEY) :
     sessionId=request.COOKIES[security.COOKIE_KEY]
   if sessionId :
-    print sessionId
     user=User(sessionId=sessionId)
     user=user.findBySessionId()
-    #TODO find a even more robust way to deactivate a session
     user.sessionId='XXX'+str(uuid.uuid1())
     user.update()
-    response.delete_cookie(security.COOKIE_KEY)
+  response.delete_cookie(security.COOKIE_KEY)
   return response
   
   
