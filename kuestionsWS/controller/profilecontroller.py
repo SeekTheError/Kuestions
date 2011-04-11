@@ -20,11 +20,24 @@ def current(request) :
 def view(request,login) :
   #TODO distinguish those case: the user see his page, the user see another page
   #And : Distinguish GET/POST method (need to split in different method)
-  user=User(login=login)
-  user=user.findByLogin()
+  
+  context = RequestContext(request)
+  context = security.addUserInfoToContext(request,context)
+  currentUser=security.getCurrentUser(context)
+  if currentUser and currentUser.login == login:
+    print currentUser.login
+    context['isAdmin']=True
+  else :
+    user=User(login=login)
+    user=user.findByLogin()
+    context["user"]=user
+  
   t = loader.get_template('profile.html')
-  c=Context({'user':user})
-  if user != None :
-    return HttpResponse(t.render(c))
+  if user != None :    
+    return HttpResponse(t.render(context))
+  #TODO code the user not found aspect
   else :
     return HttpResponse("User not found: %s" %login)
+    
+    
+    

@@ -30,7 +30,9 @@ def signout(request) :
   context=RequestContext(request)
   t = loader.get_template('index.html')
   response = HttpResponse(t.render(context))
-  sessionId=request.COOKIES[security.COOKIE_KEY]
+  sessionId=None
+  if request.COOKIES.__contains__(security.COOKIE_KEY) :
+    sessionId=request.COOKIES[security.COOKIE_KEY]
   if sessionId :
     print sessionId
     user=User(sessionId=sessionId)

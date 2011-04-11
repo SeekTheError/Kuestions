@@ -13,16 +13,20 @@ def addUserInfoToContext (request,context) :
   if cookieValue :
     user=User(sessionId=cookieValue)
     user=user.findBySessionId()
-    print 'find user '+ str(user.login)
+    print 'security: find user '+ str(user.login)
     if user and checkSessionIsValid(user) :
       context['sessionIsOpen']=True
       context['user']=getUserInfoWrapper(user)
     else :
       context['sessionIsOpen']=False
   else : 
-    print 'no kuestion cookie found'
+    print 'security: no kuestion cookie found'
     context['sessionIsOpen']=False
   return context
+  
+def getCurrentUser(context) :
+  if context['sessionIsOpen'] :
+    return context['user']
     
 
 #TODO code this to verify the session didn't expire

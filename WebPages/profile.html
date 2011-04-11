@@ -3,13 +3,17 @@
 <title>Kuestions - Welcome to {{ user.login }} profile</title>
 </head>
 <body>
-<h3>Welcome to {{ user.login }} profile</h3>
-{% if user.resume %}
+{% if not isAdmin %}
+<h3>Welcome to {{ user.login }}'s profile</h3>
+{% else %}
+<h3>Welcome to your profile</h3>
+{% endif %}
 
+{% if user.resume %}
 <h3>Resume</h3>
 <p>{{user.resume}}</p>
-
 {% endif %}
+
 
 <body>
 </html>
