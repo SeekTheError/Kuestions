@@ -2,45 +2,45 @@
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import  render_to_response
-
-
-#TODO : code the activation part !!!!! 
+import logging
 
 #----------Handler Methods----------
 
+logger=logging.getLogger(__name__)
+
+
 from couchdbinterface.couchdblayer import *
+from hashlib import sha1
 import re
 
 
 
 def register(request) :
+  '''
+  Handle a Post request with the following information:
+  login, password, email
+  '''
   #parameter retrieval
   login=request.POST['login']
   password=request.POST['password']
   email=request.POST['email']
+  
   
   #parameter validation
   loginIsValid= re.match('[\w0-9]*',login) and len(login) > 3 and len(login) < 16
   passwordIsValid=len(password) > 8 
   emailIsValid=re.match('[\w.]*@\w*\.[\w.]*',email)
   
+  #encrypt the password with the sha1 function
+  password=sha1(password).hexdigest()
+  logger.info(login+' '+password+' '+email)
+  
   if loginIsValid and passwordIsValid and emailIsValid :
      return processFormInformation(login,password,email,request)     
   else :
-    message='incorect information on the register form login:'+loginIsValid+' password:'+passwordIsValid+' email: ',emailIsValid
-    return render_to_response('index.html', {'form_message': message},context_instance=RequestContext(request))
-
-def activate(request,code) :
-  user=User(activationCode=code)
-  user=user.findByActivationCode()
-  if user != None :
-    user.isActivated= True
-    message = 'your account have been succesfully activated'
-  else :
-    message = 'wrong activation link'
-  context={'form_message': message}
-  return render_to_response('index.html', context ,context_instance=RequestContext(request))
-  
+    message='incorect information on the register form login:'+str(loginIsValid)
+    message+=' password:'+ str(passwordIsValid)+' email: '+ str(emailIsValid)
+    return render_to_response('index.html', {'message': message},context_instance=RequestContext(request))  
 
 def processFormInformation(login,password,email,request) :
   u = User(login=login,email=email,password=password)
@@ -52,7 +52,7 @@ def processFormInformation(login,password,email,request) :
     message= 'account succesfully created'
   else :
     message= 'error: login name already taken'
-  context={'form_message': message}
+  context={'message': message}
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
      
 from mailsender.sender import sendMail    
@@ -62,10 +62,26 @@ def sendActivationMail(login,email) :
   shaSource= login + email
   code=sha1(shaSource).hexdigest()
   subject='Activation mail for Kuestions!'
-  message='http://127.0.0.1:8000/kuestions/register/',code
+  message= code
   sendMail(subject,message,email)
   return code
   
+  
+
+def activate(request,code) :
+  user=User(activationCode=code)
+  user=user.findByActivationCode()
+  if user != None:
+    if user.isActivated == False :
+      user.isActivated= True
+      user.update()
+      message = 'your account have been succesfully activated'
+    else :
+      message = 'this account have been already activated'
+  else :
+    message = 'wrong activation link'
+  context={'message': message}
+  return render_to_response('index.html', context ,context_instance=RequestContext(request))
 
      
      

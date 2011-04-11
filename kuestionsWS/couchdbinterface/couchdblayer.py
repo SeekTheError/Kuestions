@@ -13,10 +13,10 @@ def getDatabase (dbname=DB_NAME) :
     return db
   #if the server already exist
   except ValueError :
-    print 'server don\'t exist, creating a new one'
+    print 'database ' + dbname +  ' don\'t exist, creating a new one'
     return server.create(dbname)
   except ResourceNotFound :
-    print 'server don\'t exist, creating a new one'
+    print 'database ' + dbname +  ' don\'t exist, creating a new one'
     return server.create(dbname)  
     
 def getServer(url) :
@@ -78,30 +78,33 @@ class User(Document) :
     elif len(view) == 1:
       for u in view : return User.load(db,u.id)
     else :
-      print 'WARNING: critical error, more than one user with same activation code'
+      print 'WARNING: critical error, more than one user with same activation '
       raise IntegrityConstraintException
     
   
-  def create(user) :
+  def create(self) :
   #to ensure database integrity, it is mandatory to use this method the first time to creat a new user
-    if user.findByLogin() == None :
-      user.type=User.TYPE
-      user.is_activated=False
-      user.store(db)
-      return user
+    if self.findByLogin() == None :
+      self.isActivated=False
+      self.type=self.TYPE
+      self.store(db)
+      return self
     else :
-      print 'a user already exist for login: ', user.login
-      
+      print 'a user already exist for login: ', self.login
   def update(self) :
     if self.id :
       self.store(db)
     else :
       print 'invalid state, attemp to update a non existing user'
       raise  IllegalAttempt
+      
+
+    
+    
   
 
     
-#Test Purpose
+
 
 
   

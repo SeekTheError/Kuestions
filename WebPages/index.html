@@ -5,14 +5,22 @@
 </head>
 <body>
 
-<p>This the Kuestions main page, where everything happen</p>
+<h1>Kuestions - Welcome to Kuestions</h1>
+
+<!--TODO : turn into a javascript banner -->
+{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
 
 
-<p>
+<h2>log in</h2>
 
-<h1>Register</h1>
 
-{% if form_message %}<p><strong>{{ form_message }}</strong></p>{% endif %}
+<form action="/kuestions/login/" method="post">
+{% csrf_token %}
+login<input type="text" name="login"/><br/>
+password<input type="password" name="password"/><br/>
+
+<h2>Register</h2>
+
 
 <form action="/kuestions/register/" method="post">
 {% csrf_token %}
@@ -20,11 +28,8 @@ login<input type="text" name="login"/><br/>
 password<input type="password" name="password"/><br/>
 email<input type="text" name="email"/><br/>
 <input type="submit" value="Register"/>
-</form>
 
-
-<!-- TODO  1 change this form to a POST-->
-<!-- TODO  2 change this form to a an ajax one with hash of the password before sending the request-->
+<!-- TODO change this form to a an ajax one with hash of the password before sending the request-->
 
 
 <body>
