@@ -6,36 +6,31 @@ import couchdbinterface.couchdblayer as couchVar
 KUESTIONS_API_GET_URL='/kuestions/api/get'
 
 def gate(request) :
-  print 'entering'
-  #print '\nrequest data\n', request
+  #post method is not tested yet, and forbiden at the moment!'
+  if request.POST :
+    keeper(request)
+    
   url=couchVar.SERVER_URL + request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
   print 'new url: ',url
-  f=None
-  # POST not tested
-  print 'warning, post method is not tested yet, and forbiden at the moment!'
-  if request.POST :
-    raise Http404
-  else  :
-    f = urllib.urlopen(url)#% params)
+  f = urllib.urlopen(url)
   if f is not None :
-    s=''
+    json=''
     for line in f.readlines() :
-      s+=line.replace('\n','')
-    s=keeper(s)
-    return HttpResponse(s)
+      json+=line.replace('\n','')
+    return HttpResponse(removeProtectedFields(json))
+  else :
+    print 'api: error at the gate'
+    keeper()
 
     
 
-def keeper(json) : 
+def removeProtectedFields(json) : 
   for field in privateFields :
     #"reString=',"('+field+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
     json=fieldRe.sub('',json)
   return json
-  
-
-
+#pre compile the regexp
 import re
-
 privateFields=['_rev','sessionId','password','session_expire','email','activationCode','isActivated']
 expr=''
 i=0
@@ -46,6 +41,9 @@ for field in privateFields:
   i+=1
 reString=',"('+expr+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
 fieldRe=re.compile(reString)
+
+def keeper(request):
+  raise Http404
   
   
   

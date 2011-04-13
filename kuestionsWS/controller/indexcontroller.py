@@ -1,11 +1,11 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader
-import security.userauth
+from security.userauth import addUserInfoToContext
 
 def view(request) :
   t = loader.get_template('index.html')
   context=RequestContext(request)
-  context=security.addUserInfoToContext(request,context)
+  context=addUserInfoToContext(request,context)
   return HttpResponse(t.render(context))
 
 
