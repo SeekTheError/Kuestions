@@ -1,5 +1,4 @@
 from django.http import HttpResponse,HttpResponseRedirect
-from controller import security
 import urllib
 
 COUCHDB_URL='http://127.0.0.1:5984/'
