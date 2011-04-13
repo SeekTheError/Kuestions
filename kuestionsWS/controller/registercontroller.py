@@ -53,7 +53,7 @@ def processFormInformation(login,password,email,request) :
   context={'message': message}
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
      
-from mailsender.sender import sendMail    
+from util.mailsender import sendMail    
 from hashlib import sha1
 
 def sendActivationMail(login,email) :   

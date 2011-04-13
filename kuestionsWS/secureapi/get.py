@@ -1,19 +1,20 @@
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,Http404
 import urllib
+import couchdbinterface.couchdblayer as couchVar
 
-COUCHDB_URL='http://127.0.0.1:5984/'
+
+KUESTIONS_API_GET_URL='/kuestions/api/get'
 
 def gate(request) :
   print 'entering'
   #print '\nrequest data\n', request
-  url=COUCHDB_URL+request.path.replace('/kuestions/api/user','kuestiondb')
+  url=couchVar.SERVER_URL + request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
   print 'new url: ',url
   f=None
   # POST not tested
+  print 'warning, post method is not tested yet, and forbiden at the moment!'
   if request.POST :
-    params = urllib.urlencode(request.POST)
-    print params
-    f = urllib.urlopen(url , params)
+    raise Http404
   else  :
     f = urllib.urlopen(url)#% params)
   if f is not None :
@@ -22,8 +23,8 @@ def gate(request) :
       s+=line.replace('\n','')
     s=keeper(s)
     return HttpResponse(s)
-  else :
-    return HttpResponse('ERROR')
+
+    
 
 def keeper(json) : 
   for field in privateFields :

@@ -1,10 +1,9 @@
 #Author: RemiBouchar
-
 from couchdb import *
 
 
-DB_NAME='kuestiondb'
-SERVER_URL='http://localhost:5984'
+DB_NAME='kuestionsdb'
+SERVER_URL='http://localhost:5984/'
 
 def getDatabase (dbname=DB_NAME) :
   try :
