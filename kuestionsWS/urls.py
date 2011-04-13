@@ -3,8 +3,8 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     (r'^kuestions/$', 'controller.indexcontroller.view'),
     
-    (r'^kuestions/security/in/$', 'controller.securitycontroller.signin'),
-    (r'^kuestions/security/out/$', 'controller.securitycontroller.signout'),
+    (r'^kuestions/security/in/$', 'security.securitycontroller.signin'),
+    (r'^kuestions/security/out/$', 'security.securitycontroller.signout'),
     
     (r'^kuestions/user/(?P<login>\w+)/+$', 'controller.profilecontroller.view'),
     (r'^kuestions/user/$', 'controller.profilecontroller.current'),
