@@ -5,13 +5,21 @@ import couchdbinterface.couchdblayer as couchVar
 
 KUESTIONS_API_GET_URL='/kuestions/api/get'
 
+#TODO : modify the url scheme for the api
 def gate(request) :
-  #post method is not tested yet, and forbiden at the moment!'
+  '''
+  this method play the role of a security proxy, by only allowing GET method directly to couchdb,
+  and then filtering the resulting json to remove some parameter that should remain server side
+  '''
   if request.POST :
-    keeper(request)
+    keeper(request,'Invalid Acces, use of a POST method')
     
   url=couchVar.SERVER_URL + request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
   print 'new url: ',url
+  if request.GET.__contains__('key') :
+    param='?key=' + request.GET['key']
+    url+=param
+  
   f = urllib.urlopen(url)
   if f is not None :
     json=''
@@ -19,19 +27,18 @@ def gate(request) :
       json+=line.replace('\n','')
     return HttpResponse(removeProtectedFields(json))
   else :
-    print 'api: error at the gate'
-    keeper()
-
-    
+    keeper(request,'error at the gate')
 
 def removeProtectedFields(json) : 
   for field in privateFields :
-    #"reString=',"('+field+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
     json=fieldRe.sub('',json)
   return json
-#pre compile the regexp
+
+
+
+#pre compile the regexp for the removeProtectFields function
 import re
-privateFields=['_rev','sessionId','password','session_expire','email','activationCode','isActivated']
+privateFields=['_rev','sessionId','password','sessionExpire','email','activationCode','isActivated']
 expr=''
 i=0
 for field in privateFields:
@@ -42,7 +49,8 @@ for field in privateFields:
 reString=',"('+expr+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
 fieldRe=re.compile(reString)
 
-def keeper(request):
+def keeper(request,message=''):
+  print 'WARNING, api: '+message
   raise Http404
   
   
