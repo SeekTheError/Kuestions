@@ -3,7 +3,7 @@ from django.template import Context,RequestContext, loader
 
 from couchdbinterface.couchdblayer import *
 import  couchdbinterface.couchdblayer
-import security
+import security.userauth
 
 def current(request) :
   context = RequestContext(request)
