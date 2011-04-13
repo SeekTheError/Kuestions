@@ -10,5 +10,8 @@ urlpatterns = patterns('',
     (r'^kuestions/user/$', 'controller.profilecontroller.current'),
     
     (r'^kuestions/register/$', 'controller.registercontroller.register'),
-    (r'^kuestions/register/(?P<code>\w+)$', 'controller.registercontroller.activate')
+    (r'^kuestions/register/(?P<code>\w+)$', 'controller.registercontroller.activate'),
+    
+    (r'^kuestions/api/user/', 'secureapi.user.gate'),
+    (r'^kuestions/api/question/', 'secureapi.question.gate'),
 )

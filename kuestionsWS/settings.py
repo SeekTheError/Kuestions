@@ -1,5 +1,6 @@
 # Django settings for kuestionWebServer project.
 
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -91,7 +92,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'couchdbinterface',
     'controller',
-    'mailsender'
+    'mailsender',
+    'secureapi'
     # Uncomment the next line to enable the admin:
     #'django.contrib.admin'
     # Uncomment the next line to enable admin documentation:
