@@ -1,3 +1,4 @@
+#Author Remi Bouchar
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
@@ -12,6 +13,8 @@ urlpatterns = patterns('',
     (r'^kuestions/register/$', 'controller.registercontroller.register'),
     (r'^kuestions/register/(?P<code>\w+)$', 'controller.registercontroller.activate'),
     
-    (r'^kuestions/api/get/$', 'security.api.keeper'),
-    (r'^kuestions/api/get/', 'security.api.gate'),
+     #block access to the root
+    (r'^kuestions/api/$', 'security.api.keeper'),
+    (r'^kuestions/api/', 'security.api.gate'),
+   
 )

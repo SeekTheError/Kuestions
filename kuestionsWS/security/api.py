@@ -1,9 +1,11 @@
+#Author Remi Bouchar
 from django.http import HttpResponse,Http404
 import urllib
 import couchdbinterface.couchdblayer as couchVar
+from django.shortcuts import render_to_response
 
 
-KUESTIONS_API_GET_URL='/kuestions/api/get'
+KUESTIONS_API_GET_URL='/kuestions/api'
 
 #TODO : modify the url scheme for the api
 def gate(request) :
@@ -12,10 +14,8 @@ def gate(request) :
   and then filtering the resulting json to remove some parameter that should remain server side
   '''
   if request.POST :
-    keeper(request,'Invalid Acces, use of a POST method')
-    
+    keeper(request,'Invalid Acces, use of a POST method')  
   url=couchVar.SERVER_URL + request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
-  print 'new url: ',url
   if request.GET.__contains__('key') :
     param='?key=' + request.GET['key']
     url+=param
@@ -37,8 +37,9 @@ def removeProtectedFields(json) :
 
 
 #pre compile the regexp for the removeProtectFields function
+#TODO, externalize the field list!
 import re
-privateFields=['_rev','sessionId','password','sessionExpire','email','activationCode','isActivated']
+privateFields=['_rev','sessionId','password','session_expire','email','activationCode','isActivated']
 expr=''
 i=0
 for field in privateFields:
@@ -49,21 +50,23 @@ for field in privateFields:
 reString=',"('+expr+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
 fieldRe=re.compile(reString)
 
+#Define http 5XX instead : internal error, forbiden
 def keeper(request,message=''):
   print 'WARNING, api: '+message
-  raise Http404
+  return render_to_response('error.html',{'message':'Kuestions API - 403 Forbidden'})
   
   
   
   
-
+        
+  
+    
+    
+ 
+ 
   
   
-  
-  
-  
-  
-  
+    
   
   
   

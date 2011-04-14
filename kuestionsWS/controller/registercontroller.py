@@ -1,4 +1,5 @@
 #Author: RemiBouchar
+#TODO : move this to the security package, for reusability
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import  render_to_response

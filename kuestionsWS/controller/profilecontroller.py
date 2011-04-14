@@ -1,3 +1,4 @@
+#Author Remi Bouchar
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import Context,RequestContext, loader
 

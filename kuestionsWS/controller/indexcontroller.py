@@ -1,3 +1,4 @@
+#Author Remi Bouchar
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from security.userauth import addUserInfoToContext
