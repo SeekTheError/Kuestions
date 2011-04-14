@@ -28,10 +28,11 @@ class User(Document) :
     if self.findByLogin() == None :
       self.isActivated=False
       self.type=self.TYPE
-      self.store(db)
+      self.store(getDb())
       return self
     else :
       print 'a user already exist for login: ', self.login
+      return None
       
       
   def update(self) :
@@ -58,7 +59,7 @@ class User(Document) :
     if len(view) == 0 :
       return None
     elif len(view) == 1:
-      for u in view : return User.load(db,u.id)
+      for u in view : return User.load(getDb(),u.id)
     else :
       print 'WARNING: critical error, more than one user with same activation '
       raise IntegrityConstraintException
@@ -68,7 +69,7 @@ class User(Document) :
     if len(view) == 0 :
       return None
     elif len(view) == 1:
-      for u in view : return User.load(db,u.id)
+      for u in view : return User.load(getDb(),u.id)
     else :
       print 'WARNING: critical error, more than one user with same activation '
       raise IntegrityConstraintException

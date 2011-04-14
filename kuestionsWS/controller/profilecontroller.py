@@ -1,9 +1,7 @@
 #Author Remi Bouchar
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import Context,RequestContext, loader
-
-from couchdbinterface.couchdblayer import *
-import  couchdbinterface.couchdblayer
+from couchdbinterface.entities import User
 import  security.userauth as security
 
 def current(request) :

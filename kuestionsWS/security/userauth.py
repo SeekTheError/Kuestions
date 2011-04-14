@@ -1,4 +1,4 @@
-from couchdbinterface.couchdblayer import User
+from couchdbinterface.entities import User
 
 COOKIE_KEY='kuestions_user'
 
