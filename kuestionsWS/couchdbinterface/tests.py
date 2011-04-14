@@ -1,17 +1,18 @@
 #Author: RemiBouchar
 from django.test import TestCase  
-from couchdblayer import *
-import couchdblayer
+import dblayer
+from dblayer import loadDatabase, getDb
+from entities import User, IllegalAttempt
 
 
 TEST_DB_NAME='kuestiondbtest'
+server=dblayer.getServer()
 def switchToTestDatabase() :
   print '\n------------------Running the couchdbinterface test -------------------------\n'
   print 'switching to test database'
   #easy way to make sure we have a clean database
-  db=getDatabase(TEST_DB_NAME)
-  couchdblayer.db=db
-  print 'DATABASE TEST ENVIRONMENT: ',server,',',db
+  loadDatabase(TEST_DB_NAME)
+  print 'DATABASE TEST ENVIRONMENT: ',server,',',getDb()
   
 def deleteTestDatabase() :
   print 'deleting the test database: ',TEST_DB_NAME
@@ -21,11 +22,10 @@ class SimpleTest(TestCase):
 
   def test_entity_manipulation(self):
     switchToTestDatabase()
-    
     #creating a user
     u=User(login='rem',password='pass')   
     print User.create(u) , '\n'
-    self.assertTrue(u.findByLogin()!=None)
+    self.assertTrue(u.findByLogin()!= None)
   
     #finding & updating a user
     u=User(login='rem')
@@ -45,12 +45,15 @@ class SimpleTest(TestCase):
     self.assertEqual(u.password,'VERYstrong')
   
     #try to update a non existing user
+    raised=False
     print '\ntrying to update jose, but he don\'t exist'
     try :
       u=User(login='jose',password='de')
       u.update()
     except IllegalAttempt :
       print 'catch an Illegal Attempt'
+      raised=True
+    self.assertTrue(raised)
     self.assertEqual(u.findByLogin(),None)
     
     

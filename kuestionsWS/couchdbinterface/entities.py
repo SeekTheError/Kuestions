@@ -1,7 +1,7 @@
 
 #-------------------------User---------------------------
 from couchdb.mapping import *
-
+from dblayer import query,getDb
 
 #TODO add topics field
 class User(Document) :
@@ -36,7 +36,7 @@ class User(Document) :
       
   def update(self) :
     if self.id :
-      self.store(db)
+      self.store(getDb())
     else :
       print 'invalid state, attemp to update a non existing user'
       raise  IllegalAttempt
@@ -48,7 +48,7 @@ class User(Document) :
     if len(view) == 0 :
       return None
     elif len(view) == 1:
-      for u in view : return User.load(db,u.id)
+      for u in view : return User.load(getDb(),u.id)
     else :
       print 'WARNING: critical error, more than one user for same login'
       raise IntegrityConstraintException
@@ -72,4 +72,9 @@ class User(Document) :
     else :
       print 'WARNING: critical error, more than one user with same activation '
       raise IntegrityConstraintException
+
+
+
+class IllegalAttempt :
+  pass
 

@@ -4,8 +4,10 @@ This file contain the method to create database and query view
 '''
 from couchdb import *
 
+DB_NAME='kuestionsdb'
+SERVER_URL='http://localhost:5984/'
 
-def getDatabase (dbname=DB_NAME) :
+def loadDatabase (dbname) :
   try :
     db = server[dbname]
     return db
@@ -17,17 +19,19 @@ def getDatabase (dbname=DB_NAME) :
     print 'database ' + dbname +  ' don\'t exist, creating a new one'
     return server.create(dbname)  
     
-def getServer(url) :
+def getServer(url=SERVER_URL) :
   return Server(url)
 
-#the defaut database 
+#the defaut 
 server=getServer(SERVER_URL)
-db=getDatabase(DB_NAME)
+print 'server_url: ',SERVER_URL
+currentDb=loadDatabase(DB_NAME)
+def getDb() : return currentDb
 
 
 def query (query) :
   try :
-    return db.query(query)
+    return currentDb.query(query)
   except ServerError :
     print 'ServerError, error in query'
 
@@ -35,12 +39,6 @@ import urllib
 def queryView(viewUrl) :
  url=SERVER_URL + viewUrl
  f = urllib.urlopen(url)
-
-class IntegrityConstraintException :
-  pass
-
-class IllegalAttempt :
-  pass
 
 
     
