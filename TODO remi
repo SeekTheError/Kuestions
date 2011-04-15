@@ -1,15 +1,23 @@
 Todo kuestion web
   general
-    split entity and couchdblayer
+    split entity and couchdblayer - Need To be Tested
   
   model
-    add profile yo user(also uml
-    add topic to user
+    add profile yo user(also uml DONE
+    add topic to user  
     code question entity
     
-  
-  
+  security module 
+    security.py => change name to authenticate
+    externalize the api.py protected attributes list 
+    
   register
     setup django account for couchdb
-    code mail module
-    code base view + javascript validator
+    code mail module DONE
+    code base view DONE + javascript validator WILL BE DONE IN UI TASK
+
+
+  refactoring
+    Every day, Every night
+
+  Documentation: all module!
