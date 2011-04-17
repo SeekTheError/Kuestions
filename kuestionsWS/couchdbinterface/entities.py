@@ -1,7 +1,8 @@
 
 #-------------------------User---------------------------
 from couchdb.mapping import *
-from dblayer import query,getDb
+import dblayer
+from dblayer import getDb
 
 #TODO add topics field
 class User(Document) :
@@ -45,7 +46,7 @@ class User(Document) :
 
 
   def findByLogin(self) :
-    view=query(User.FIND_BY_LOGIN.replace('$login',self.login))
+    view=dblayer.query(User.FIND_BY_LOGIN.replace('$login',self.login))
     if len(view) == 0 :
       return None
     elif len(view) == 1:
@@ -55,7 +56,7 @@ class User(Document) :
       raise IntegrityConstraintException
 
   def findByActivationCode(self) :
-    view=query(User.FIND_BY_ACTIVATION_CODE.replace('$activationCode',self.activationCode))
+    view=dblayer.query(User.FIND_BY_ACTIVATION_CODE.replace('$activationCode',self.activationCode))
     if len(view) == 0 :
       return None
     elif len(view) == 1:
@@ -65,7 +66,7 @@ class User(Document) :
       raise IntegrityConstraintException
       
   def findBySessionId(self) :
-    view=query(User.FIND_BY_SESSION_ID.replace('$sessionId',self.sessionId))
+    view=dblayer.query(User.FIND_BY_SESSION_ID.replace('$sessionId',self.sessionId))
     if len(view) == 0 :
       return None
     elif len(view) == 1:
