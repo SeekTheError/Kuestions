@@ -1,4 +1,4 @@
-from couchdbinterface.couchdblayer import User
+from couchdbinterface.entities import User
 
 COOKIE_KEY='kuestions_user'
 
@@ -14,7 +14,7 @@ def addUserInfoToContext (request,context) :
     user=User(sessionId=cookieValue)
     user=user.findBySessionId()
     print 'security: find user '+ str(user.login)
-    if user and checkSessionIsValid(user) :
+    if user and checkSessionIsNotExpired(user) :
       context['sessionIsOpen']=True
       context['user']=getUserInfoWrapper(user)
     else :
@@ -30,12 +30,16 @@ def getCurrentUser(context) :
     
 
 #TODO code this to verify the session didn't expire
-def checkSessionIsValid(user) :
+def checkSessionIsNotExpired(user) :
   return True
   
 
 def getUserInfoWrapper (user) :
+  '''
+  This function return a Wrapper from a user contain
+  '''
   uiw=User()
+  uiw.id=user.id
   uiw.login=user.login
   uiw.resume=user.resume
   return uiw

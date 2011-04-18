@@ -1,7 +1,7 @@
 #Author Remi Bouchar
 from django.http import HttpResponse,Http404
 import urllib
-import couchdbinterface.couchdblayer as couchVar
+import couchdbinterface.db as couchVar
 from django.shortcuts import render_to_response
 
 

@@ -9,7 +9,7 @@ logger=logging.getLogger(__name__)
 
 ACTIVATION_LINK_BASE_URL='http://127.0.0.1:8000/kuestions/register/'
 
-from couchdbinterface.couchdblayer import *
+from couchdbinterface.entities import User
 from util.encode import encode
 import re
 
@@ -41,9 +41,11 @@ def register(request) :
     message+=' password:'+ str(passwordIsValid)+' email: '+ str(bool(emailIsValid))
     return render_to_response('index.html', {'message': message},context_instance=RequestContext(request))  
 
+#TODO Find a issue: during the process, sometimes the user is created in spite of an error
 def processFormInformation(login,password,email,request) :
   u = User(login=login,email=email,password=password)
   u=u.create()
+  print u
   if u != None :
     code=sendActivationMail(login,email)
     u.activationCode=code
