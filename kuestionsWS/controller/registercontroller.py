@@ -27,6 +27,7 @@ def register(request) :
   #parameter validation
   loginIsValid= re.match('[\w0-9]*',login) and len(login) > 3 and len(login) < 16
   passwordIsValid=len(password) >= 6 
+  #TODO check with number
   emailIsValid=re.match('[\w.]*@\w*\.[\w.]*',email)
   
   #encrypt the password with the sha1 function

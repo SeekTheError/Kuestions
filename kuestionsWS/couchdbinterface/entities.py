@@ -31,6 +31,7 @@ class User(Document) :
       self.isActivated=False
       self.type=self.TYPE
       self.store(getDb())
+      #TODO: check if it return the last version
       return self
     else :
       print 'a user already exist for login: ', self.login
@@ -55,6 +56,7 @@ class User(Document) :
     if len(view) == 0 :
       return None
     elif len(view) == 1:
+      #TODO optimize
       for u in view : return User.load(getDb(),u.id)
     else :
       print 'WARNING: critical error, more than one user for same login'

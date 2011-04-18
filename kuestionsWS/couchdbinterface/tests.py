@@ -11,7 +11,7 @@ def switchToTestDatabase() :
   print '\n------------------Running the couchdbinterface test -------------------------\n'
   print 'switching to test database'
   #easy way to make sure we have a clean database
-  loadDatabase(TEST_DB_NAME)
+  loadDatabase(server,TEST_DB_NAME)
   print 'DATABASE TEST ENVIRONMENT: ',server,',',getDb()
   
 def deleteTestDatabase() :

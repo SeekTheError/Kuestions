@@ -5,6 +5,9 @@ from couchdbinterface.entities import User
 import  security.userauth as security
 
 def current(request) :
+  '''
+  this is the documentation
+  '''
   context = RequestContext(request)
   context=security.addUserInfoToContext(request,context)
   t = loader.get_template('profile.html')

@@ -23,7 +23,8 @@ def addUserInfoToContext (request,context) :
     print 'security: no kuestion cookie found'
     context['sessionIsOpen']=False
   return context
-  
+
+#TODO, return the real user information  
 def getCurrentUser(context) :
   if context['sessionIsOpen'] :
     return context['user']
