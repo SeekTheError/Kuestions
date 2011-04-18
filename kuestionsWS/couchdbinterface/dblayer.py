@@ -53,7 +53,6 @@ def initServer(login='',password='',server=server,url=SERVER_URL) :
   creds=file.readline().replace('\n','').split(':')
   print login,password
   server.resource.credentials = (creds[0],creds[1])
-  
   return server
 
 server=initServer(' ','')
@@ -74,16 +73,16 @@ def query (query) :
   except ServerError :
     print 'ServerError, error in query'
 
-import urllib
-def queryView(viewUrl,keyValue=None) :
+
+
+
+def view(viewName,keyValue=None) :
   '''
-  This function will query a couchdb view that already exist, thus it will be fully optimized
-  the keyValue parameter
-  TODO : finish the coding, and add offset parameter 
+  This function question directly a existing couchdb view
+  thus it's a optimized way to retrieve data quickly
+  TODO: add offset parameters
   '''
-  #url=SERVER_URL + viewUrl
-  #f = urllib.urlopen(url)
-  pass
+  return db.view(viewName,key=keyValue)
 
     
   
