@@ -6,6 +6,7 @@ from dblayer import getDb
 
 #TODO add topics field
 class User(Document) :
+  id=TextField
   login=TextField()
   password=TextField()
   email=TextField()
