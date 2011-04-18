@@ -60,7 +60,7 @@ class User(Document) :
       raise IntegrityConstraintException
 
   def findByActivationCode(self) :
-    view=dblayer.query('user/activationCode',self.activationCode)
+    view=dblayer.view('user/activationCode',self.activationCode)
     
     if len(view) == 0 :
       return None
