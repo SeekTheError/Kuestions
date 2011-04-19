@@ -30,4 +30,5 @@ fti=/path/to/python /path/to/couchdb-lucene/tools/couchdb-external-hook.py
 _fti = {couch_httpd_external, handle_external_req, <<"fti">>}
 '''
 
-  And now, you can design your document by refering the couchdb-lucene documentation
+  And now, you can design your document by refering the couchdb-lucene documentation, and run your own tests. 
+  (ndRemi: as far as I tried, it work with the korean encoding, but i don't know if lucene actually remove the korean STOP_WORDS at the moment)
