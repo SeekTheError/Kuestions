@@ -1,0 +1,33 @@
+SETUP
+
+This file aim to cover the full installation of kuestions
+
+1 Django
+you need to install the followings: 
+python (2.6)
+django
+python-couchdb modul (V 0.8)
+
+then, edit the settings.py to include your own ABSOLUTE path to the python templates (relative path: Kuestions/WebPages )
+
+2 Couchdb
+refer to the couchdb website, then to the couchdbinterface.dblayer documentation to set up the security between couchdb and django
+
+3 Couchdb lucene integration
+  follow the installation tutorial of the couchdb-lucene project : https://github.com/rnewson/couchdb-lucene
+  then, modify the configuration of the module: change the couchdb url to include a valid user/pass combination ( http://user:pass@COUCH_DB_URL)
+  some additional information are also neccessary on the couchdb side (path to the couchdb installation in ubuntu: usr/local/etc/couchdb/
+  
+''''
+
+[couchdb]
+os_process_timeout=60000 ; increase the timeout from 5 seconds.
+
+[external]
+fti=/path/to/python /path/to/couchdb-lucene/tools/couchdb-external-hook.py
+
+[httpd_db_handlers]
+_fti = {couch_httpd_external, handle_external_req, <<"fti">>}
+'''
+
+  And now, you can design your document by refering the couchdb-lucene documentation
