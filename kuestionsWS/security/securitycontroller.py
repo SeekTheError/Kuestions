@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import  render_to_response
 from couchdbinterface.entities import User
-import security.userauth as security
+import security.userauth
 import uuid
 
 
@@ -31,14 +31,14 @@ def signout(request) :
   t = loader.get_template('index.html')
   response = HttpResponse(t.render(context))
   sessionId=None
-  if request.COOKIES.__contains__(security.COOKIE_KEY) :
-    sessionId=request.COOKIES[security.COOKIE_KEY]
+  if request.COOKIES.__contains__(userauth.COOKIE_KEY) :
+    sessionId=request.COOKIES[userauth.COOKIE_KEY]
   if sessionId :
     user=User(sessionId=sessionId)
     user=user.findBySessionId()
     user.sessionId='XXX'+str(uuid.uuid1())
     user.update()
-  response.delete_cookie(security.COOKIE_KEY)
+  response.delete_cookie(userauth.COOKIE_KEY)
   return response
   
   
@@ -61,11 +61,11 @@ def openSession(request,user) :
   context=RequestContext(request)
   context['message'] = 'good combination'
   context['sessionIsOpen']=True
-  context['user']=security.getUserInfoWrapper(user)
+  context['user']=userauth.getUserInfoWrapper(user)
   response= HttpResponse(t.render(context))
   key='kuestions'
   #Todo add an expiration date!
-  response.set_cookie(security.COOKIE_KEY, user.sessionId)
+  response.set_cookie(userauth.COOKIE_KEY, user.sessionId)
   return response
   
 from datetime import datetime,timedelta

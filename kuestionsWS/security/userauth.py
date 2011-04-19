@@ -20,7 +20,7 @@ def addUserInfoToContext (request,context) :
     else :
       context['sessionIsOpen']=False
   else : 
-    print 'security: no kuestion cookie found'
+    print 'security: no cookie found'
     context['sessionIsOpen']=False
   return context
 

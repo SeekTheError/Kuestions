@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'couchdbinterface',
     'controller',
+    'model',
     'security'
     # Uncomment the next line to enable the admin:
     #'django.contrib.admin'
