@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import  render_to_response
 from couchdbinterface.entities import User
-import security.userauth
+import userauth
 import uuid
 
 

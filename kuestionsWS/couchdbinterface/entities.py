@@ -6,7 +6,6 @@ from dblayer import getDb
 
 #TODO add topics field
 class User(Document) :
-  id=TextField
   login=TextField()
   password=TextField()
   email=TextField()
@@ -19,6 +18,8 @@ class User(Document) :
   
   type=TextField()
   TYPE='user'
+  
+  #Those strings are javascript function, their usage are deprecated
   FIND_BY_LOGIN='function(u) { if(u.type == \'user\') {if( u.login == \'$login\') {emit (u.id,u);}}}'
   FIND_BY_SESSION_ID='function(u) { if(u.type == \'user\') {if( u.sessionId == \'$sessionId\') {emit (u.id,u);}}}'
   FIND_BY_ACTIVATION_CODE='function(u) { if(u.type == \'user\') {if( u.activationCode == \'$activationCode\') {emit (u.id,u);}}}'
@@ -51,7 +52,9 @@ class User(Document) :
 
 
   def findByLogin(self) :
-    #view=dblayer.query(User.FIND_BY_LOGIN.replace('$login',self.login))
+    '''
+    return the actual version of the user.
+    '''
     view=dblayer.view("user/login",self.login)
     if len(view) == 0 :
       return None
@@ -70,7 +73,7 @@ class User(Document) :
     elif len(view) == 1:
       for u in view : return User.load(getDb(),u.id)
     else :
-      print 'WARNING: critical error, more than one user with same activation '
+      print 'WARNING: critical error, more than one user with same activation Code '
       raise IntegrityConstraintException
       
   def findBySessionId(self) :
@@ -80,7 +83,7 @@ class User(Document) :
     elif len(view) == 1:
       for u in view : return User.load(getDb(),u.id)
     else :
-      print 'WARNING: critical error, more than one user with same activation '
+      print 'WARNING: critical error, more than one user with sthe same session Id '
       raise IntegrityConstraintException
 
 

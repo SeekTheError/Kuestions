@@ -8,15 +8,20 @@ from entities import User, IllegalAttempt
 TEST_DB_NAME='kuestiondbtest'
 server=dblayer.getServer()
 def switchToTestDatabase() :
+  '''
+  this method change the database to a test database that is a pure copy of the regular one,
+  in order to have the design document
+  '''
   print '\n------------------Running the couchdbinterface test -------------------------\n'
   print 'switching to test database'
   #easy way to make sure we have a clean database
-  loadDatabase(server,TEST_DB_NAME)
+  dblayer.db=loadDatabase(server,TEST_DB_NAME)
+  server.replicate(dblayer.DB_NAME,TEST_DB_NAME)
   print 'DATABASE TEST ENVIRONMENT: ',server,',',getDb()
   
 def deleteTestDatabase() :
   print 'deleting the test database: ',TEST_DB_NAME
-  server.delete(TEST_DB_NAME)
+  dblayer.server.delete(TEST_DB_NAME)
 
 class SimpleTest(TestCase):
 
@@ -46,12 +51,13 @@ class SimpleTest(TestCase):
   
     #try to update a non existing user
     raised=False
-    print '\ntrying to update jose, but he don\'t exist'
+    
     try :
       u=User(login='jose',password='de')
       u.update()
-    except IllegalAttempt :
+    except Exception :
       print 'catch an Illegal Attempt'
+      print '\ntrying to update jose, but he don\'t exist'
       raised=True
     self.assertTrue(raised)
     self.assertEqual(u.findByLogin(),None)

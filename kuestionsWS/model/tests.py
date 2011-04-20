@@ -6,18 +6,22 @@ Replace these with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from entities import Question
+from couchdbinterface.tests import *
+from couchdbinterface.entities import User
 
 class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
-
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
-
+  
+  def testBasicPersistence(self):
+    switchToTestDatabase()  
+    u=User(login='asker')
+    u.create()
+    u=u.findByLogin()
+    id=u.id
+    print id
+    
+    q=Question(asker=id,content="To be or not to be?")
+    #print "before persistence: ",q
+    print q.content
+    q.create()
+    deleteTestDatabase()

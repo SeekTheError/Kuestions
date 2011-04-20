@@ -29,7 +29,7 @@ def loadDatabase (server,dbname=DB_NAME) :
   This method aim to load or create any couchdb database in a LOCAL couchdb installation
   '''
   try :
-    print 'loading or creating database ',DB_NAME
+    print 'loading or creating database ',dbname
     db = server[dbname]
     return db
   #if the server already exist
@@ -83,6 +83,9 @@ def view(viewName,keyValue=None) :
   TODO: add offset parameters
   '''
   return db.view(viewName,key=keyValue)
+
+def getDocument(id):
+  return db.get(id)
 
     
   
