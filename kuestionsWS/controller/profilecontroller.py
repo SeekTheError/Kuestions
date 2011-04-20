@@ -6,10 +6,10 @@ import  security.userauth as security
 
 def current(request) :
   '''
-  this is the documentation
+  this function display the profile page of the current user
   '''
   context = RequestContext(request)
-  context=security.addUserInfoToContext(request,context)
+  context=security.checkSession(request,context)
   t = loader.get_template('profile.html')
   if context['sessionIsOpen']== True :
     login=context['user'].login
@@ -23,7 +23,7 @@ def view(request,login) :
   #TODO distinguish those case: the user see his page, the user see another page
   #And : Distinguish GET/POST method (need to split in different method)
   context = RequestContext(request)
-  context = security.addUserInfoToContext(request,context)
+  context = security.checkSession(request,context)
   currentUser=security.getCurrentUser(context)
   if currentUser and currentUser.login == login:
     print currentUser.login

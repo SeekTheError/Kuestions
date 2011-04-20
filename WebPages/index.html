@@ -1,20 +1,48 @@
-
 <html>
 <head>
 <title>Kuestions - Welcome to Kuestions</title>
+<style TYPE="text/css">
+#center {
+  margin-left: auto;
+  margin-right: auto;
+}
+#header { 
+  text-align:center
+  }
 
+#right {
+  float: right;
+}
+#left {
+   float: left;
+}
+</style>
 </head>
 <body>
+<div id="header">
+<h1 id="title#left">Kuestions - Welcome to Kuestions - Message:{% if message %}{{ message }}{% endif %}</h1>
+</div>
+<div id="body">
+<div id="post">
 
-<h1>Kuestions - Welcome to Kuestions</h1>
+</div>
+<div id="search">
 
-<!--TODO : turn into a javascript banner -->
-{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
-
-
-<h2>User Settings</h2>
-
-
+<form id="left" action="/kuestions/search/" method="get">
+Search<input type="text" name="search"/><input type="submit" value="search"/>
+</form><br/><br/>
+{% if questionSearchResults%}
+<ul>
+{% for question in questionSearchResults.values %}
+    <li>{{ question}}</li>
+{% endfor %}
+{% endif %}
+</ul>
+</div>
+<div id="left">
+</div>
+<div id="right">
+<h2>User</h2>
 <!-- if there is no user logged in, display the sign pannel -->
 {% if not sessionIsOpen%}
 <form action="/kuestions/security/in/" method="post">
@@ -27,7 +55,6 @@
 <tr><td><input type="submit" value="Sign In"/><td><tr>
 </table>
 </form>
-
 <!-- else, display a sign out button -->
 {% else %}
 <form action="/kuestions/security/out/" method="get">
@@ -40,23 +67,23 @@
 </tr>
 </table>
 </form>
-
 {% endif %}
 
+
 {% if not sessionIsOpen %}
-
 <h2>Register</h2>
-
 <form action="/kuestions/register/" method="post">
 {% csrf_token %}
 <table>
-<tr><td>login</td><td><input type="text" name="login"/></td></tr>
-<tr><td>password</td><td><input type="password" name="password"/></td></tr>
-<tr><td>email</td><td><input type="text" name="email"/></td></tr>
+<tr><td>login</td><td><input type="text" name="registerLogin"/></td></tr>
+<tr><td>password</td><td><input type="password" name="registerPassword"/></td></tr>
+<tr><td>email</td><td><input type="text" name="registerEmail"/></td></tr>
 <tr><td><input type="submit" value="Register"/></td></tr>
-<table>
+</table>
+</form>
 <!-- TODO change this form to a an ajax one with hash of the password before sending the request-->
-
 {% endif %}
-<body>
+</div>
+</div>
+</body>
 </html>

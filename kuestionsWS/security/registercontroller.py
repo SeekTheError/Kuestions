@@ -19,9 +19,9 @@ def register(request) :
   login, password, email
   '''
   #parameter retrieval
-  login=request.POST['login']
-  password=request.POST['password']
-  email=request.POST['email']
+  login=request.POST['registerLogin']
+  password=request.POST['registerPassword']
+  email=request.POST['registerEmail']
   
   
   #parameter validation

@@ -16,5 +16,8 @@ urlpatterns = patterns('',
      #block access to the root
     (r'^kuestions/api/$', 'security.api.keeper'),
     (r'^kuestions/api/', 'security.api.gate'),
+    
+    (r'^kuestions/search/', 'controller.questioncontroller.search'),
+    (r'^kuestions/post/question', 'controller.questioncontroller.post'),
    
 )

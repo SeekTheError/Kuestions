@@ -23,5 +23,5 @@ class SimpleTest(TestCase):
     q=Question(asker=id,content="To be or not to be?")
     #print "before persistence: ",q
     print q.content
-    q.create()
+    question=q.create()
     deleteTestDatabase()

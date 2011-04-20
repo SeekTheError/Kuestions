@@ -7,16 +7,18 @@ from entities import User, IllegalAttempt
 
 TEST_DB_NAME='kuestiondbtest'
 server=dblayer.getServer()
-def switchToTestDatabase() :
+def switchToTestDatabase(replicate=True) :
   '''
-  this method change the database to a test database that is a pure copy of the regular one,
-  in order to have the design document
+  this method change the database to a test database
+  the default argument replicate mean that the database is replicate from the original
+  so the design document are replicated
   '''
   print '\n------------------Running the couchdbinterface test -------------------------\n'
   print 'switching to test database'
   #easy way to make sure we have a clean database
   dblayer.db=loadDatabase(server,TEST_DB_NAME)
-  server.replicate(dblayer.DB_NAME,TEST_DB_NAME)
+  if replicate :
+    server.replicate(dblayer.DB_NAME,TEST_DB_NAME)
   print 'DATABASE TEST ENVIRONMENT: ',server,',',getDb()
   
 def deleteTestDatabase() :

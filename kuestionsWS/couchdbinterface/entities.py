@@ -13,7 +13,8 @@ class User(Document) :
   activationCode=TextField()
   sessionId=TextField()
   sessionExpire=DateTimeField()
-  #topics=ListField()
+  topics=ListField(TextField)
+  followedQuestions=ListField(TextField)
   isActivated=BooleanField()
   
   type=TextField()

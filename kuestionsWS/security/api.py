@@ -47,7 +47,7 @@ for field in privateFields:
   if not i > len(privateFields) - 2 :
     expr+='|'
   i+=1
-reString=',"('+expr+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
+reString='"('+expr+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
 fieldRe=re.compile(reString)
 
 #Define http 5XX instead : internal error, forbiden

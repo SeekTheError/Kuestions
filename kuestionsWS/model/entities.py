@@ -1,13 +1,24 @@
 from couchdb.mapping import *
 from couchdbinterface.dblayer import getDb ,getDocument
+import datetime
 
 
 class Question(Document):
   content=TextField()
   asker=TextField()
-  tags=ListField(TextField)
-  type=TexField()
-  TYPE='question'
+  topics=ListField(TextField())
+  type=TextField()
+  postDate = DateTimeField()#datetime.now())
+  TYPE="question"
+  views=IntegerField()
+  answers = ListField(DictField(Mapping.build(
+         poster = TextField(),
+         content = TextField(),
+         time = DateTimeField(),
+         postDate = DateTimeField(),
+         score =IntegerField()
+     )))
+  
   
   def create(self) :
     self.type=self.TYPE
