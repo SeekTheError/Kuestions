@@ -15,7 +15,9 @@ def search(request) :
   mockup method to test the search
   '''
   context=checkSession(request)
-  f= urllib.urlopen('http://django:azer1234azer@localhost:5984/kuestionsdb/_fti/_design/question/by_content?q='+request.GET["search"])
+  searchTerms=request.GET["search"].encode('UTF8')
+  f= urllib.urlopen('http://django:azer1234azer@localhost:5984/'+
+                    'kuestionsdb/_fti/_design/question/by_content?q='+searchTerms)
   jsonObject=''
   for line in f.readlines() :
       jsonObject+=line.replace('\n','')
@@ -25,8 +27,7 @@ def search(request) :
   questionSearchResults={}
   for row in  jsonObjects["rows"]:
     doc = getDocument(row["id"])
-    questionSearchResults[doc["_id"]]=doc["content"]
-  
+    questionSearchResults[doc["_id"]]=doc["content"]  
   print questionSearchResults
   context["questionSearchResults"]=questionSearchResults
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
