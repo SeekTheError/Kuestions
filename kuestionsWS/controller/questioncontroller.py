@@ -5,10 +5,14 @@ from couchdbinterface.dblayer import view,getDocument
 
 from security.userauth import checkSession
 
+file = open('.couchDbCredentials','r')
+creds=file.readline().replace('\n','').split(':')
+credentials = creds[0]+':'+creds[1]
+
+
 def post(request) :
   pass
- 
- 
+  
 import urllib
 def search(request) :
   '''
@@ -16,7 +20,7 @@ def search(request) :
   '''
   context=checkSession(request)
   searchTerms=request.GET["search"].encode('UTF8')
-  f= urllib.urlopen('http://django:azer1234azer@localhost:5984/'+
+  f= urllib.urlopen('http://'+credentials+'@localhost:5984/'+
                     'kuestionsdb/_fti/_design/question/by_content?q='+searchTerms)
   jsonObject=''
   for line in f.readlines() :
