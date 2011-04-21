@@ -1,6 +1,6 @@
 # Django settings for kuestionWebServer project.
 
-
+ACTIVATION_LINK_BASE_URL='http://remlaptop.dyndns.org:8000/kuestions/register/'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

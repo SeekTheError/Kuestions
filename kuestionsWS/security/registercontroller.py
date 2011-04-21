@@ -1,13 +1,10 @@
 #Author: RemiBouchar
-#TODO : move this to the security package, for reusability
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import  render_to_response
+from django.conf import settings
 import logging
-
 logger=logging.getLogger(__name__)
-
-ACTIVATION_LINK_BASE_URL='http://127.0.0.1:8000/kuestions/register/'
 
 from couchdbinterface.entities import User
 from util.encode import encode
@@ -37,7 +34,7 @@ def register(request) :
   if loginIsValid and passwordIsValid and emailIsValid :
      return processFormInformation(login,password,email,request)     
   else :
-  #todo, separate error message on login, pass, 
+  #todo, separate error message on login pass
     message='incorect information on the register form login:'+str(loginIsValid)
     message+=' password:'+ str(passwordIsValid)+' email: '+ str(bool(emailIsValid))
     return render_to_response('index.html', {'message': message},context_instance=RequestContext(request))  
@@ -64,9 +61,8 @@ def sendActivationMail(login,email) :
   shaSource= login + email
   code=encode(shaSource)
   subject='Activation mail for Kuestions!'
-  message= 'Please follow this link to activate your account' 
-  #message+= '\n'+'http://127.0.0.1:8000/kuestions/register/'+code
-  message+= '\n'+ACTIVATION_LINK_BASE_URL+code
+  message= 'Please follow this link to activate your account'
+  message+= '\n'+settings.ACTIVATION_LINK_BASE_URL+code
   sendMail(subject,message,email)
   return code
   

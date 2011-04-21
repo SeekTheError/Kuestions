@@ -22,8 +22,8 @@
 </head>
 <body>
 	<div id="header">
-		<h1 id="title#left">Kuestions - Welcome to Kuestions 
-		{#- Message:{%if message %}{{ message }}{% endif %}#}</h1>
+		<h1 id="title#left">Kuestions - Welcome to Kuestions </h1>
+   {%if message %}{{ message }}{% endif %}
 	</div>
 	<div id="body">
 		<div id="post"></div>
@@ -33,6 +33,14 @@
 				Search<input type="text" name="search" /><input type="submit"
 					value="search" />
 			</form>
+			{% if sessionIsOpen%}
+			
+			<form id="left" action="/kuestions/question/post/" method="post">
+				Post a Question<input type="text" name="question" /><input type="submit"
+					value="Post" />
+					{% csrf_token %}
+			</form>
+			{% endif %}
 			<br /> <br /> 
 			{% if questionSearchResults%}
 			<ul>

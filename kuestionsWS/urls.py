@@ -18,6 +18,6 @@ urlpatterns = patterns('',
     (r'^kuestions/api/', 'security.api.gate'),
     
     (r'^kuestions/search/', 'controller.questioncontroller.search'),
-    (r'^kuestions/post/question', 'controller.questioncontroller.post'),
+    (r'^kuestions/question/post/$', 'controller.questioncontroller.post'),
    
 )
