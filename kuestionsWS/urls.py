@@ -10,11 +10,14 @@ urlpatterns = patterns('',
     (r'^kuestions/user/(?P<login>\w+)/+$', 'controller.profilecontroller.view'),
     (r'^kuestions/user/$', 'controller.profilecontroller.current'),
     
-    (r'^kuestions/register/$', 'controller.registercontroller.register'),
-    (r'^kuestions/register/(?P<code>\w+)$', 'controller.registercontroller.activate'),
+    (r'^kuestions/register/$', 'security.registercontroller.register'),
+    (r'^kuestions/register/(?P<code>\w+)$', 'security.registercontroller.activate'),
     
      #block access to the root
     (r'^kuestions/api/$', 'security.api.keeper'),
     (r'^kuestions/api/', 'security.api.gate'),
+    
+    (r'^kuestions/search/', 'controller.questioncontroller.search'),
+    (r'^kuestions/question/post/$', 'controller.questioncontroller.post'),
    
 )

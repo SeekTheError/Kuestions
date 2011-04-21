@@ -1,6 +1,6 @@
 # Django settings for kuestionWebServer project.
 
-
+ACTIVATION_LINK_BASE_URL='http://remlaptop.dyndns.org:8000/kuestions/register/'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'couchdbinterface',
     'controller',
+    'model',
     'security'
     # Uncomment the next line to enable the admin:
     #'django.contrib.admin'
@@ -102,7 +103,9 @@ INSTALLED_APPS = (
 
 #Mail configuration
 '''
-Mail is sent using the SMTP host and port specified in the EMAIL_HOST and EMAIL_PORT settings. The EMAIL_HOST_USER and EMAIL_HOST_PASSWORD settings, if set, are used to authenticate to the SMTP server, and the EMAIL_USE_TLS setting controls whether a secure connection is used.
+Mail is sent using the SMTP host and port specified in the EMAIL_HOST and EMAIL_PORT settings. 
+The EMAIL_HOST_USER and EMAIL_HOST_PASSWORD settings, if set, are used to authenticate to the SMTP server, 
+and the EMAIL_USE_TLS setting controls whether a secure connection is used.
 '''
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT= '25'
