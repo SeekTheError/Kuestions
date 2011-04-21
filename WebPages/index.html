@@ -52,9 +52,10 @@
 		</div>
 		<div id="left"></div>
 		<div id="right">
-			<h2>User</h2>
+			
 			<!-- if there is no user logged in, display the sign pannel -->
 			{% if not sessionIsOpen%}
+			<h2>Sign In</h2>
 			<form action="/kuestions/security/in/" method="post">
 				{% csrf_token %}
 				<table>
@@ -75,10 +76,11 @@
 			</form>
 			<!-- else, display a sign out button -->
 			{% else %}
+			<h2>{{ user.login }}</h2>
 			<form id="left " action="/kuestions/security/out/" method="get">
 				<table>
 					<tr>
-						<td><a href='/kuestions/user/'>{{ user.login }}</a></td>
+						<td><a href='/kuestions/user/{{ user.login }}'>My Profile</a></td>
 					</tr>
 					<tr>
 						<td><input type="submit" value="Sign Out" /></td>
