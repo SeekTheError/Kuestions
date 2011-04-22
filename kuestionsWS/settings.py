@@ -28,7 +28,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'KST'
+# TIME_ZONE = 'KST'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -80,7 +80,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'kuestionsWS.urls'
 
 TEMPLATE_DIRS = (
-   "/home/rem/git/Kuestions/WebPages", 
+   "/home/rem/git/Kuestions/WebPages",
+   "/Users/ujlikes/Kuestions/WebPages", 
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
