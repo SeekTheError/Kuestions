@@ -1,6 +1,6 @@
 #Author Remi Bouchar
 from django.conf.urls.defaults import *
-
+from django.conf import settings
 urlpatterns = patterns('',
     (r'^kuestions/$', 'controller.indexcontroller.view'),
     
@@ -22,5 +22,10 @@ urlpatterns = patterns('',
     (r'^kuestions/question/post/$', 'controller.questioncontroller.post'),
     
     (r'^$', 'controller.indexcontroller.redirect'),
+    
+    
+    #For static media files
+    (r'^kuestions/media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': settings.STATIC_MEDIA_ROOT}),
    
 )
