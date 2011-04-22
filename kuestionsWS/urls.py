@@ -4,6 +4,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     (r'^kuestions/$', 'controller.indexcontroller.view'),
     
+    
     (r'^kuestions/security/in/$', 'security.securitycontroller.signin'),
     (r'^kuestions/security/out/$', 'security.securitycontroller.signout'),
     
@@ -19,5 +20,7 @@ urlpatterns = patterns('',
     
     (r'^kuestions/search/', 'controller.questioncontroller.search'),
     (r'^kuestions/question/post/$', 'controller.questioncontroller.post'),
+    
+    (r'$', 'controller.indexcontroller.redirect'),
    
 )

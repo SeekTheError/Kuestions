@@ -1,5 +1,5 @@
 #Author Remi Bouchar
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from security.userauth import checkSession
 
@@ -8,5 +8,8 @@ def view(request) :
   context=RequestContext(request)
   context=checkSession(request,context)
   return HttpResponse(t.render(context))
+  
+def redirect(request) :
+  return HttpResponseRedirect("kuestions/")
 
 

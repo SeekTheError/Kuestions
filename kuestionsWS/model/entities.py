@@ -15,7 +15,6 @@ class Question(Document):
          poster = TextField(),
          content = TextField(),
          time = DateTimeField(),
-         postDate = DateTimeField(),
          score =IntegerField()
      )))
   
