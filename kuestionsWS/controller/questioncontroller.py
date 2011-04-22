@@ -29,8 +29,8 @@ def search(request) :
   '''
   context=checkSession(request)
   searchTerms=request.GET["search"].encode('UTF8')
-  f= urllib.urlopen('http://'+credentials+'@localhost:5984/'+
-                    'kuestionsdb/_fti/_design/question/by_content?q='+searchTerms)
+  url='http://'+credentials+'@localhost:5984/'+'kuestionsdb/_fti/_design/question/by_content?q='+searchTerms
+  f= urllib.urlopen(url)
   jsonObject=''
   for line in f.readlines() :
       jsonObject+=line.replace('\n','')
