@@ -1,7 +1,7 @@
 #Author Remi Bouchar
 from django.http import HttpResponse,Http404
 import urllib
-import couchdbinterface.db as couchVar
+import couchdbinterface.dblayer as couchVar
 from django.shortcuts import render_to_response
 
 
@@ -19,12 +19,12 @@ def gate(request) :
   if request.GET.__contains__('key') :
     param='?key=' + request.GET['key']
     url+=param
-  
   f = urllib.urlopen(url)
   if f is not None :
     json=''
     for line in f.readlines() :
       json+=line.replace('\n','')
+    print json
     return HttpResponse(removeProtectedFields(json))
   else :
     keeper(request,'error at the gate')
