@@ -1,9 +1,28 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
+<<<<<<< HEAD
+=======
+<script type="text/javascript" src="{{ MEDIA_URL }}/js/tiny_mce/tiny_mce.js" ></script >
+<script type="text/javascript" >
+tinyMCE.init({
+  mode : "textareas",
+  theme : "advanced",
+  theme_advanced_toolbar_location : "top",
+  theme_advanced_toolbar_align : "left",
+  theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,undo,redo,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist",
+  theme_advanced_buttons3 : "",
+  theme_advanced_buttons2 : "",
+});
+</script >
+
+{% if user.login %}
+>>>>>>> 9694df3706b99ee478c8e6c2c21fe1b1c1db48e4
 <title>Kuestions - {{ user.login }} profile</title>
 
 </head>
 <body>
+<<<<<<< HEAD
 	{% if not isAdmin %}
 	<h3>Welcome to {{ user.login }}'s profile</h3>
 	{% else %}
@@ -16,4 +35,31 @@
 	{% endif %}
 	<a href='/'>Home Page</a>
 <body>
+=======
+{% if not isAdmin %}
+<h3>Welcome to {{ user.login }}'s profile</h3>
+{% else %}
+<h3>Welcome to your profile</h3>
+{% endif %}
+<img src="{{ MEDIA_URL }}/future.jpg" /><br /><br />
+{% if user.resume %}
+<h3>Resume</h3>
+<p>{{user.resume|safe}}</p>
+{% endif %}
+
+
+
+{% else %}
+<h1>404 - User Not Found </h1>
+{% endif %}
+
+<form>  
+        <textarea name="content" cols="50" rows="15" > 
+        {{user.resume|escape }}
+        </textarea>
+</form>
+
+<a href='/kuestions/'>Home Page</a>
+</body>
+>>>>>>> 9694df3706b99ee478c8e6c2c21fe1b1c1db48e4
 </html>

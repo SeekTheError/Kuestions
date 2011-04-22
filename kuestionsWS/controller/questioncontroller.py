@@ -46,6 +46,8 @@ def search(request) :
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
 
 
+
 def displayQuestion(request,question):
   print question
    
+

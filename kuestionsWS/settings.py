@@ -1,3 +1,15 @@
+import os
+import django
+'''
+This is for using relative path.
+DJANGO_ROOT: Path of kuestionsWS
+PROJECT_ROOT: Path of project root
+STATIC_MEDIA_ROOT
+'''
+DJANGO_ROOT = os.path.dirname(os.path.realpath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(DJANGO_ROOT, '..'))
+STATIC_MEDIA_ROOT = PROJECT_ROOT+'/static'
+
 # Django settings for kuestionWebServer project.
 
 ACTIVATION_LINK_BASE_URL='http://remlaptop.dyndns.org:8000/kuestions/register/'
@@ -28,7 +40,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-#TIME_ZONE = 'KST'
+TIME_ZONE = "Asia/Seoul"
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -51,7 +63,7 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/kuestions/media'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -80,7 +92,9 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'kuestionsWS.urls'
 
 TEMPLATE_DIRS = (
-   "/home/rem/git/Kuestions/WebPages", 
+   PROJECT_ROOT+"/WebPages"
+   #"/home/rem/git/Kuestions/WebPages",
+   #"/Users/ujlikes/Kuestions/WebPages", 
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -112,7 +126,5 @@ EMAIL_PORT= '25'
 EMAIL_HOST_USER = 'kuestions.kaist@gmail.com'
 EMAIL_HOST_PASSWORD = 'kuestions123456'
 EMAIL_USE_TLS = True
-
-
 
 
