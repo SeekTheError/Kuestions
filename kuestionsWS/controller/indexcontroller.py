@@ -10,6 +10,6 @@ def view(request) :
   return HttpResponse(t.render(context))
   
 def redirect(request) :
-  return HttpResponseRedirect("kuestions/")
+  return HttpResponseRedirect("/")
 
 

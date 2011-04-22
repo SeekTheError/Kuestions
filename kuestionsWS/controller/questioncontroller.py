@@ -25,7 +25,7 @@ def post(request) :
 import urllib
 def search(request) :
   '''
-  mockup method to test the search
+  mockup method to test the search function, soon to be implemented in javascript
   '''
   context=checkSession(request)
   searchTerms=request.GET["search"].encode('UTF8')
@@ -44,4 +44,8 @@ def search(request) :
   print questionSearchResults
   context["questionSearchResults"]=questionSearchResults
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
+
+
+def displayQuestion(request,question):
+  print question
    
