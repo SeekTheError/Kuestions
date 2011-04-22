@@ -1,3 +1,15 @@
+import os
+import django
+'''
+This is for using relative path.
+DJANGO_ROOT: Path of kuestionsWS
+PROJECT_ROOT: Path of project root
+STATIC_MEDIA_ROOT
+'''
+DJANGO_ROOT = os.path.dirname(os.path.realpath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(DJANGO_ROOT, '..'))
+STATIC_MEDIA_ROOT = PROJECT_ROOT+'/static'
+
 # Django settings for kuestionWebServer project.
 
 ACTIVATION_LINK_BASE_URL='http://remlaptop.dyndns.org:8000/kuestions/register/'
@@ -80,8 +92,9 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'kuestionsWS.urls'
 
 TEMPLATE_DIRS = (
-   "/home/rem/git/Kuestions/WebPages",
-   "/Users/ujlikes/Kuestions/WebPages", 
+   PROJECT_ROOT+"/WebPages"
+   #"/home/rem/git/Kuestions/WebPages",
+   #"/Users/ujlikes/Kuestions/WebPages", 
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -113,7 +126,5 @@ EMAIL_PORT= '25'
 EMAIL_HOST_USER = 'kuestions.kaist@gmail.com'
 EMAIL_HOST_PASSWORD = 'kuestions123456'
 EMAIL_USE_TLS = True
-
-
 
 
