@@ -21,6 +21,6 @@ urlpatterns = patterns('',
     (r'^kuestions/search/', 'controller.questioncontroller.search'),
     (r'^kuestions/question/post/$', 'controller.questioncontroller.post'),
     
-    (r'$', 'controller.indexcontroller.redirect'),
+    (r'^$', 'controller.indexcontroller.redirect'),
    
 )
