@@ -35,5 +35,6 @@ def view(request,login) :
   t = loader.get_template('profile.html')
   return HttpResponse(t.render(context))
     
-    
+
+
     
