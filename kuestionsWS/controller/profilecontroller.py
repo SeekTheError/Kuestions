@@ -37,14 +37,9 @@ def view(request, login) :
   t = loader.get_template('profile.html')
   return HttpResponse(t.render(context))
     
-<<<<<<< HEAD
-
-
-=======
 def userNotFound(request):
   t = loader.get_template('error.html')
   context = RequestContext(request)
   context['message'] = "404 - User Not Found"
   return HttpResponse(t.render(context))  
->>>>>>> remi/master
     
