@@ -17,31 +17,68 @@ def post(request) :
   context=checkSession(request)
   user=getCurrentUser(context)
   print user.id
-  q=Question(asker=user.id,content=content)
-  q.create()
-  context["message"]='question successfully posted'
+  if content != "": 
+    q=Question(asker=user.login,content=content)
+    q.create()
+    context["message"]='question successfully posted'
+  else :
+    context["message"]='a question need words!'
+  #remove the displayed question 
+  context["question"]=None 
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
   
 import urllib
 def search(request) :
   '''
-  mockup method to test the search
+  mockup method to test the search function, soon to be implemented in javascript
   '''
   context=checkSession(request)
   searchTerms=request.GET["search"].encode('UTF8')
   url='http://'+credentials+'@localhost:5984/'+'kuestionsdb/_fti/_design/question/by_content?q='+searchTerms
+  results=tempApiRedirect(url)
+  questionSearchResults={}
+  #remove the displayed question
+  context["question"]=None
+  if results.has_key("rows") :    
+    for row in  results["rows"]:
+      doc = getDocument(row["id"])
+      questionSearchResults[doc["_id"]]=doc["content"]  
+    context["questionSearchResults"]=questionSearchResults
+  return render_to_response('index.html', context ,context_instance=RequestContext(request))
+
+
+
+def displayQuestion(request,question):
+  context=checkSession(request)
+  url='http://'+credentials+'@localhost:5984/'+'kuestionsdb/'+question
+  question=tempApiRedirect(url)
+  context["question"]=question
+  return render_to_response('index.html', context ,context_instance=RequestContext(request))
+   
+def tempApiRedirect(url):
+  '''
+  this function aim to allow us to query ressources from the django server in an api style
+  keep in mind that this will leave, turn into a direct javascript query
+  '''
   f= urllib.urlopen(url)
   jsonObject=''
   for line in f.readlines() :
       jsonObject+=line.replace('\n','')
-      
   import json
-  jsonObjects=json.loads(jsonObject)
-  questionSearchResults={}
-  for row in  jsonObjects["rows"]:
-    doc = getDocument(row["id"])
-    questionSearchResults[doc["_id"]]=doc["content"]  
-  print questionSearchResults
-  context["questionSearchResults"]=questionSearchResults
-  return render_to_response('index.html', context ,context_instance=RequestContext(request))
-   
+  results=json.loads(jsonObject)
+  return results
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

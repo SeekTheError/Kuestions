@@ -26,16 +26,15 @@
    {%if message %}{{ message }}{% endif %}
 	</div>
 	<div id="body">
-		<div id="post"></div>
 		<div id="left">
 
-			<form id="left" action="/kuestions/search/" method="get">
+			<form id="left" action="/search/" method="get">
 				Search<input type="text" name="search" /><input type="submit"
 					value="search" />
 			</form>
-			{% if sessionIsOpen%}
+			{% if sessionIsOpen %}
 			
-			<form id="left" action="/kuestions/question/post/" method="post">
+			<form id="left" action="/question/post/" method="post">
 				Post a Question<input type="text" name="question" /><input type="submit"
 					value="Post" />
 					{% csrf_token %}
@@ -44,11 +43,17 @@
 			<br /> <br /> 
 			{% if questionSearchResults%}
 			<ul>
-				{% for question in questionSearchResults.values %}
-				<li>{{ question}}</li> 
+				{% for id, content in questionSearchResults.items %}
+				<li><a href="/question/{{id}}">=</a>{{content}}</a></li> 
 				{% endfor %} 
-				{% endif %}
+			{% endif %}
 			</ul>
+			{% if question%}
+			question: {{question.content}}<br/>
+			<!-- will be replace by javascript -->
+			Asker: <a href="/user/{{question.asker}}">{{question.asker}}</a><br/>
+			Posted:{{question.postDate}}<br/>
+			{%endif%}
 		</div>
 		<div id="left"></div>
 		<div id="right">
@@ -56,7 +61,7 @@
 			<!-- if there is no user logged in, display the sign pannel -->
 			{% if not sessionIsOpen%}
 			<h2>Sign In</h2>
-			<form action="/kuestions/security/in/" method="post">
+			<form action="/security/in/" method="post">
 				{% csrf_token %}
 				<table>
 					<tr>
@@ -77,10 +82,10 @@
 			<!-- else, display a sign out button -->
 			{% else %}
 			<h2>{{ user.login }}</h2>
-			<form id="left " action="/kuestions/security/out/" method="get">
+			<form id="left " action="/security/out/" method="get">
 				<table>
 					<tr>
-						<td><a href='/kuestions/user/{{ user.login }}'>My Profile</a></td>
+						<td><a href='/user/{{user.login}}'>My Profile</a></td>
 					</tr>
 					<tr>
 						<td><input type="submit" value="Sign Out" /></td>
@@ -89,7 +94,7 @@
 			</form>
 			{% endif %} {% if not sessionIsOpen %}
 			<h2>Register</h2>
-			<form action="/kuestions/register/" method="post">
+			<form action="/register/" method="post">
 				{% csrf_token %}
 				<table>
 					<tr>

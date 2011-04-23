@@ -15,12 +15,12 @@ def checkSession (request,context={}) :
   if cookieValue :
     user=User(sessionId=cookieValue)
     user=user.findBySessionId()
-    print 'security: find user '+ str(user.login)
     if user and checkSessionIsNotExpired(user) :
       context['sessionIsOpen']=True
       context['user']=getUserInfoWrapper(user)
     else :
       context['sessionIsOpen']=False
+      context['user']=None
   else : 
     print 'security: no cookie found'
     context['sessionIsOpen']=False
