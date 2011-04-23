@@ -32,7 +32,7 @@
 				Search<input type="text" name="search" /><input type="submit"
 					value="search" />
 			</form>
-			{% if sessionIsOpen%}
+			{% if sessionIsOpen %}
 			
 			<form id="left" action="/question/post/" method="post">
 				Post a Question<input type="text" name="question" /><input type="submit"
@@ -49,6 +49,10 @@
 			{% endif %}
 			</ul>
 			{% if question%}
+			question: {{question.content}}<br/>
+			<!-- will be replace by javascript -->
+			Asker: <a href="/user/{{question.asker}}">{{question.asker}}</a><br/>
+			Posted:{{question.postDate}}<br/>
 			{%endif%}
 		</div>
 		<div id="left"></div>
