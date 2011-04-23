@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
-<<<<<<< HEAD
-=======
+
 <script type="text/javascript" src="{{ MEDIA_URL }}/js/tiny_mce/tiny_mce.js" ></script >
 <script type="text/javascript" >
 tinyMCE.init({
@@ -17,12 +16,10 @@ tinyMCE.init({
 </script >
 
 {% if user.login %}
->>>>>>> 9694df3706b99ee478c8e6c2c21fe1b1c1db48e4
 <title>Kuestions - {{ user.login }} profile</title>
 
 </head>
 <body>
-<<<<<<< HEAD
 	{% if not isAdmin %}
 	<h3>Welcome to {{ user.login }}'s profile</h3>
 	{% else %}
@@ -35,7 +32,6 @@ tinyMCE.init({
 	{% endif %}
 	<a href='/'>Home Page</a>
 <body>
-=======
 {% if not isAdmin %}
 <h3>Welcome to {{ user.login }}'s profile</h3>
 {% else %}
@@ -61,5 +57,4 @@ tinyMCE.init({
 
 <a href='/kuestions/'>Home Page</a>
 </body>
->>>>>>> 9694df3706b99ee478c8e6c2c21fe1b1c1db48e4
 </html>
