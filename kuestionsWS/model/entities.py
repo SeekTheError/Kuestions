@@ -21,10 +21,16 @@ class Question(Document):
   the number of time a question has been displayed
   '''
   views=IntegerField()
-  answers = ListField(DictField(Mapping.build(
+  '''
+  poster:the login of the user who post the answer
+  content: the content of the answer
+  score: the votes on a particular answer
+  NOTE: as a user should only vote once on an answer, we should think of a way to enforce that
+  '''  
+  answers = ListField(DictField(Mapping.build(                                   
          poster = TextField(),
          content = TextField(),
-         time = DateTimeField(),
+         time = DateTimeField(default=datetime.now()),
          score =IntegerField()
      )))
   
