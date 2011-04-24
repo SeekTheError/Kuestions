@@ -6,5 +6,10 @@ Python
  * use CamelCase for class name, classname start with a Capital letter
  * use CamelCame for method name, method name start with lower case letter
  
+Directories
+ * kuestionsWS : Django Webserver
+ * WebPages    : Template Files for Django Webserver
+ * static      : Directories for static files
+   - Javascript, CSS, Image, and so on...
 
 
