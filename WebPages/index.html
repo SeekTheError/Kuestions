@@ -1,122 +1,137 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
-<title>Kuestions - Welcome to Kuestions</title>
-<style TYPE="text/css">
-#center {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#header {
-	text-align: center
-}
-
-#right {
-	float: right;
-}
-
-#left {
-	float: left;
-}
-</style>
+<link href="{{ MEDIA_URL }}/css/style.css" rel="stylesheet"
+	type="text/css" />
 </head>
 <body>
-	<div id="header">
-		<h1 id="title#left">Kuestions - Welcome to Kuestions </h1>
-   {%if message %}{{ message }}{% endif %}
-	</div>
-	<div id="body">
-		<div id="left">
 
-			<form id="left" action="/search/" method="get">
-				Search<input type="text" name="search" /><input type="submit"
-					value="search" />
-			</form>
-			{% if sessionIsOpen %}
-			
-			<form id="left" action="/question/post/" method="post">
-				Post a Question<input type="text" name="question" /><input type="submit"
-					value="Post" />
-					{% csrf_token %}
-			</form>
-			{% endif %}
-			<br /> <br /> 
-			{% if questionSearchResults%}
-			<ul>
-				{% for id, content in questionSearchResults.items %}
-				<li><a href="/question/{{id}}">=</a>{{content}}</a></li> 
-				{% endfor %} 
-			{% endif %}
-			</ul>
-			{% if question%}
-			question: {{question.content}}<br/>
-			<!-- will be replace by javascript -->
-			Asker: <a href="/user/{{question.asker}}">{{question.asker}}</a><br/>
-			Posted:{{question.postDate}}<br/>
-			{%endif%}
+	<div id="wrap">
+		<!-- header -->
+		<div id="header">
+			<div class="logo">
+				<a href="/"><img src="{{ MEDIA_URL }}/image/logo.png" /></a>
+				<div class="search_form">
+				<form action="/search/" method="get"> 
+						<input type="text" name="search" class="search_txt" size=50 placehoder="hi"/> 
+						<input type="submit" value="search" />
+				</form>
+				</div>
+			</div>
 		</div>
-		<div id="left"></div>
-		<div id="right">
-			
-			<!-- if there is no user logged in, display the sign pannel -->
-			{% if not sessionIsOpen%}
-			<h2>Sign In</h2>
-			<form action="/security/in/" method="post">
-				{% csrf_token %}
-				<table>
-					<tr>
-						<td>login</td>
-						<td><input type="text" name="login" />
-						<td>
-					</tr>
+		<!-- //header -->
+		<!-- container -->
+		<div id="container">
+			<!-- content -->
+			<div id="content">
+				{%if message %}
+					<h3 class="message">{{ message }}</h3>
+				{% endif %}
+
+				{% if sessionIsOpen %}
+				<div class="post_form">
+					<form action="/question/post/" method="post">
+						Post a Question
+						<input type="text" name="question" size=60 />
+						<input type="submit" value="Post" />
+						{% csrf_token %}
+					</form>
+				</div>
+				{% endif %}
+				{% if questionSearchResults%}
+				<div class="question_list">
+					<ul>
+					{% for id, content in questionSearchResults.items %}
+						<li><a href="/question/{{id}}">{{content}}</a></li> 
+					{% endfor %} 
+					</ul>
+				</div>
+				{% endif %}
+				
+				{% if question%}
+				<div class="question_detail">
+				question: {{question.content}}<br />
+				<!-- will be replace by javascript -->
+				Asker: <a href="/user/{{question.asker}}">{{question.asker}}</a><br />
+				Posted:{{question.postDate}}<br />
+				</div>
+				{%endif%}
+			</div>
+			<!-- //content -->
+			<!-- aside -->
+			<div class="aside">
+				<!-- if there is no user logged in, display the sign pannel -->
+				{% if not sessionIsOpen%}
+				<h2>Sign In</h2>
+				<form action="/security/in/" method="post">
+					{% csrf_token %}
+					<table>
+						<tr>
+							<td>login</td>
+							<td><input type="text" name="login" />
+								<td>
+					
+						</tr>
 					<tr>
 						<td>password</td>
-						<td><input type="password" name="password" /></td>
+						<td><input type="password" name="password" />
+							</td>
 					</tr>
 					<tr>
 						<td><input type="submit" value="Sign In" />
-						<td>
-					<tr>
-				</table>
-			</form>
-			<!-- else, display a sign out button -->
-			{% else %}
-			<h2>{{ user.login }}</h2>
-			<form id="left " action="/security/out/" method="get">
-				<table>
-					<tr>
-						<td><a href='/user/{{user.login}}'>My Profile</a></td>
-					</tr>
-					<tr>
-						<td><input type="submit" value="Sign Out" /></td>
-					</tr>
-				</table>
-			</form>
-			{% endif %} {% if not sessionIsOpen %}
-			<h2>Register</h2>
-			<form action="/register/" method="post">
+						
+							<td>
+					
+						<tr>
+				
+					</table>
+				</form>
+				<!-- else, display a sign out button -->
+				{% else %}
+				<h2>{{ user.login }}</h2>
+				<ul class="menu">
+					<li><a href='/'>Home Page</a></li>
+					<li><a href='/user/'>Profile</a></li>
+					<li><a href='/security/out'>Sign Out</a></li>
+				</ul>
+				{% endif %}
+				{% if not sessionIsOpen %}
+				<h2>Register</h2>
+				<form action="/register/" method="post">
 				{% csrf_token %}
 				<table>
 					<tr>
 						<td>login</td>
-						<td><input type="text" name="registerLogin" /></td>
+						<td><input type="text" name="registerLogin" />
+							</td>
 					</tr>
 					<tr>
 						<td>password</td>
-						<td><input type="password" name="registerPassword" /></td>
+						<td><input type="password" name="registerPassword" />
+							</td>
 					</tr>
 					<tr>
 						<td>email</td>
-						<td><input type="text" name="registerEmail" /></td>
+						<td><input type="text" name="registerEmail" />
+							</td>
 					</tr>
 					<tr>
-						<td><input type="submit" value="Register" /></td>
+						<td><input type="submit" value="Register" />
+							</td>
 					</tr>
-				</table>
-			</form>
-			<!-- TODO change this form to a an ajax one with hash of the password before sending the request-->
-			{% endif %}
+					</table>
+				</form>
+				<!-- TODO change this form to a an ajax one with hash of the password before sending the request-->
+				{% endif %}
+			</div>
+			<!-- //aside -->
 		</div>
+		<!-- //container -->
+
+		<!-- footer -->
+		<div id="footer"></div>
+		<!-- //footer -->
 	</div>
+	
 </body>
 </html>

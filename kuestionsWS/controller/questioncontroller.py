@@ -39,6 +39,7 @@ def search(request) :
   questionSearchResults={}
   #remove the displayed question
   context["question"]=None
+  context["message"]=''
   if results.has_key("rows") :    
     for row in  results["rows"]:
       doc = getDocument(row["id"])

@@ -25,6 +25,7 @@ def view(request, login) :
   context = RequestContext(request)
   context = userauth.checkSession(request, context)
   currentUser = userauth.getCurrentUser(context)
+  context['currentUser']=currentUser
   if currentUser and currentUser.login == login:
     print currentUser.login
     context['isAdmin'] = True
