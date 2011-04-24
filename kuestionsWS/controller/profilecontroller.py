@@ -8,6 +8,7 @@ def current(request) :
   '''
   this function display the profile page of the current user
   '''
+  context = RequestContext(request)
   context = userauth.checkSession(request, context)
   
   if context['sessionIsOpen'] == True :
