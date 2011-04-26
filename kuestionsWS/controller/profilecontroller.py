@@ -45,3 +45,16 @@ def userNotFound(request):
   context['message'] = "404 - User Not Found"
   return HttpResponse(t.render(context))  
     
+
+def update(request):
+  context = RequestContext(request)
+  context = userauth.checkSession(request, context)
+  currentUser = userauth.getCurrentUser(context)
+  if currentUser:
+    user = User(login=currentUser.login)
+    user = user.findByLogin()
+    newResume = request.POST['newResume']
+    if newResume:
+      user.resume = newResume
+      user.update()
+  return HttpResponseRedirect('/user/')
