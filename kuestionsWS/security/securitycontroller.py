@@ -21,9 +21,9 @@ def signin(request) :
     message= 'This account has not been activated yet'
   elif not user.password == password :
     message= 'wrong login/password combination'
-  #user exist, login and password are corect, and the account is activated  
-  else : 
-    return openSession(request,user) 
+  else : #every thing went fine, the session can be open
+    return openSession(request,user)
+  #return a response in case an error occurred
   return render_to_response('index.html', {'message': message},context_instance=RequestContext(request))
     
 def signout(request) :
@@ -59,7 +59,6 @@ def openSession(request,user) :
   print user.sessionId
   user.update()
   context=RequestContext(request)
-  context['message'] = 'good combination'
   context['sessionIsOpen']=True
   context['user']=userauth.getUserInfoWrapper(user)
   response= HttpResponse(t.render(context))

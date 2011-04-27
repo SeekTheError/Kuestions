@@ -25,6 +25,7 @@ def post(request) :
     context["message"]='a question need words!'
   #remove the displayed question 
   context["question"]=None 
+  context["questionSearchResults"]=None
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
   
 import urllib
