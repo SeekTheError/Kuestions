@@ -8,6 +8,7 @@ def current(request) :
   '''
   this function display the profile page of the current user
   '''
+  context = RequestContext(request)
   context = userauth.checkSession(request, context)
   
   if context['sessionIsOpen'] == True :
@@ -24,6 +25,7 @@ def view(request, login) :
   context = RequestContext(request)
   context = userauth.checkSession(request, context)
   currentUser = userauth.getCurrentUser(context)
+  context['currentUser']=currentUser
   if currentUser and currentUser.login == login:
     print currentUser.login
     context['isAdmin'] = True
@@ -43,3 +45,16 @@ def userNotFound(request):
   context['message'] = "404 - User Not Found"
   return HttpResponse(t.render(context))  
     
+
+def update(request):
+  context = RequestContext(request)
+  context = userauth.checkSession(request, context)
+  currentUser = userauth.getCurrentUser(context)
+  if currentUser:
+    user = User(login=currentUser.login)
+    user = user.findByLogin()
+    newResume = request.POST['newResume']
+    if newResume:
+      user.resume = newResume
+      user.update()
+  return HttpResponseRedirect('/user/')

@@ -1,0 +1,48 @@
+/* Basic Setup */
+*{margin:0; padding:0}
+body{font-family:"lucida grande", tahoma, verdana, arial, sans-serif;}
+form{display:inline;}
+ul{list-style-type:none;}
+
+/* UI Object */
+
+#wrap{width:100%}
+
+#header{width:100%; background-color:black; min-height:20px; color:white;}
+#header .logo{padding:10px; text-align:center;}
+
+#container{*display:inline-block;_float:left;_width /**/:100%;padding-right:240px}
+#container:after{display:block;clear:both;content:''}
+
+
+#content{float:left;width:100%;margin-right:-240px; padding:10px}
+
+
+.aside{float:right;position:relative;left:240px;width:220px; padding-top:10px}
+
+
+
+
+
+#footer{width:100%}
+
+
+
+/* Each Objects */
+.logo img{vertical-align:middle}
+
+.search_form, .post_form{padding:10px; font-weight:bold;}
+.search_form{width:100%;padding:5px 0; display:inline;}
+.search_form{color:#c4c4c4;text-align:center}
+.search_form input{margin:0px 0 1px;font-size:12px;color:#373737;vertical-align:middle}
+.search_form .search_txt{margin-left:1px;padding:2px 3px 5px;border:1px solid #b5b5b5;font-size:12px;line-height:15px}
+
+h3.message{border-top:1px solid #CC6600; border-bottom:1px solid #CC6600; background: #FFEFDF; padding:10px; font-size:14px}
+
+
+.aside input{width:100px;}
+
+
+ul.menu li{padding:5px 0px 5px 0px;}
+
+.question_list{padding:10px}

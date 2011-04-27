@@ -9,6 +9,7 @@ def checkSession (request,context={}) :
   Only if the user is correctly logged in, otherwise , somme basic info will be add
   like top questions, etc
   '''
+  
   cookieValue=None
   if request.COOKIES.__contains__(COOKIE_KEY) : 
     cookieValue= request.COOKIES[COOKIE_KEY]

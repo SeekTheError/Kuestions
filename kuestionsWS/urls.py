@@ -8,8 +8,10 @@ urlpatterns = patterns('',
     (r'^security/in/$', 'security.securitycontroller.signin'),
     (r'^security/out/$', 'security.securitycontroller.signout'),
     
-    (r'^user/(?P<login>\w+)/+$', 'controller.profilecontroller.view'),
+    
+    (r'^user/update/$','controller.profilecontroller.update'),
     (r'^user/$', 'controller.profilecontroller.current'),
+    (r'^user/(?P<login>\w+)/+$', 'controller.profilecontroller.view'),
     
     (r'^register/$', 'security.registercontroller.register'),
     (r'^register/(?P<code>\w+)$', 'security.registercontroller.activate'),
