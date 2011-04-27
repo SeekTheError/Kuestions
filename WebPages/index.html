@@ -13,7 +13,7 @@
 				<a href="/"><img src="{{ MEDIA_URL }}/image/logo.png" /></a>
 				<div class="search_form">
 				<form action="/search/" method="get"> 
-						<input type="text" name="search" class="search_txt" size=50 placehoder="hi"/> 
+						<input type="text" name="search" class="search_txt" size=50 placeholder="Search Kuestions..."/> 
 						<input type="submit" value="search" />
 				</form>
 				</div>
@@ -88,8 +88,9 @@
 				</form>
 				<!-- else, display a sign out button -->
 				{% else %}
-				<h2>{{ user.login }}</h2>
+				
 				<ul class="menu">
+					<h2>{{ user.login }}</h2>
 					<li><a href='/'>Home Page</a></li>
 					<li><a href='/user/'>Profile</a></li>
 					<li><a href='/security/out'>Sign Out</a></li>
