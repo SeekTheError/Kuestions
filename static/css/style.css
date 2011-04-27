@@ -1,21 +1,22 @@
 /* Basic Setup */
-*{margin:0; padding:0}
-body{font-family:"lucida grande", tahoma, verdana, arial, sans-serif;}
+html{height:100%;}
+body, h2,h3, div, p{margin:0; padding:0}
+body{font-family:"Helvetica neue",Helvetica,Verdana, Arial,sans-serif; font-size:14px;height:100%;}
 form{display:inline;}
-ul{list-style-type:none;}
 
+a{color:#3B5998; font-size:12px;}
 /* UI Object */
 
-#wrap{width:100%}
+#wrap{width:1200px; margin: 0 auto; min-height:900px;}
 
-#header{width:100%; background-color:black; min-height:20px; color:white;}
-#header .logo{padding:10px; text-align:center;}
+#header{width:100%; background-color:black;color:white;}
+#header .logo{padding:10px; text-align:left;}
 
-#container{*display:inline-block;_float:left;_width /**/:100%;padding-right:240px}
+#container{*display:inline-block;_float:left;_width /**/:100%;padding-right:240px;}
 #container:after{display:block;clear:both;content:''}
 
 
-#content{float:left;width:100%;margin-right:-240px; padding:10px}
+#content{float:left;width:100%;margin-right:-241px; padding:10px; border-right:1px solid black; height:100%;}
 
 
 .aside{float:right;position:relative;left:240px;width:220px; padding-top:10px}
@@ -24,12 +25,14 @@ ul{list-style-type:none;}
 
 
 
-#footer{width:100%}
+#footer{width:100%;}
 
 
 
 /* Each Objects */
-.logo img{vertical-align:middle}
+ul.menu{list-style-type:none;}
+
+.logo img{vertical-align:middle; margin:0px 20px}
 
 .search_form, .post_form{padding:10px; font-weight:bold;}
 .search_form{width:100%;padding:5px 0; display:inline;}
@@ -38,7 +41,12 @@ ul{list-style-type:none;}
 .search_form .search_txt{margin-left:1px;padding:2px 3px 5px;border:1px solid #b5b5b5;font-size:12px;line-height:15px}
 
 h3.message{border-top:1px solid #CC6600; border-bottom:1px solid #CC6600; background: #FFEFDF; padding:10px; font-size:14px}
+h3.title{border-bottom:1px dashed black; padding-bottom:10px; margin:10px 0;}
 
+
+div.box{width: 328px; }
+div.resume{padding : 8px;}
+div.box h3{display:inline;margin-right:10px;}
 
 .aside input{width:100px;}
 
