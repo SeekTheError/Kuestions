@@ -29,13 +29,13 @@ def view(request, login) :
   if currentUser and currentUser.login == login:
     print currentUser.login
     context['isAdmin'] = True
-  else :
-    user = User(login=login)
-    user = user.findByLogin()
-    if user is None :
-      print "not found"
-      return userNotFound(request)
-    context["user"] = user
+  
+  user = User(login=login)
+  user = user.findByLogin()
+  if user is None :
+    print "not found"
+    return userNotFound(request)
+  context["user"] = user  
   t = loader.get_template('profile.html')
   return HttpResponse(t.render(context))
     
@@ -44,12 +44,34 @@ def userNotFound(request):
   context = RequestContext(request)
   context['message'] = "404 - User Not Found"
   return HttpResponse(t.render(context))  
-    
 
-def update(request):
+
+def getCurrentUser(request):
+  '''
+  this function returns the current user
+  '''
   context = RequestContext(request)
   context = userauth.checkSession(request, context)
   currentUser = userauth.getCurrentUser(context)
+  return currentUser 
+
+def update(request, type):
+  '''
+  this function updates the current user information based on input type
+  type example: resume, addTopic,
+  '''
+  if type == 'resume':
+    return updateResume(request)
+  elif type == 'addTopic':
+    return addTopic(request)
+  elif type == 'deleteTopic':
+    return deleteTopic(request)
+
+def updateResume(request):
+  '''
+  this function updates user resume with form post data "newResume"
+  '''
+  currentUser = getCurrentUser(request)
   if currentUser:
     user = User(login=currentUser.login)
     user = user.findByLogin()
@@ -58,3 +80,42 @@ def update(request):
       user.resume = newResume
       user.update()
   return HttpResponseRedirect('/user/')
+
+def addTopic(request):
+  '''
+  this function add a new topic with form post data "newTopic"
+  '''
+  currentUser = getCurrentUser(request)
+  if currentUser:
+    user = User(login=currentUser.login)
+    user = user.findByLogin()
+    
+
+    if request.POST['newTopic']:
+      newTopic = request.POST['newTopic']
+      topics = user.topics
+      if not (newTopic.lower() in (topic.lower() for topic in topics)):
+        user.topics.append(newTopic)
+        user.update()
+  return HttpResponseRedirect('/user/')
+
+def deleteTopic(request):
+  '''
+  this function delete a topic with form post data "deleteTopic"
+  '''
+  currentUser = getCurrentUser(request)
+  if currentUser:
+    user = User(login=currentUser.login)
+    user = user.findByLogin()
+    
+    if request.POST['deleteTopic']:
+      deleteTopic = request.POST['deleteTopic']
+      topics = user.topics
+      user.topics = [topic for topic in topics if deleteTopic.lower() != topic.lower()]
+        #if deleteTopic.lower() == topic.lower():
+        #  print topics
+        #  print topic
+      user.update()
+  return HttpResponseRedirect('/user/') 
+
+

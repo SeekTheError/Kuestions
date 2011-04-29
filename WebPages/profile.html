@@ -73,15 +73,39 @@ function editResume(){
 				<h3>Resume</h3><a href="#" onClick="editResume(); return false;">edit</a>
 				<div class="resume">{{user.resume|safe}}</div>
 				{% if isAdmin %}
-				<form action='/user/update/' method='post' class="newResume" style="display:none;">
+				<form action='/user/update/resume' method='post' class="newResume" style="display:none;">
 					{% csrf_token %}
 					<textarea name="newResume" cols="50" rows="15"> 
         			{{user.resume|escape }}
         			</textarea>
         			<input type="submit" value="update" />
+        			<input type="button" value="cancel" onClick="editResume(); return false;"/>
 				</form>
-				
 				{% endif %}
+				</div>
+				<div class="topic box">
+				<h3>Topic</h3>
+				<div class="topic">
+					<ul>
+						{% for topic in user.topics %}
+							<li class="topic_item">
+								{{ topic }}
+								<form action='/user/update/deleteTopic' method='post' class="newTopic">
+									{% csrf_token %}
+									<input type="hidden" name="deleteTopic" value="{{ topic }}" />
+									<input type="submit" value="delete" />
+								</form>
+							</li>
+						{% endfor %}
+					</ul>
+					{% if isAdmin %}
+					<form action='/user/update/addTopic' method='post' class="newTopic">
+						{% csrf_token %}
+						<input type="text" name="newTopic" size=30 />
+        				<input type="submit" value="add topic" />
+					</form>
+					{% endif %}
+				</div>
 				</div>
 				{% else %}
 				<h1>404 - User Not Found</h1>
