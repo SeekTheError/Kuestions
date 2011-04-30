@@ -29,7 +29,8 @@ def view(request, login) :
   if currentUser and currentUser.login == login:
     print currentUser.login
     context['isAdmin'] = True
-  
+  else :
+    context['isAdmin'] =False
   user = User(login=login)
   user = user.findByLogin()
   if user is None :
