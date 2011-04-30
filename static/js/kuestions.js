@@ -10,10 +10,23 @@ function init() {
 		 if (event.which > 47 | event.which==8)
 			searchQuestion();
 	});
+	
+	$('#postBar').change(function(event) {
+			postQuestionSequence();
+	});
+}
+
+function postQuestionSequence(){
+	questionContent = document.getElementById("postBar").value;
+	
+	$.ajax({
+		url : url,
+		data : data
+	});
+	
 }
 
 function searchQuestion() {
-
 	var searchParameter = document.getElementById("searchBar").value;
 	var url = '/api/_fti/_design/question/by_content?q=' + searchParameter;
 	$.ajax({
@@ -41,7 +54,7 @@ function displaySearchResults(data) {
 		rows = object.rows;
 		length = rows.length;
 		for (i = 0; i < length; i++) {
-			if (rows[i].score >= 0.8) {
+			if (rows[i].score >= 0.6) {
 				question = rows[i].fields;
 				question.id = rows[i].id;
 				li = document.createElement("li");

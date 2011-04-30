@@ -4,7 +4,8 @@
 <link href="{{ MEDIA_URL }}/css/style.css" rel="stylesheet"
 	type="text/css" />
 
-<script type="text/javascript"	src="{{ MEDIA_URL }}/js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript"
+	src="{{ MEDIA_URL }}/js/jquery-1.5.1.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}/js/kuestions.js"></script>
 
 
@@ -16,13 +17,15 @@
 		<!-- header -->
 		<div id="header">
 			<div class="logo">
-				<a href="/"><img src="{{ MEDIA_URL }}/image/logo.png" /> </a>
+
 				<div class="search_form">
 					<table id="searchBox">
 						<tr>
-							<td><input type="text" name="searchParameter" size=50
-								id="searchBar" /> <input type="button" value="search"
-								onClick="return searchQuestion()" />
+							<td><a href="/"><img
+									src="{{ MEDIA_URL }}/image/logo.png" /> </a></td>
+
+							<td><input type="text" size=50
+								id="searchBar"/>
 							</td>
 						</tr>
 					</table>
@@ -38,11 +41,11 @@
 				<h3 class="message">{{ message }}</h3>
 				{% endif %} {% if sessionIsOpen %}
 				<div class="post_form">
-					<form action="/question/post/" method="post">
+					
 						{% csrf_token %} Post a Question
-						<input type="text" name="question" size=60 />
-						<input type="submit" value="Post" />
-					</form>
+						<input type="text" id="postBar" size=60 />
+						<input type="button" value="Post"  onclick="postQuestionSequence()" />
+					
 				</div>
 				{% endif %}
 				<div class="question_list" id="questionList">
@@ -118,13 +121,11 @@
 						</tr>
 					</table>
 				</form>
-				<!-- TODO change this form to a an ajax one with hash of the password before sending the request-->
 				{% endif %}
 			</div>
 			<!-- //aside -->
 		</div>
 		<!-- //container -->
-
 		<!-- footer -->
 		<div id="footer"></div>
 		<!-- //footer -->

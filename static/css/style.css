@@ -7,7 +7,7 @@ form{display:inline;}
 a{color:#3B5998; font-size:12px;}
 /* UI Object */
 
-#wrap{width:1200px; margin: 0 auto; min-height:900px;}
+#wrap{width:1200px; margin: 0 auto; min-height:900px; border:1px solid black }
 
 #header{width:100%; background-color:black;color:white;}
 #header .logo{padding:10px; text-align:left;}
@@ -16,10 +16,12 @@ a{color:#3B5998; font-size:12px;}
 #container:after{display:block;clear:both;content:''}
 
 
-#content{float:left;width:100%;margin-right:-241px; padding:10px; border-right:1px solid black; height:100%;}
+#content{float:left;width:100%;margin-right:-241px; padding:10px; height:100%;}
 
 
-.aside{float:right;position:relative;left:240px;width:220px; padding-top:10px}
+.aside{float:right;position:relative;left:240px;width:220px;background-color:gray;}
+
+
 
 
 
