@@ -16,10 +16,12 @@ NOTE: it may not work on windows, because of the different convention for the ne
 
 print 'loading couchdb layer'
 from couchdb import *
-import inject
 
 
 DB_NAME='kuestionsdb'
+
+def getDb() : return db
+def getServer() : return server
 
 
 #SERVER_URL='http://rem:azertyuiop@localhost:5984/'
@@ -58,8 +60,7 @@ def initServer(login='',password='',server=server,url=SERVER_URL) :
 server=initServer(' ','')
 db=loadDatabase(server)
 
-def getDb() : return db
-def getServer() : return server
+
 
 
 def query (query) :
