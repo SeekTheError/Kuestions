@@ -5,7 +5,7 @@ import couchdbinterface.dblayer as couchVar
 from django.shortcuts import render_to_response
 
 
-KUESTIONS_API_GET_URL='/kuestions/api'
+KUESTIONS_API_GET_URL='/api'
 
 #TODO : modify the url scheme for the api
 def gate(request) :
@@ -16,20 +16,25 @@ def gate(request) :
   if request.POST :
     keeper(request,'Invalid Acces, use of a POST method')  
   url=couchVar.SERVER_URL + request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
+  print url
   if request.GET.__contains__('key') :
     param='?key=' + request.GET['key']
+    url+=param
+  if request.GET.__contains__('q') :
+    param='?q=' + request.GET['q']
     url+=param
   f = urllib.urlopen(url)
   if f is not None :
     json=''
     for line in f.readlines() :
-      json+=line.replace('\n','')
+      json+=line#.replace('\n','')
     print json
     return HttpResponse(removeProtectedFields(json))
   else :
     keeper(request,'error at the gate')
 
 def removeProtectedFields(json) : 
+  return json
   for field in privateFields :
     json=fieldRe.sub('',json)
   return json

@@ -35,7 +35,7 @@ def search(request) :
   '''
   context=checkSession(request)
   searchTerms=request.GET["search"].encode('UTF8')
-  url='http://'+credentials+'@localhost:5984/'+'kuestionsdb/_fti/_design/question/by_content?q='+searchTerms
+  url='http://localhost:5984/kuestionsdb/_fti/_design/question/by_content?q='+searchTerms
   results=tempApiRedirect(url)
   questionSearchResults={}
   #remove the displayed question
@@ -52,7 +52,7 @@ def search(request) :
 
 def displayQuestion(request,question):
   context=checkSession(request)
-  url='http://'+credentials+'@localhost:5984/'+'kuestionsdb/'+question
+  url='http://localhost:5984/kuestionsdb/'+question
   question=tempApiRedirect(url)
   context["question"]=question
   return render_to_response('index.html', context ,context_instance=RequestContext(request))
