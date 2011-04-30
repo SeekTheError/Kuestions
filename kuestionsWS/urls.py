@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     (r'^security/out/$', 'security.securitycontroller.signout'),
     
     
-    (r'^user/update/$','controller.profilecontroller.update'),
+    (r'^user/update/(?P<type>\w+)$','controller.profilecontroller.update'),
     (r'^user/$', 'controller.profilecontroller.current'),
     (r'^user/(?P<login>\w+)/+$', 'controller.profilecontroller.view'),
     
