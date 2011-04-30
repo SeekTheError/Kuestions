@@ -68,10 +68,12 @@ function editResume(){
 				{% endif %}
 				</h3>
 				<div class="box">
-				{% if user.resume %}
+				{% if user %}
 				
-				<h3>Resume</h3><a href="#" onClick="editResume(); return false;">edit</a>
-				<div class="resume">{{user.resume|safe}}</div>
+				<h3>Resume</h3>
+				{% if isAdmin %}<a href="#" onClick="editResume(); return false;">edit</a>{% endif %}
+				
+				<div class="resume">{% if user.resume %}{{user.resume|safe}}{% endif %}</div>
 				{% if isAdmin %}
 				<form action='/user/update/resume' method='post' class="newResume" style="display:none;">
 					{% csrf_token %}
@@ -90,11 +92,13 @@ function editResume(){
 						{% for topic in user.topics %}
 							<li class="topic_item">
 								{{ topic }}
+								{% if isAdmin %}
 								<form action='/user/update/deleteTopic' method='post' class="newTopic">
 									{% csrf_token %}
 									<input type="hidden" name="deleteTopic" value="{{ topic }}" />
 									<input type="submit" value="delete" />
 								</form>
+								{% endif %}
 							</li>
 						{% endfor %}
 					</ul>
@@ -119,8 +123,10 @@ function editResume(){
 				<ul class="menu">
 					<h2>{{ currentUser.login }}</h2>
 					<li><a href='/'>Home Page</a></li>
+					{% if isAdmin %}
 					<li><a href='/user/'>Profile</a></li>
 					<li><a href='/security/out'>Sign Out</a></li>
+					{% endif %}
 				</ul>
 			</div>
 			<!-- //aside -->

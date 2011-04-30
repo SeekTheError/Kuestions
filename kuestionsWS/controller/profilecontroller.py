@@ -90,13 +90,15 @@ def addTopic(request):
     user = User(login=currentUser.login)
     user = user.findByLogin()
     
-
     if request.POST['newTopic']:
       newTopic = request.POST['newTopic']
+      print "add Topic:"+newTopic
       topics = user.topics
       if not (newTopic.lower() in (topic.lower() for topic in topics)):
+        
         user.topics.append(newTopic)
         user.update()
+        print "result: "+str(user.topics)
   return HttpResponseRedirect('/user/')
 
 def deleteTopic(request):
@@ -108,14 +110,17 @@ def deleteTopic(request):
     user = User(login=currentUser.login)
     user = user.findByLogin()
     
+    
     if request.POST['deleteTopic']:
       deleteTopic = request.POST['deleteTopic']
+      print "del Topic:"+deleteTopic
       topics = user.topics
       user.topics = [topic for topic in topics if deleteTopic.lower() != topic.lower()]
         #if deleteTopic.lower() == topic.lower():
         #  print topics
         #  print topic
       user.update()
+      print "result: "+str(user.topics)
   return HttpResponseRedirect('/user/') 
 
 
