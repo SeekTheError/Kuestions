@@ -8,6 +8,11 @@ from django.shortcuts import render_to_response
 KUESTIONS_API_GET_URL='/api'
 
 #TODO : modify the url scheme for the api
+
+def searchQuestion(request,parameter) :
+  pass
+
+
 def gate(request) :
   '''
   this method play the role of a security proxy, by only allowing GET method directly to couchdb,
