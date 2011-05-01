@@ -24,8 +24,7 @@
 							<td><a href="/"><img
 									src="{{ MEDIA_URL }}/image/logo.png" /> </a></td>
 
-							<td><input type="text" size=50
-								id="searchBar"/>
+							<td><input type="text" size=50 id="searchBar" />
 							</td>
 						</tr>
 					</table>
@@ -35,24 +34,27 @@
 		<!-- //header -->
 		<!-- container -->
 		<div id="container">
+
 			<!-- content -->
 			<div id="content">
+				<div id="messageContainer"></div>
 				{%if message %}
 				<h3 class="message">{{ message }}</h3>
 				{% endif %} {% if sessionIsOpen %}
 				<div class="post_form">
-					
-						{% csrf_token %} Post a Question
-						<input type="text" id="postBar" size=60 />
-						<input type="button" value="Post"  onclick="postQuestionSequence()" />
-					
+
+					{% csrf_token %} Post a Question <input type="text" id="postBar"
+						size=60 /> <input type="button" value="Post"
+						onclick="postQuestionSequence()" />
+					<div id="postMessageContainer"></div>
 				</div>
 				{% endif %}
+
 				<div class="question_list" id="questionList">
 					<ul id="questionSearchResults">
-
 					</ul>
 				</div>
+				
 				{% if question%}
 				<div class="question_detail">
 					question: {{question.content}}<br />
@@ -130,6 +132,6 @@
 		<div id="footer"></div>
 		<!-- //footer -->
 	</div>
-
+	<div id=extra>{% csrf_token %}</div>
 </body>
 </html>

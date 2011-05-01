@@ -16,17 +16,16 @@ def post(request) :
   content=request.POST["question"]
   context=checkSession(request)
   user=getCurrentUser(context)
-  print user.id
   if content != "": 
     q=Question(asker=user.login,content=content)
     q.create()
-    context["message"]='question successfully posted'
+    message='question successfully posted'
   else :
-    context["message"]='a question need words!'
+    message='a question need words!'
   #remove the displayed question 
-  context["question"]=None 
-  context["questionSearchResults"]=None
-  return render_to_response('index.html', context ,context_instance=RequestContext(request))
+  response = HttpResponse();
+  response["message"]=message;
+  return response;
   
 import urllib
 def search(request) :
