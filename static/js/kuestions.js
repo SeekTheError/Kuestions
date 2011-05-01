@@ -12,14 +12,14 @@ function init() {
 	$('#postBar').change(function(event) {
 		postQuestionSequence();
 	});
+
+	
+
 }
 
 function postQuestionSequence() {
 	questionContent = document.getElementById("postBar").value;
-
-	/*
-	 * $.ajax({ url : url, data : data });
-	 */
+	document.getElementById("postBar").value='';
 	postQuestion(questionContent, undefined);
 
 }
@@ -40,7 +40,7 @@ function postQuestion(question, tags) {
 var temp;
 function displayMessage(data, textStatus, containerId) {
 	removeMessage(containerId);
-	
+
 	content = document.getElementById(containerId);
 
 	message = document.createElement("h3");
@@ -77,12 +77,15 @@ function searchQuestion() {
 	});
 }
 
+var temp;
+
 function displaySearchResults(data) {
 
 	object = eval(data);
 	rows = object.rows;
 	if (object.rows) {
 		// clean the current questions
+		temp=rows.length;
 		el = document.getElementById("questionList");
 		child = document.getElementById("questionSearchResults");
 		if (child != undefined) {
