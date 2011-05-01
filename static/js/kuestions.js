@@ -13,7 +13,7 @@ function loadQuestionTags() {
 function checkIfTag(words) {
 	for (i = 0; i < words.length; i++) {
 		if (words[i] != '') {
-			word = words[i];
+			word = words[i].toLowerCase();
 			url = '/api/_design/topics/_view/topic?key="' + word + '"';
 			$.ajax({
 				type : "GET",
@@ -49,8 +49,6 @@ function appendTag(data) {
 function postQuestion() {
 	el = document.getElementById("postBar");
 	question = el.value;
-	// todo: retrieve and send tags
-	// retrieve the csrf tokken
 	tokenValue = document.getElementById("extra").getElementsByTagName("input")[0]
 			.getAttribute("value");
 	$.ajax({
@@ -94,17 +92,13 @@ var temp;
 // the minimun score a match should have in order to be displayed
 var minScore = 0.3;
 function displaySearchResults(data) {
-
+	cleanQuestionList();
 	object = eval(data);
 	rows = object.rows;
 	if (object.rows) {
 		// clean the current questions
 		temp = rows.length;
 		el = document.getElementById("questionList");
-		child = document.getElementById("questionSearchResults");
-		if (child != undefined) {
-			el.removeChild(child);
-		}
 		ul = document.createElement("ul");
 		ul.id = "questionSearchResults";
 		el.appendChild(ul);
@@ -121,6 +115,15 @@ function displaySearchResults(data) {
 		}
 	}
 }
+
+function cleanQuestionList(){
+	el = document.getElementById("questionList");
+	child = document.getElementById("questionSearchResults");
+	if (child != undefined) {
+		el.removeChild(child);
+	}
+}
+
 function formatQuestion(question) {
 	span = document.createElement("span");
 	p = document.createElement("p");
@@ -165,7 +168,7 @@ $(document).ready(function() {
 function init() {
 	$('#searchBar').keyup(function(event) {
 		search = document.getElementById("searchBar").value
-		if (search != '')
+
 			searchQuestion(enhanceSearch(search));
 	});
 
