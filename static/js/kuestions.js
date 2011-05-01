@@ -1,30 +1,55 @@
-$(document).ready(function() {
-	init();
-});
+function loadQuestionTags() {
+	el = document.getElementById("postBar");
+	questionContent = el.value;
+	words = replaceAll(questionContent, ' +', ' ').split(" ");
+	checkIfTag(words);
+	zone = document.getElementById('tagsZone')
+	tags=zone.getElementsByTagName('span');
+	for(i=0;i<tags.length;i++){
+		zone.removeChild(tags[i]);
+	}
+}
 
-function init() {
-	// google instant style
-	$('#searchBar').keyup(function(event) {
-		if (event.which > 47 | event.which == 8)
-			searchQuestion();
-	});
+function checkIfTag(words) {
+	for (i = 0; i < words.length; i++) {
+		if (words[i] != '') {
+			word = words[i];
+			url = '/api/_design/topics/_view/topic?key="' + word + '"';
+			$.ajax({
+				type : "GET",
+				dataType : "json",
+				url : url,
+				success : function(data) {
+					appendTag(data);
+				}
+			});
+		}
+	}
+}
 
-	$('#postBar').change(function(event) {
-		postQuestionSequence();
-	});
-
-	
+var temp = '';
+function appendTag(data) {
+	json = eval(data);
+	if (json.rows[0]) {
+		p = document.createElement('span');
+		p.id = word;
+		p.className = "tag";	
+		p.textContent = json.rows[0].key;
+		zone = document.getElementById('tagsZone')
+		zone.appendChild(p);
+		$(p).click(function() {
+			zone = document.getElementById('tagsZone');
+			tag = document.getElementById(word);
+			zone.removeChild(tag);
+		});
+	}
 
 }
 
-function postQuestionSequence() {
-	questionContent = document.getElementById("postBar").value;
-	document.getElementById("postBar").value='';
-	postQuestion(questionContent, undefined);
-
-}
-
-function postQuestion(question, tags) {
+function postQuestion() {
+	el = document.getElementById("postBar");
+	question = el.value;
+	// todo: retrieve and send tags
 	// retrieve the csrf tokken
 	tokenValue = document.getElementById("extra").getElementsByTagName("input")[0]
 			.getAttribute("value");
@@ -32,12 +57,80 @@ function postQuestion(question, tags) {
 		type : "POST",
 		url : "/question/post/",
 		data : "question=" + question + "&csrfmiddlewaretoken=" + tokenValue,
-		success : function(data, textStatus, jqxhr) {
-			displayMessage(data, jqxhr, "postMessageContainer");
+		success : function(data, textStatus, jhxqr) {
+			displayMessage(data, jhxqr, "postMessageContainer");
 		}
 	});
 }
+
+/** *********Search*********** */
+
+function enhanceSearch(search) {
+	if (search.substr(-1) !== " ") {
+		search += '*';
+	}
+	search = search.replace(new RegExp(" ", 'g'), "+");
+
+	return search;
+}
+
+function replaceAll(text, toReplace, replacement) {
+	return text.replace(new RegExp(toReplace, 'g'), replacement);
+}
+
+function searchQuestion(string) {
+	var url = '/api/_fti/_design/question/by_content?q=' + string;
+	$.ajax({
+		url : url,
+		dataType : 'json',
+		success : function(data) {
+			displaySearchResults(data);
+		}
+	});
+}
+
 var temp;
+
+// the minimun score a match should have in order to be displayed
+var minScore = 0.3;
+function displaySearchResults(data) {
+
+	object = eval(data);
+	rows = object.rows;
+	if (object.rows) {
+		// clean the current questions
+		temp = rows.length;
+		el = document.getElementById("questionList");
+		child = document.getElementById("questionSearchResults");
+		if (child != undefined) {
+			el.removeChild(child);
+		}
+		ul = document.createElement("ul");
+		ul.id = "questionSearchResults";
+		el.appendChild(ul);
+		rows = object.rows;
+		length = rows.length;
+		for (i = 0; i < length; i++) {
+			if (rows[i].score >= minScore) {
+				question = rows[i].fields;
+				question.id = rows[i].id;
+				li = document.createElement("li");
+				li.appendChild(formatQuestion(question));
+				ul.appendChild(li);
+			}
+		}
+	}
+}
+function formatQuestion(question) {
+	span = document.createElement("span");
+	p = document.createElement("p");
+	p.textContent = question.content;
+	span.appendChild(p);
+	return p;
+}
+
+/** ***Util****** */
+
 function displayMessage(data, textStatus, containerId) {
 	removeMessage(containerId);
 
@@ -64,53 +157,24 @@ function removeMessage(containerId) {
 
 }
 
-function searchQuestion() {
-	var searchParameter = document.getElementById("searchBar").value;
+/** ******* Init *************** */
+$(document).ready(function() {
+	init();
+});
 
-	var url = '/api/_fti/_design/question/by_content?q=' + searchParameter;
-	$.ajax({
-		url : url,
-		dataType : 'json',
-		success : function(data) {
-			displaySearchResults(data);
-		}
+function init() {
+	$('#searchBar').keyup(function(event) {
+		search = document.getElementById("searchBar").value
+		if (search != '')
+			searchQuestion(enhanceSearch(search));
 	});
-}
 
-var temp;
+	$('#searchBar').change(function(event) {
+		searchQuestion(document.getElementById("searchBar").value);
+	});
 
-function displaySearchResults(data) {
+	$('#postBar').change(function(event) {
+		loadQuestionTags();
+	});
 
-	object = eval(data);
-	rows = object.rows;
-	if (object.rows) {
-		// clean the current questions
-		temp=rows.length;
-		el = document.getElementById("questionList");
-		child = document.getElementById("questionSearchResults");
-		if (child != undefined) {
-			el.removeChild(child);
-		}
-		ul = document.createElement("ul");
-		ul.id = "questionSearchResults";
-		el.appendChild(ul);
-		rows = object.rows;
-		length = rows.length;
-		for (i = 0; i < length; i++) {
-			if (rows[i].score >= 0.6) {
-				question = rows[i].fields;
-				question.id = rows[i].id;
-				li = document.createElement("li");
-				li.appendChild(formatQuestion(question));
-				ul.appendChild(li);
-			}
-		}
-	}
-}
-function formatQuestion(question) {
-	span = document.createElement("span");
-	p = document.createElement("p");
-	p.textContent = question.content;
-	span.appendChild(p);
-	return p;
 }

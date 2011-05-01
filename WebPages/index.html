@@ -22,10 +22,10 @@
 					<table id="searchBox">
 						<tr>
 							<td><a href="/"><img
-									src="{{ MEDIA_URL }}/image/logo.png" /> </a></td>
-
-							<td><input type="text" size=50 id="searchBar" />
+									src="{{ MEDIA_URL }}/image/logo.png" /> </a>
 							</td>
+
+							<td><input type="text" size=50 id="searchBar" /></td>
 						</tr>
 					</table>
 				</div>
@@ -39,22 +39,22 @@
 			<div id="content">
 				<div id="messageContainer"></div>
 				{%if message %}
-				<h3 class="message" >{{ message }}</h3>
+				<h3 class="message">{{ message }}</h3>
 				{% endif %} {% if sessionIsOpen %}
 				<div class="post_form">
-
-					{% csrf_token %} Post a Question <input type="text" id="postBar"
-						size=60 /> <input type="button" value="Post"
-						onclick="postQuestionSequence()" />
+					What do you need to Know? <br /> <input type="text" id="postBar"
+						class="i.postBar" size=60 />
 					<div id="postMessageContainer"></div>
 				</div>
+				<div id='tagsZone'></div>
+				<input type="button" value="Post" onclick="postQuestion()" />
 				{% endif %}
 
 				<div class="question_list" id="questionList">
 					<ul id="questionSearchResults">
 					</ul>
 				</div>
-				
+
 				{% if question%}
 				<div class="question_detail">
 					question: {{question.content}}<br />
@@ -75,15 +75,16 @@
 					<table>
 						<tr>
 							<td>login</td>
-							<td><input type="text" name="login" /></td>
-						</tr>
-						<tr>
-							<td>password</td>
-							<td><input type="password" name="password" />
+							<td><input type="text" name="login" />
 							</td>
 						</tr>
 						<tr>
-							<td><input type="submit" value="Sign In" /></td>
+							<td>password</td>
+							<td><input type="password" name="password" /></td>
+						</tr>
+						<tr>
+							<td><input type="submit" value="Sign In" />
+							</td>
 
 						</tr>
 					</table>
@@ -93,9 +94,12 @@
 
 				<ul class="menu">
 					<h2>{{ user.login }}</h2>
-					<li><a href='/'>Home Page</a></li>
-					<li><a href='/user/'>Profile</a></li>
-					<li><a href='/security/out'>Sign Out</a></li>
+					<li><a href='/'>Home Page</a>
+					</li>
+					<li><a href='/user/'>Profile</a>
+					</li>
+					<li><a href='/security/out'>Sign Out</a>
+					</li>
 				</ul>
 				{% endif %} {% if not sessionIsOpen %}
 				<h2>Register</h2>
@@ -104,22 +108,18 @@
 					<table>
 						<tr>
 							<td>login</td>
-							<td><input type="text" name="registerLogin" />
-							</td>
+							<td><input type="text" name="registerLogin" /></td>
 						</tr>
 						<tr>
 							<td>password</td>
-							<td><input type="password" name="registerPassword" />
-							</td>
+							<td><input type="password" name="registerPassword" /></td>
 						</tr>
 						<tr>
 							<td>email</td>
-							<td><input type="text" name="registerEmail" />
-							</td>
+							<td><input type="text" name="registerEmail" /></td>
 						</tr>
 						<tr>
-							<td><input type="submit" value="Register" />
-							</td>
+							<td><input type="submit" value="Register" /></td>
 						</tr>
 					</table>
 				</form>
