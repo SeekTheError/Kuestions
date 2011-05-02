@@ -29,9 +29,9 @@ def gate(request) :
   # work for non korean
   import urllib
   #params = urllib.urlencode({'q': param})
-  params='?q='+quote(param.encode('UTF8'));
+  params='?q='+quote(param.encode('UTF8'))
   
-  url=unicode(url+params);
+  url=unicode(url+params)
   print url
   headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
   conn = httplib.HTTPConnection("localhost:5984")
@@ -39,7 +39,6 @@ def gate(request) :
   response = conn.getresponse()
   print response.status, response.reason
   data = response.read()
-  print data;
   conn.close()
   return HttpResponse(removeProtectedFields(data))
 

@@ -174,9 +174,12 @@ $(document).ready(function() {
 
 function init() {
 	$('#searchBar').keyup(function(event) {
+	
 		search = document.getElementById("searchBar").value
-
-		searchQuestion(enhanceSearch(search));
+		if(search != "" ){
+		searchQuestion(enhanceSearch(search));}
+		else
+			{cleanQuestionList();}
 	});
 
 /**	$('#searchBar').change(function(event) {
