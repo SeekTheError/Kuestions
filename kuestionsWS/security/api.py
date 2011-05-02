@@ -29,7 +29,7 @@ def gate(request) :
   # work for non korean
   import urllib
   #params = urllib.urlencode({'q': param})
-  params='?q='+quote(param);
+  params='?q='+quote(param.encode('UTF8'));
   
   url=unicode(url+params);
   print url
@@ -66,7 +66,6 @@ for field in privateFields:
 reString='"('+expr+')":(("[0-9A-Za-z\-@\.]+")|(null)|(true)|(false))'
 fieldRe=re.compile(reString)
 
-#Define http 5XX instead : internal error, forbiden
 def keeper(request,message=''):
   print 'WARNING, api: '+message
   return render_to_response('error.html',{'message':'Kuestions API - 403 Forbidden'})

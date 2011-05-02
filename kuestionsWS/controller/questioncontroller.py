@@ -3,7 +3,7 @@ from django.template import RequestContext, loader
 from django.shortcuts import  render_to_response
 from couchdbinterface.dblayer import view,getDocument
 from model.entities import Question
-
+from django.utils.encoding import smart_unicode
 from security.userauth import checkSession,getCurrentUser
 
 #retrival of the couchdb credentials
@@ -13,11 +13,12 @@ credentials = creds[0]+':'+creds[1]
 
 
 def post(request) :
-  content=request.POST["question"].decode('UTF-8')
+  content=smart_unicode(request.POST["question"], encoding='utf-8', strings_only=False, errors='strict')
   context=checkSession(request)
   user=getCurrentUser(context)
   if content != "": 
     q=Question(asker=user.login,content=content)
+    print q
     q.create()
     message='question successfully posted'
   else :
@@ -26,26 +27,6 @@ def post(request) :
   response = HttpResponse();
   response["message"]=message;
   return response;
-  
-import urllib
-def search(request) :
-  '''
-  mockup method to test the search function, soon to be implemented in javascript
-  '''
-  context=checkSession(request)
-  searchTerms=request.GET["search"].encode('UTF8')
-  url='http://localhost:5984/kuestionsdb/_fti/_design/question/by_content?q='+searchTerms
-  results=tempApiRedirect(url)
-  questionSearchResults={}
-  #remove the displayed question
-  context["question"]=None
-  context["message"]=''
-  if results.has_key("rows") :    
-    for row in  results["rows"]:
-      doc = getDocument(row["id"])
-      questionSearchResults[doc["_id"]]=doc["content"]  
-    context["questionSearchResults"]=questionSearchResults
-  return render_to_response('index.html', context ,context_instance=RequestContext(request))
 
 
 
