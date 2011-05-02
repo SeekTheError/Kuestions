@@ -4,8 +4,8 @@ function loadQuestionTags() {
 	words = replaceAll(questionContent, ' +', ' ').split(" ");
 	checkIfTag(words);
 	zone = document.getElementById('tagsZone')
-	tags=zone.getElementsByTagName('span');
-	for(i=0;i<tags.length;i++){
+	tags = zone.getElementsByTagName('span');
+	for (i = 0; i < tags.length; i++) {
 		zone.removeChild(tags[i]);
 	}
 }
@@ -33,7 +33,7 @@ function appendTag(data) {
 	if (json.rows[0]) {
 		p = document.createElement('span');
 		p.id = word;
-		p.className = "tag";	
+		p.className = "tag";
 		p.textContent = json.rows[0].key;
 		zone = document.getElementById('tagsZone')
 		zone.appendChild(p);
@@ -75,22 +75,27 @@ function enhanceSearch(search) {
 function replaceAll(text, toReplace, replacement) {
 	return text.replace(new RegExp(toReplace, 'g'), replacement);
 }
-
+var lastSearch = '';
 function searchQuestion(string) {
-	var url = '/api/_fti/_design/question/by_content?q=' + string;
-	$.ajax({
-		url : url,
-		dataType : 'json',
-		success : function(data) {
-			displaySearchResults(data);
-		}
-	});
+	console.log(string);
+	if (string != lastSearch) {
+		var url = '/api/_fti/_design/question/by_content?q=' + string;
+		$.ajax({
+			url : url,
+			dataType : 'json',
+			success : function(data) {
+				displaySearchResults(data);
+			}
+		});
+	}
+	lastSearch=string;
+	
 }
 
 var temp;
 
 // the minimun score a match should have in order to be displayed
-var minScore = 0.3;
+var minScore = 0.5;
 function displaySearchResults(data) {
 	cleanQuestionList();
 	object = eval(data);
@@ -116,13 +121,7 @@ function displaySearchResults(data) {
 	}
 }
 
-function cleanQuestionList(){
-	el = document.getElementById("questionList");
-	child = document.getElementById("questionSearchResults");
-	if (child != undefined) {
-		el.removeChild(child);
-	}
-}
+
 
 function formatQuestion(question) {
 	span = document.createElement("span");
@@ -130,6 +129,13 @@ function formatQuestion(question) {
 	p.textContent = question.content;
 	span.appendChild(p);
 	return p;
+}
+function cleanQuestionList() {
+	el = document.getElementById("questionList");
+	child = document.getElementById("questionSearchResults");
+	if (child != undefined) {
+		el.removeChild(child);
+	}
 }
 
 /** ***Util****** */
@@ -169,12 +175,12 @@ function init() {
 	$('#searchBar').keyup(function(event) {
 		search = document.getElementById("searchBar").value
 
-			searchQuestion(enhanceSearch(search));
+		searchQuestion(enhanceSearch(search));
 	});
 
-	$('#searchBar').change(function(event) {
+/**	$('#searchBar').change(function(event) {
 		searchQuestion(document.getElementById("searchBar").value);
-	});
+	});**/
 
 	$('#postBar').change(function(event) {
 		loadQuestionTags();

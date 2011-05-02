@@ -13,7 +13,7 @@ credentials = creds[0]+':'+creds[1]
 
 
 def post(request) :
-  content=request.POST["question"]
+  content=request.POST["question"].decode('UTF-8')
   context=checkSession(request)
   user=getCurrentUser(context)
   if content != "": 

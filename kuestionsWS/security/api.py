@@ -23,10 +23,10 @@ def gate(request) :
   url=couchVar.SERVER_URL + request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
   print url
   if request.GET.__contains__('key') :
-    param='?key=' + request.GET['key']
+    param='?key=' + request.GET['key'].decode('UTF-8')
     url+=param
   if request.GET.__contains__('q') :
-    param='?q=' + request.GET['q']
+    param='?q=' + request.GET['q'].decode('UTF-8')
     url+=param
   f = urllib.urlopen(url)
   if f is not None :

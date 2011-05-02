@@ -76,7 +76,7 @@ def updateResume(request):
   if currentUser:
     user = User(login=currentUser.login)
     user = user.findByLogin()
-    newResume = request.POST['newResume']
+    newResume = request.POST['newResume'].decode('UTF-8')
     if newResume:
       user.resume = newResume
       user.update()
@@ -92,7 +92,7 @@ def addTopic(request):
     user = user.findByLogin()
     
     if request.POST['newTopic']:
-      newTopic = request.POST['newTopic']
+      newTopic = request.POST['newTopic'].decode('UTF-8')
       print "add Topic:"+newTopic
       topics = user.topics
       if not (newTopic.lower() in (topic.lower() for topic in topics)):
