@@ -1,119 +1,132 @@
-/* Basic Setup */
-html {
-	height: 100%;
-}
-
-body,h2,h3,div,p {
-	margin: 0;
-	padding: 0
-}
-
-body {
-	font-family: "Helvetica neue", Helvetica, Verdana, Arial, sans-serif;
-	font-size: 14px;
-	height: 100%;
-}
-
-form {
-	display: inline;
-}
-
+html,body,a,p,span,div{margin:0; padding:0}
+body{font-size:8pt; font-family:"lucida grande", tahoma, verdana, arial, sans-serif;overflow-y: auto;}
 a {
 	color: #3B5998;
-	font-size: 12px;
+	text-decoration: none;
+	border:0;
 }
-/* UI Object */
-#wrap {
-	width: 1200px;
-	margin: 0 auto;
-	min-height: 900px;
-	border: 1px solid black
+a:hover {
+	text-decoration: underline;
+}
+img{border:0;}
+
+body{
+	/*background-image:url(../image/bg.gif);*/
+	background-color: #ababab;
+	background-repeat:repeat-x;
+	background-position-y: 40px;
 }
 
-#header {
-	width: 100%;
-	background-color: black;
-	color: white;
+
+/* Effects */
+.shadow{
+	box-shadow: 0 3px 4px rgba(0, 0, 0, .5);
+	-moz-box-shadow: 0 3px 4px rgba(0, 0, 0, .5);
+	-webkit-box-shadow: 0 3px 4px rgba(0, 0, 0, .5);
+}
+.radius{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
-#header .logo {
-	padding: 10px;
-	text-align: left;
+/* Top Area */
+.wrapper .top_header{
+	background-image:url(../image/top_bg.png);
+	color:#ffffff;
+	width:100%;
+	position: fixed;
+	top:0px;
+	z-index: 10;
+	height:60px; 
 }
+.top_header.sessionTrue{ height:40px; }
+.top_header.sessionFalse{ height:60px; }
 
-#container {
-	*display: inline-block;
-	_float: left;
-	_width /**/: 100%;
-	padding-right: 240px;
-}
+.top_left{float:left; padding:20px 20px 0px 0px; height:30px;}
+.top_right{float:right;padding:10px 0px 0px 0px;  height:30px;}
+.top_left.sessionTrue{ padding:10px 20px 0px 0px; }
+.top_right.sessionTrue{ padding:10px 20px 0px 0px; }
 
-#container:after {
-	display: block;
-	clear: both;
-	content: ''
-}
-
-#content {
-	float: left;
-	width: 100%;
-	margin-right: -241px;
-	padding: 10px;
+.top_inside{
 	height: 100%;
+	width:1040px;
+	margin:0 auto;
+}
+.top_left div{display:inline;}
+.top_left .search{padding:20px 20px 0px 20px; height:30px;}
+.top_left .search input{height:20px;position: relative;top:-5px; padding-left:10px;}
+
+
+
+/* Main Area */
+.main_wrapper{
+	height: 100%;
+	padding-top:50px;
 }
 
-.aside {
-	float: right;
+.main{
+	width:1040px;
+	margin:0 auto;
+	height: 100%;
 	position: relative;
-	left: 240px;
-	width: 220px;
-	background-color: gray;
+	overflow: hidden;
+
+	margin-top:20px;
+	margin-bottom: 20px;
+	background-color: rgba(239, 239,239,1.0);
+
+}
+.main.sessionTrue{margin-top: 5px;}
+
+div.main div.left{
+width: 380px;
+float: left;
+display: inline-block;
+z-index: 4;
+
+position: relative;
+background: white;
+height: 100%;
+min-height: 700px;
+padding: 20px 10px 20px 10px;
+
+	-webkit-border-radius: 5px 0px 0px 5px;
+	-moz-border-radius: 5px 0px 0px 5px;
+	border-radius: 5px 0px 0px 5px;
 }
 
-#footer {
-	width: 100%;
+div.main div.right{
+width: 500px;
+position: relative;
+left:-10px;
+overflow: hidden;
+padding: 20px 10px 20px 20px;
+
 }
 
-/* Each Objects */
-ul.menu {
-	list-style-type: none;
+.signin_box table tr td{
+	padding:0 0 4px 14px;
 }
 
-.logo img {
-	vertical-align: middle;
-	margin: 0px 20px
-}
-
-.search_form,.post_form {
-	padding: 10px;
-	font-weight: bold;
-}
-
-.search_form {
-	width: 100%;
-	padding: 5px 0;
-	display: inline;
-}
-
-.search_form {
-	color: #c4c4c4;
-	text-align: center
-}
-
-.search_form input {
-	margin: 0px 0 1px;
+.inputtext{
+	border:1px solid #e8e8e8;margin:0;width:100px;
+	padding: 3px 3px 4px 3px;
 	font-size: 12px;
-	color: #373737;
-	vertical-align: middle
 }
 
-.search_form .search_txt {
-	margin-left: 1px;
-	padding: 2px 3px 5px;
-	border: 1px solid #b5b5b5;
-	font-size: 12px;
-	line-height: 15px
-}
+.submit, .register{ width:64px; padding:4px; text-align:center; white-space:nowrap; font-weight:bold;
+color:#333; background:#ddd url(../image/bg-btn.png) repeat-x 0 0; border-color: #BBBBBB #BBBBBB #999999; border-radius: 4px 4px 4px 4px;
+border-style: solid; border-width: 1px;}
+.button:active{background-image:none;text-shadow:none;outline:none;}
+.button:hover,.button:focus{background-position:0 -6px;border-color:#999 #999 #666;color:#000;text-decoration:none;}
+
+.user_box {padding:4px 0px 0px 0px;}
+.user_box a{color:#eee; font-size: 12px; font-weight: bold;}
+.user_box ul,.user_box ul li{list-style: none; display: inline}
+.user_box ul li{margin:0px 0px 0px 20px}
+
+
 
 h3.message {
 	border-top: 1px solid #CC6600;
@@ -123,51 +136,21 @@ h3.message {
 	font-size: 14px
 }
 
-.nodisp {
-	display: none;
-}
-
-h3.title {
-	border-bottom: 1px dashed black;
-	padding-bottom: 10px;
-	margin: 10px 0;
-}
-
-div.box {
+.box {
 	width: 328px;
 	margin-bottom: 10px;
 	border: 1px dashed black;
 	padding: 10px;
 }
 
-div.resume {
+.resume {
 	padding: 8px;
 }
 
-div.box h3 {
+.box h3 {
 	display: inline;
 	margin-right: 10px;
 }
 
-.aside input {
-	width: 100px;
-}
-
-ul.menu li {
-	padding: 5px 0px 5px 0px;
-}
-
-.question_list {
-	padding: 10px
-}
-
-
-#postBar {
-	width: 500px;
-	height: 20px;
-	border: medium 10ex;
-}
-/*in use for jquery*/
-#display {
-	display: block;
-}
+.topic ul, .topic li{margin:10px;}
+form.delete{display: inline;}
