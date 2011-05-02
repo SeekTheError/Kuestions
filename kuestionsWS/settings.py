@@ -1,5 +1,6 @@
 import os
 import django
+
 '''
 This is for using relative path.
 DJANGO_ROOT: Path of kuestionsWS

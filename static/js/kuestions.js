@@ -67,7 +67,7 @@ function enhanceSearch(search) {
 	if (search.substr(-1) !== " ") {
 		search += '*';
 	}
-	search = search.replace(new RegExp(" ", 'g'), "+");
+	//search = search.replace(new RegExp(" ", 'g'), "+");
 
 	return search;
 }
@@ -79,9 +79,10 @@ var lastSearch = '';
 function searchQuestion(string) {
 	console.log(string);
 	if (string != lastSearch) {
-		var url = '/api/_fti/_design/question/by_content?q=' + string;
+		var url = '/api/_fti/_design/question/by_content';
 		$.ajax({
 			url : url,
+			data : 'q=' + string,
 			dataType : 'json',
 			success : function(data) {
 				displaySearchResults(data);
