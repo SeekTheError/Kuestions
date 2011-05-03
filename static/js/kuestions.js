@@ -67,7 +67,7 @@ function enhanceSearch(search) {
 	if (search.substr(-1) !== " ") {
 		search += '*';
 	}
-	//search = search.replace(new RegExp(" ", 'g'), "+");
+	// search = search.replace(new RegExp(" ", 'g'), "+");
 
 	return search;
 }
@@ -76,21 +76,28 @@ function replaceAll(text, toReplace, replacement) {
 	return text.replace(new RegExp(toReplace, 'g'), replacement);
 }
 var lastSearch = '';
-function searchQuestion(string) {
-	console.log(string);
-	if (string != lastSearch) {
-		var url = '/api/_fti/_design/question/by_content';
-		$.ajax({
-			url : url,
-			data : 'q=' + string,
-			dataType : 'json',
-			success : function(data) {
-				displaySearchResults(data);
-			}
-		});
+function searchQuestions() {
+	search = document.getElementById("searchBar").value
+	if (search != "") {
+		search=enhanceSearch(search);
+		console.log(search);
+		if (search != lastSearch) {
+			var url = '/api/_fti/_design/question/by_content';
+			$.ajax({
+				url : url,
+				data : 'q=' + search,
+				dataType : 'json',
+				success : function(data) {
+					displaySearchResults(data);
+				}
+			});
+		}
+
+	} else {
+		cleanQuestionList();
 	}
-	lastSearch=string;
-	
+	lastSearch = search;
+
 }
 
 var temp;
@@ -121,8 +128,6 @@ function displaySearchResults(data) {
 		}
 	}
 }
-
-
 
 function formatQuestion(question) {
 	span = document.createElement("span");
@@ -174,17 +179,14 @@ $(document).ready(function() {
 
 function init() {
 	$('#searchBar').keyup(function(event) {
-	
-		search = document.getElementById("searchBar").value
-		if(search != "" ){
-		searchQuestion(enhanceSearch(search));}
-		else
-			{cleanQuestionList();}
+		searchQuestions();
+
 	});
 
-/**	$('#searchBar').change(function(event) {
-		searchQuestion(document.getElementById("searchBar").value);
-	});**/
+	/***************************************************************************
+	 * $('#searchBar').change(function(event) {
+	 * searchQuestion(document.getElementById("searchBar").value); });
+	 **************************************************************************/
 
 	$('#postBar').change(function(event) {
 		loadQuestionTags();

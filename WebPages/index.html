@@ -90,7 +90,7 @@
 				{% if sessionIsOpen %}
 				<div class="post_form">
 					What do you need to Know? <br /> <input type="text" id="postBar"
-						class="i.postBar" size=60 />
+						class="i.postBar" size=60/>
 					<div id="postMessageContainer"></div>
 				</div>
 				<div id='tagsZone'></div>
@@ -123,5 +123,7 @@
 
 </div>
 <!-- End Contents --> 	
+<!-- Extra contents, needeed to post a question via javascript--> 	
+<div id="security_csrf">{% csrf_token %}</div>
 </body>
 </html>

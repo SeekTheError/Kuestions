@@ -23,23 +23,20 @@ def gate(request) :
     keeper(request,'Invalid Acces, use of a POST method')  
   url= '/'+request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
   if request.GET.__contains__('key') :
-    param='?key=' + smart_unicode(request.GET['key'], encoding='utf-8', strings_only=False, errors='strict')
+    param= smart_unicode(request.GET['key'], encoding='utf-8', strings_only=False, errors='strict')
+    params='?key='+quote(param.encode('UTF8'))
   if request.GET.__contains__('q') :
     param=smart_unicode(request.GET['q'], encoding='utf-8', strings_only=False, errors='strict')
-  # work for non korean
-  import urllib
-  #params = urllib.urlencode({'q': param})
-  params='?q='+quote(param.encode('UTF8'))
-  
+    params='?q='+quote(param.encode('UTF8'))
+    
+  import urllib2
   url=unicode(url+params)
   print url
-  headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-  conn = httplib.HTTPConnection("localhost:5984")
-  conn.request("GET", url, params, headers)
-  response = conn.getresponse()
-  print response.status, response.reason
-  data = response.read()
-  conn.close()
+  f=urllib2.urlopen("http://localhost:5984"+url)
+  data=''
+  for line in f.readlines():
+    data+=line
+  
   return HttpResponse(removeProtectedFields(data))
 
 

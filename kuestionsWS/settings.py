@@ -1,3 +1,4 @@
+# Django settings for the kuestions project.
 import os
 import django
 
@@ -11,9 +12,11 @@ DJANGO_ROOT = os.path.dirname(os.path.realpath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(DJANGO_ROOT, '..'))
 STATIC_MEDIA_ROOT = PROJECT_ROOT+'/static'
 
+print STATIC_MEDIA_ROOT
+
 # Django settings for kuestionWebServer project.
 
-ACTIVATION_LINK_BASE_URL='http://remlaptop.dyndns.org:8000/register/'
+ACTIVATION_LINK_BASE_URL='http://localhost:8000/register/'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -34,13 +37,7 @@ DATABASES = {
     }
 }
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
+
 TIME_ZONE = "Asia/Seoul"
 
 # Language code for this installation. All choices can be found here:
@@ -57,9 +54,6 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -93,10 +87,6 @@ ROOT_URLCONF = 'kuestionsWS.urls'
 
 TEMPLATE_DIRS = (
    PROJECT_ROOT+"/WebPages"
-   #"/home/rem/git/Kuestions/WebPages",
-   #"/Users/ujlikes/Kuestions/WebPages", 
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
 )
 
 INSTALLED_APPS = (
