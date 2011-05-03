@@ -8,6 +8,8 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+button a{color:#333;}
+button a:hover{text-decoration: none;}
 img{border:0;}
 
 h3{margin-top: 0px;}
@@ -118,10 +120,10 @@ padding: 20px 10px 20px 20px;
 }
 
 .submit, .register{ width:64px; padding:4px; text-align:center; white-space:nowrap; font-weight:bold;
-color:#333; background:#ddd url(../image/bg-btn.png) repeat-x 0 0; border-color: #BBBBBB #BBBBBB #999999; border-radius: 4px 4px 4px 4px;
+background:#ddd url(../image/bg-btn.png) repeat-x 0 0; border-color: #BBBBBB #BBBBBB #999999; border-radius: 4px 4px 4px 4px;
 border-style: solid; border-width: 1px;}
 .button:active{background-image:none;text-shadow:none;outline:none;}
-.button:hover,.button:focus{background-position:0 -6px;border-color:#999 #999 #666;color:#000;text-decoration:none;}
+.button:hover,.button:focus{color:#333; background-position:0 -6px;border-color:#999 #999 #666;color:#000;text-decoration:none;}
 
 .user_box {padding:4px 0px 0px 0px;}
 .user_box a{color:#eee; font-size: 12px; font-weight: bold;}

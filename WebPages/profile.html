@@ -9,8 +9,10 @@
 	{% endif %}
 	
 	<link href="{{ MEDIA_URL }}/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="{{ MEDIA_URL }}/css/ui.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery-1.5.1.min.js"></script>
 	<script type="text/javascript" src="{{ MEDIA_URL }}/js/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}/js/facebox/facebox.js"></script>
 	<script type="text/javascript" src="{{ MEDIA_URL }}/js/kuestions.js"></script>
 	
 	<script type="text/javascript">
@@ -28,7 +30,14 @@
 			var height=parseInt($(window).height())-130;
 			height=height+'px';
 			$("div.left").css({'min-height':height});
-
+      
+      
+      //for loading dialog
+      $(".ld_line").fadeOut(1000);
+      
+      //for modal dialog
+      $('a[rel*=facebox]').facebox();
+      $('button[rel*=facebox]').facebox();
 		});
 		
 tinyMCE.init({
@@ -65,7 +74,7 @@ function editResume(){
 				<a href="/"><img src="{{ MEDIA_URL }}/image/top_logo.png" alt="What do you want to know?" width=150 height=20 /></a>
 				
 				<div class="search">
-					<input type="text" size="50" placeholder="type questions..." id="searchBar">
+					<input type="text" size="50" placeholder="type questions..."  id="searchBar">
 				</div>
 			</div>
 			<div class="top_right session{{ sessionIsOpen }}">
@@ -93,7 +102,7 @@ function editResume(){
 							<td><input type="text" class="inputtext" name="login" id="email" tabindex="1"></td>
 							<td><input type="password" class="inputtext" name="password" id="pass" tabindex="2"></td>
 							<td><button type="submit" class="submit button">Sign in</button></td>
-							<td><button type="button" class="register button" onclick="alert("hi"); return false;">Register</button></td>
+							<td><button type="button" class="register button" onclick="alert("hi"); return false;" href="#register" rel="facebox">Register</button></td>
 						</tr>
 					</table>
 					</form>
@@ -123,6 +132,7 @@ function editResume(){
 				  <h2>{{ user.login }}</h2>
 				  
 				</div>
+				{% if isAdmin %}
 				<div class="picture_uploader">
 				<form method="POST" action="/user/picture/upload" enctype="multipart/form-data"> 
             {% csrf_token %} 
@@ -130,6 +140,7 @@ function editResume(){
             <input type="submit" /> 
         </form>
         </div>
+        {% endif %}
 				</div>
 				<div class="box">
 				{% if user %}
@@ -189,5 +200,21 @@ function editResume(){
 
 </div>
 <!-- End Contents --> 	
+
+
+<!-- UI Object -->
+<div class="ld_line">
+	<div class="lft"></div>
+	<div class="cont"><img src="http://static.naver.com/desk/ico_ld_cm.gif" width="17" height="17" alt=""><strong>Loading...</strong></div>
+	<div class="rgt"></div>
+</div>
+
+<div id="register" style="display:none">
+hi
+<</div>
+<!-- //UI Object -->
+
+
+
 </body>
 </html>
