@@ -10,6 +10,8 @@ a:hover {
 }
 img{border:0;}
 
+h3{margin-top: 0px;}
+
 body{
 	/*background-image:url(../image/bg.gif);*/
 	background-color: #ababab;
@@ -137,7 +139,7 @@ h3.message {
 }
 
 .box {
-	width: 328px;
+	width: 360px;
 	margin-bottom: 10px;
 	border: 1px dashed black;
 	padding: 10px;
@@ -148,9 +150,24 @@ h3.message {
 }
 
 .box h3 {
-	display: inline;
+	display: block;
 	margin-right: 10px;
 }
 
 .topic ul, .topic li{margin:10px;}
 form.delete{display: inline;}
+
+.profile {display: inline-block;}
+.profile div{float: left;}
+.profile .picture_container {border-right: 1px dashed #cdcdcd; text-align: center;padding-right: 5px;display: inline;}
+.profile .picture_container ,.profile .picture_container img{
+  max-width: 140px;
+  max-height: 140px;
+}
+.info_container {padding-left: 5px; max-height: 140px;}
+
+.profile .picture_uploader{padding: 10px 0 0 0;}
+
+
+
+.profile span{max-width: 200px;}

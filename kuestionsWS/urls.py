@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     (r'^security/in/$', 'security.securitycontroller.signin'),
     (r'^security/out/$', 'security.securitycontroller.signout'),
     
-    
+    (r'^user/picture/upload$','controller.profilecontroller.pictureUpload'),
     (r'^user/update/(?P<type>\w+)$','controller.profilecontroller.update'),
     (r'^user/$', 'controller.profilecontroller.current'),
     (r'^user/(?P<login>\w+)/+$', 'controller.profilecontroller.view'),

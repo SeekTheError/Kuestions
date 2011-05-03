@@ -116,9 +116,23 @@ function editResume(){
 				Welcome to your profile
 				{% endif %}
 				</h3>
+				<div class="profile box">
+				<h3>Profile</h3>
+				<div class="picture_container"><img src="{{ MEDIA_URL }}/profile/{{ user.login }}.jpg"/></div>
+				<div class="info_container">
+				  <h2>{{ user.login }}</h2>
+				  
+				</div>
+				<div class="picture_uploader">
+				<form method="POST" action="/user/picture/upload" enctype="multipart/form-data"> 
+            {% csrf_token %} 
+            {{ form }} 
+            <input type="submit" /> 
+        </form>
+        </div>
+				</div>
 				<div class="box">
 				{% if user %}
-				
 				<h3>Resume</h3>
 				{% if isAdmin %}<a href="#" onClick="editResume(); return false;">edit</a>{% endif %}
 				

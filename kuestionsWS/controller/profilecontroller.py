@@ -4,6 +4,10 @@ from django.template import Context, RequestContext, loader
 from couchdbinterface.entities import User
 import  security.userauth as userauth
 
+from settings import *
+
+from forms import *
+
 def current(request) :
   '''
   this function display the profile page of the current user
@@ -29,6 +33,8 @@ def view(request, login) :
   if currentUser and currentUser.login == login:
     print currentUser.login
     context['isAdmin'] = True
+    imageForm = ImageUploadForm()
+    context['form'] = imageForm
   else :
     context['isAdmin'] =False
   user = User(login=login)
@@ -125,3 +131,18 @@ def deleteTopic(request):
   return HttpResponseRedirect('/user/') 
 
 
+
+
+def pictureUpload(request):
+  if request.method == 'POST':
+    form = ImageUploadForm(request.POST, request.FILES)
+    if form.is_valid():
+      currentUser = getCurrentUser(request)
+      if currentUser:
+        path = STATIC_MEDIA_ROOT+"/profile/"+currentUser.login+".jpg"
+        destination = open(path, 'wb+')
+        for chunk in request.FILES['picture'].chunks():
+          destination.write(chunk)
+        destination.close()
+  
+  return HttpResponseRedirect('/user/') 
