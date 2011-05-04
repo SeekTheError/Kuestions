@@ -27,7 +27,8 @@ class Question(Document):
   score: the votes on a particular answer
   NOTE: as a user should only vote once on an answer, we should think of a way to enforce that
   '''  
-  answers = ListField(DictField(Mapping.build(                                   
+  answers = ListField(DictField(Mapping.build(
+         id=TextField(),                                                                     
          poster = TextField(),
          content = TextField(),
          time = DateTimeField(default=datetime.now()),

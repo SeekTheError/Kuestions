@@ -132,6 +132,7 @@ function displaySearchResults(data) {
 function formatQuestion(question) {
 	span = document.createElement("span");
 	p = document.createElement("p");
+	p.id=question.id
 	p.textContent = question.content;
 	span.appendChild(p);
 	return p;

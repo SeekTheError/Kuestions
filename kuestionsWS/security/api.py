@@ -22,6 +22,9 @@ def gate(request) :
   if request.POST :
     keeper(request,'Invalid Acces, use of a POST method')  
   url= '/'+request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
+  
+  print url
+  params=None
   if request.GET.__contains__('key') :
     param= smart_unicode(request.GET['key'], encoding='utf-8', strings_only=False, errors='strict')
     params='?key='+quote(param.encode('UTF8'))
@@ -30,7 +33,8 @@ def gate(request) :
     params='?q='+quote(param.encode('UTF8'))
     
   import urllib2
-  url=unicode(url+params)
+  if params :
+    url=unicode(url+params)
   print url
   f=urllib2.urlopen("http://localhost:5984"+url)
   data=''
