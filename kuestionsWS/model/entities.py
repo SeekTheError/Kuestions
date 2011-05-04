@@ -2,6 +2,7 @@ from couchdb.mapping import *
 from couchdbinterface.dblayer import getDb ,getDocument
 from couchdbinterface.entities  import User 
 from datetime import datetime
+import couchdbinterface.dblayer
 
 
 class Question(Document):
@@ -33,7 +34,7 @@ class Question(Document):
          time = DateTimeField(default=datetime.now()),
          score =IntegerField()
      )))
-  
+
   import datetime
   def create(self) :
     self.type=self.TYPE
@@ -50,4 +51,17 @@ class Question(Document):
       print self
     else :
       return None
+
+  def findById(self) :
+    '''
+    return user that matches id
+    '''
+    view = couchdbinterface.dblayer.view("question/id",self.id)
+    if len(view) == 0:
+      return None
+    elif len(view) == 1:
+      for u in view : return Question.load(getDb(), u.id)
+    else:
+      print 'ERROR: more than one question for this ID'
+      raise IntegrityConstraintException
 

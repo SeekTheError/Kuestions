@@ -77,6 +77,15 @@
 						</tr>
 					</table>
 					</form>
+
+                                        <!-- TODO: this is temporary registration box, remove later -->
+                                        <form action="/register/" method="post">
+                                        {% csrf_token %}
+                                        <input type="text" class="inputtext" name="registerLogin">
+                                        <input type="password" class="inputtext" name="registerPassword">
+                                        <input type="text" class="inputtext" name="registerEmail">
+                                        <button type="submit" class="register button">Register</button>
+                                        </form>
 				</div>
 				{% endif %}
 			</div>
@@ -121,7 +130,6 @@
 
 			</div>
 			<div class="right">
-			Right
 			</div>
 			
 			</div>

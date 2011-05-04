@@ -29,7 +29,6 @@ def post(request) :
   return response;
 
 
-
 def displayQuestion(request,question):
   context=checkSession(request)
   url='http://localhost:5984/kuestionsdb/'+question
@@ -50,17 +49,8 @@ def tempApiRedirect(url):
   results=json.loads(jsonObject)
   return results
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+def viewQuestion(request):
+  questionId = request.POST["questionId"]
+  q = Question(id=questionId)
+  q = q.findById()
+  return HttpResponse(q.content)

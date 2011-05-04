@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     
     (r'^search/', 'controller.questioncontroller.search'),
     (r'^question/post/$', 'controller.questioncontroller.post'),
+    (r'^question/view/$', 'controller.questioncontroller.viewQuestion'),
     (r'^question/(?P<question>\w+)/+$', 'controller.questioncontroller.displayQuestion'),
   
     
