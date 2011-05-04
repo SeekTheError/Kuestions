@@ -2,12 +2,12 @@ function loadQuestionTags() {
 	el = document.getElementById("postBar");
 	questionContent = el.value;
 	words = replaceAll(questionContent, ' +', ' ').split(" ");
-	checkIfTag(words);
 	zone = document.getElementById('tagsZone')
 	tags = zone.getElementsByTagName('span');
 	for (i = 0; i < tags.length; i++) {
 		zone.removeChild(tags[i]);
 	}
+	checkIfTag(words);
 }
 
 function checkIfTag(words) {
@@ -49,7 +49,7 @@ function appendTag(data) {
 function postQuestion() {
 	el = document.getElementById("postBar");
 	question = el.value;
-	tokenValue = document.getElementById("extra").getElementsByTagName("input")[0]
+	tokenValue = document.getElementById("security_csrf").getElementsByTagName("input")[0]
 			.getAttribute("value");
 	$.ajax({
 		type : "POST",
