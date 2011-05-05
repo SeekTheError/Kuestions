@@ -2,6 +2,7 @@ from couchdb.mapping import *
 from couchdbinterface.dblayer import getDb ,getDocument
 from couchdbinterface.entities  import User 
 from datetime import datetime
+import couchdbinterface.dblayer
 
 
 class Question(Document):
@@ -28,13 +29,12 @@ class Question(Document):
   NOTE: as a user should only vote once on an answer, we should think of a way to enforce that
   '''  
   answers = ListField(DictField(Mapping.build(
-         id=TextField(),                                                                     
          poster = TextField(),
          content = TextField(),
          time = DateTimeField(default=datetime.now()),
          score =IntegerField()
      )))
-  
+
   import datetime
   def create(self) :
     self.type=self.TYPE
@@ -52,3 +52,25 @@ class Question(Document):
     else :
       return None
 
+  def update(self):
+    '''
+    update the question
+    '''
+    if self.id:
+      self.store(getDb())
+    else:
+      print 'invalid state, attempting to update nonexisting question'
+      raise IllegalAttempt
+
+  def findById(self) :
+    '''
+    return user that matches id
+    '''
+    view = couchdbinterface.dblayer.view("question/id",self.id)
+    if len(view) == 0:
+      return None
+    elif len(view) == 1:
+      for u in view : return Question.load(getDb(), u.id)
+    else:
+      print 'ERROR: more than one question for this ID'
+      raise IntegrityConstraintException

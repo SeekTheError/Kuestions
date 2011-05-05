@@ -77,6 +77,15 @@
 						</tr>
 					</table>
 					</form>
+
+                                        <!-- TODO: this is temporary registration box, remove later -->
+                                        <form action="/register/" method="post">
+                                        {% csrf_token %}
+                                        <input type="text" class="inputtext" name="registerLogin">
+                                        <input type="password" class="inputtext" name="registerPassword">
+                                        <input type="text" class="inputtext" name="registerEmail">
+                                        <button type="submit" class="register button">Register</button>
+                                        </form>
 				</div>
 				{% endif %}
 			</div>
@@ -121,7 +130,18 @@
 
 			</div>
 			<div class="right">
-			Right
+        <div id="questionDetail" class="hidden">
+          <h1 id="questionTitle"></h1>
+          <h2 id="questionAsker"></h2>
+          <ul id="answerList">
+            <li>This is an Answer</li>
+          </ul>
+          <div id="answerForm">
+            <span>Your Answer?</span>
+            <input id="answerInput" type="text" class="i.postBar" size=60 />
+            <input id="answerButton" type="button" value="post" onClick="postAnswer()" />
+          </div>
+        </div>
 			</div>
 			
 			</div>

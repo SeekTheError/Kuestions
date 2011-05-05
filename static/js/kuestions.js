@@ -47,10 +47,8 @@ function appendTag(data) {
 }
 
 function postQuestion() {
-	el = document.getElementById("postBar");
-	question = el.value;
-	tokenValue = document.getElementById("security_csrf").getElementsByTagName("input")[0]
-			.getAttribute("value");
+  question = $("#postBar").val();
+  tokenValue = $("#security_csrf input:first").val();
 	$.ajax({
 		type : "POST",
 		url : "/question/post/",
@@ -100,30 +98,27 @@ function searchQuestions() {
 
 }
 
-var temp;
 
 // the minimun score a match should have in order to be displayed
 var minScore = 0.5;
 function displaySearchResults(data) {
 	cleanQuestionList();
 	object = eval(data);
-	rows = object.rows;
 	if (object.rows) {
-		// clean the current questions
-		temp = rows.length;
-		el = document.getElementById("questionList");
-		ul = document.createElement("ul");
-		ul.id = "questionSearchResults";
-		el.appendChild(ul);
-		rows = object.rows;
-		length = rows.length;
-		for (i = 0; i < length; i++) {
-			if (rows[i].score >= minScore) {
-				question = rows[i].fields;
-				question.id = rows[i].id;
-				li = document.createElement("li");
-				li.appendChild(formatQuestion(question));
-				ul.appendChild(li);
+    //create unordered list under questionList div
+    $("#questionList").append('<ul id="questionSearchResults"/>');
+    //fill the search results with retrieved data
+		question = object.rows;
+		for (i = 0; i < object.total_rows; i++) {
+      //TODO:reintegrate formatQuestion (it will be nice to have question previews instead of a plain question list here)
+			if (question[i].score >= minScore) {
+
+        //append li element
+        jQuery('<li/>',{
+          id: question[i].id,
+          text: question[i].fields.content,
+          click: viewQuestion
+        }).appendTo($("#questionSearchResults"));
 			}
 		}
 	}
@@ -143,6 +138,75 @@ function cleanQuestionList() {
 	if (child != undefined) {
 		el.removeChild(child);
 	}
+}
+
+/** ********View Question*********** */
+
+// views a question when you click one
+// creates a 'question page' on the right side of the page
+function viewQuestion(){
+  //obtain csrftoken needed to post data
+  var csrf = $("#security_csrf input:first").val();
+
+  //send ajax request to questioncontroller's viewQuestion
+  $.ajax({
+    url: '/question/view/',
+    type: "POST",
+    data: "questionId=" + this.id + '&csrfmiddlewaretoken=' + csrf,
+    dataType: "json",
+    success: function(data) {
+      console.log(data)
+      //unhide question detail
+      $("#questionDetail").removeClass("hidden");
+      //embed current question ID into #questionDetail
+      $("#questionDetail").attr("data-questionId", data.id);
+
+      //set question Title
+      $("#questionTitle").text(data.content);
+      //display asker
+      $("#questionAsker").text(data.asker);
+
+      //clear existing answer list
+      $("#answerList").empty();
+      //populate answer list
+      for (var i = 0; i < data.answers.length; i++){
+        $('<li>',{
+          text: data.answers[i].content
+        }).appendTo($("#answerList"));
+      }
+
+
+      /* TODO:use javascript to produce the whole detail view? */
+      
+    }
+  });
+}
+
+/** *********Answering******** */
+
+function postAnswer(answerText){
+  var answer = $("#answerInput").val();
+  
+  //check if answer is empty
+  if (answer == ""){
+    return;
+  }
+
+  //obtain csrftoken needed to post data
+  var csrf = $("#security_csrf input:first").val();
+  $.ajax({
+    url: '/question/postAnswer/',
+    type: "POST",
+    data: "answer=" + answer + '&questionId=' + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    success: function(answer){
+      $('<li>',{
+        text: answer
+      }).appendTo($("#answerList"));
+    }
+  });
+
+  //clear answer input
+  $("#answerInput").val("");
 }
 
 /** ***Util****** */

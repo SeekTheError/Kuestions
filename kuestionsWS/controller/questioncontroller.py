@@ -1,7 +1,6 @@
 from django.http import HttpResponse
-from django.template import RequestContext, loader
+from django.template import RequestContext
 from django.shortcuts import  render_to_response
-from couchdbinterface.dblayer import view,getDocument
 from model.entities import Question
 from django.utils.encoding import smart_unicode
 from security.userauth import checkSession,getCurrentUser
@@ -29,7 +28,6 @@ def post(request) :
   return response;
 
 
-
 def displayQuestion(request,question):
   context=checkSession(request)
   url='http://localhost:5984/kuestionsdb/'+question
@@ -50,17 +48,45 @@ def tempApiRedirect(url):
   results=json.loads(jsonObject)
   return results
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+def viewQuestion(request):
+  #obtain question by ID
+  questionId = request.POST["questionId"]
+  q = Question(id=questionId)
+  q = q.findById()
+
+  #q.answers is not serializable... need to translate to dict
+  answerList = [] 
+  for answer in q.answers:
+    answerDict = {
+      'content': answer.content,
+      'poster': answer.poster,
+      'score': answer.score,
+    }
+    answerList.append(answerDict)
+
+
+  import json
+  response = json.dumps({
+    'id': q.id,
+    'content': q.content, 
+    'asker': q.asker, 
+    'views': q.views, 
+    'answers': answerList,
+  })
+  return HttpResponse(response)
+
+def postAnswer(request):
+  #obtain question by ID
+  questionId = request.POST["questionId"]
+  q = Question(id=questionId)
+  q = q.findById()
+
+  print q
+
+  answer = {'content': request.POST["answer"]}
+  q.answers.append(answer)
+  q.update()
+  print 'answer added to question: ' + str(q)
+
+  return HttpResponse(answer['content'])
+
