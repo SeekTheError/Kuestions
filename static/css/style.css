@@ -170,6 +170,6 @@ form.delete{display: inline;}
 
 .profile .picture_uploader{padding: 10px 0 0 0;}
 
-
-
 .profile span{max-width: 200px;}
+
+.hidden {display: none;}

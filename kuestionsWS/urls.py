@@ -23,8 +23,8 @@ urlpatterns = patterns('',
     (r'^search/', 'controller.questioncontroller.search'),
     (r'^question/post/$', 'controller.questioncontroller.post'),
     (r'^question/view/$', 'controller.questioncontroller.viewQuestion'),
+    (r'^question/postAnswer/$', 'controller.questioncontroller.postAnswer'), 
     (r'^question/(?P<question>\w+)/+$', 'controller.questioncontroller.displayQuestion'),
-  
     
     
     #For static media files

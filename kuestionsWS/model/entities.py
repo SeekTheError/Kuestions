@@ -28,7 +28,7 @@ class Question(Document):
   score: the votes on a particular answer
   NOTE: as a user should only vote once on an answer, we should think of a way to enforce that
   '''  
-  answers = ListField(DictField(Mapping.build(                                   
+  answers = ListField(DictField(Mapping.build(
          poster = TextField(),
          content = TextField(),
          time = DateTimeField(default=datetime.now()),
@@ -51,6 +51,16 @@ class Question(Document):
       print self
     else :
       return None
+
+  def update(self):
+    '''
+    update the question
+    '''
+    if self.id:
+      self.store(getDb())
+    else:
+      print 'invalid state, attempting to update nonexisting question'
+      raise IllegalAttempt
 
   def findById(self) :
     '''
