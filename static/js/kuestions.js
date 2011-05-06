@@ -242,6 +242,39 @@ $(document).ready(function() {
 	init();
 });
 
+$(document).ready(function() {
+	$(window).resize(function() {
+
+		var height = parseInt($(window).height()) - 200;
+		height = height + 'px';
+		$("div.panel_contents").css({
+			'height' : height
+		});
+
+		height = parseInt($(window).height()) - 130;
+		height = height + 'px';
+		$("div.left").css({
+			'min-height' : height
+		});
+	});
+
+	var height = parseInt($(window).height()) - 130;
+	height = height + 'px';
+	$("div.left").css({
+		'min-height' : height
+	});
+
+	init();
+
+	//for loading dialog
+	$(".ld_line").fadeOut(1000);
+
+	//for modal dialog
+	$('a[rel*=facebox]').facebox();
+	$('button[rel*=facebox]').facebox();
+});
+
+
 function init() {
 	$('#searchBar').keyup(function(event) {
 		searchQuestions();
