@@ -15,7 +15,7 @@
 
 -->
 </head>
-<body></body>
+<body>
 
 <!-- Start Contents -->
 <div class="wrapper">
@@ -26,51 +26,52 @@
 				<a href="/"><img src="{{ MEDIA_URL }}/image/top_logo.png"
 					alt="What do you want to know?" width=150 height=20 /> </a>
 				<div class="search">
-				
-					<input type="text" size="50"
-						placeholder="What do you need to Know? ..." id="searchBar">
+
+					<input type="text" size="50" placeholder="What do you need to Know?" id="searchBar"> 
+						<!--  -->
 						{% if sessionIsOpen %} 
-						<a  class="button" href="#question_dialog" rel=facebox />Add a question</input>		
-						 {% endif %}
-				
+						<!--  -->
+						<a class="add_button" href="#question_dialog" rel=facebox />Add a question</a>
+					<!--  -->
+					{% endif %}
+					<!--  -->
+
 				</div>
-				
+
 			</div>
-			<div class="top_right">
+			<div class="top_right session{{ sessionIsOpen }}">
 				{% if sessionIsOpen %}
 				<div class="user_box">
 					<ul class="menu">
-						<li><a href='/'>Home</a></li>
-						<li><a href='/user/'>Profile</a></li>
-						<li><a href='/security/out'>Sign Out</a></li>
-					</ul>
+					<li><a href='/'>Home</a>
+					</li>
+					<li><a href='/user/'>Profile</a>
+					</li>
+					<li><a href='/security/out'>Sign Out</a>
+					</li>
+				</ul>
 				</div>
 				{% else %}
 				<div class="signin_box">
 					<form action="/security/in/" method="post">
 						{% csrf_token %}
-						
-							<!--  <tr class="text_row">
+
+						<!--  <tr class="text_row">
 								<td><label for="email">Username</label></td>
 								<td><label for="pass">Password</label></td>
 							</tr>-->
-							<span class="input_row">
-								<input type="text" placeholder='Username'
-									class="inputtext" name="login" id="email" tabindex="1">
-								
-								<input type="password" class="inputtext"
-									name="password" id="pass" tabindex="2" placeholder='Password'>
+						<span class="input_row"> <input type="text"
+							placeholder='Username' class="inputtext" name="login" id="email"
+							tabindex="1"> <input type="password" class="inputtext"
+								name="password" id="pass" tabindex="2" placeholder='Password'>
 
-								<button type="submit" class="submit button">Sign
-										in</button>
-							
-							</span>
-					
+									<button type="submit" class="submit button">Sign in</button>
+						</span>
+
 					</form>
 					<!-- turning this element to a link allow it to work via firefox <button type="button" class="register button">-->
-					<span class="register_link">
-						<a href="#register_dialog" rel="facebox">Register to Kuestions</a>
-						<!--  </button>-->
+					<span class="register_link"> Don't have an account yet? <a
+						href="#register_dialog" rel="facebox">Register to Kuestions</a> <!--  </button>-->
 					</span>
 				</div>
 				{% endif %}
@@ -80,9 +81,9 @@
 	<!-- End Top Header -->
 	<!-- Start Main Wrapper-->
 	<div class="main_wrapper">
-		<div class="main shadow radius session{{ sessionIsOpen }}">
+		<div class="main shadow radius">
 			<div>
-				<div class="left shadow radius">
+				<div class="left shadow radius session{{ sessionIsOpen }}">
 					<div id="messageContainer">
 						{%if message %}
 						<h3 id="message" class="message">{{ message }}</h3>
@@ -127,12 +128,28 @@
 {% if sessionIsOpen %}
 <div id="question_dialog" style="display: none">
 	<div class="post_form">
-		What do you need to Know? <br /> <input type="text" id="postBar"
-			class="i.postBar" size=60 />
-		<div id="postMessageContainer"></div>
+	
+		<h1>Post a new question</h1>
+		<h2>#1 Enter your question</h2>
+		<p>First, Input your question and Press Enter</p>
+		<input type="text" id="postQuestionBar" class="i.postBar" size=60
+			onchange="loadQuestionTags(value);" />
+
 	</div>
-	<div id='tagsZone'></div>
-	<input type="button" value="Add a Question" onclick="postQuestion()" />
+	<hr />
+	<h2>#2 Tag it</h2>
+	<p class="justified">To increase your chance to receive an answer quickly, we
+		automatically added some tags that could match. However, you can edit this list, or Add tags manually</p>
+	<div id='tagsZone' class="tagsZone"></div>
+	
+	<input type="text" id="tagBar" class="i.postBar" size=20
+		onchange="addTag(value);"/>
+	<hr/>
+	<h2>#3 Post It</h2>
+	<p>Once your fully satisfied, you can post your question</p>
+	<table><tr><td><input type="button" value="Post your Question"
+		onclick="postQuestion();" /></td><td><span class="message" id="postMessageContainer"></span></td></tr></table>
+	 
 </div>
 {% endif %}
 

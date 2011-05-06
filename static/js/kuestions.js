@@ -1,7 +1,7 @@
-function loadQuestionTags() {
-	el = document.getElementById("postBar");
-	questionContent = el.value;
-	words = replaceAll(questionContent, ' +', ' ').split(" ");
+function loadQuestionTags(questionContent) {
+	questionContent = replaceAll(questionContent, ' +', ' ');
+	// words = replaceAll(questionContent, '\u003F', '').split(" ");
+	words = questionContent.split(" ");
 	zone = document.getElementById('tagsZone')
 	tags = zone.getElementsByTagName('span');
 	for (i = 0; i < tags.length; i++) {
@@ -11,6 +11,8 @@ function loadQuestionTags() {
 }
 
 function checkIfTag(words) {
+
+	$(".popup #tagsZone .tag").remove();
 	for (i = 0; i < words.length; i++) {
 		if (words[i] != '') {
 			word = words[i].toLowerCase();
@@ -27,34 +29,39 @@ function checkIfTag(words) {
 	}
 }
 
-var temp = '';
-function appendTag(data) {
-	json = eval(data);
-	if (json.rows[0]) {
-		p = document.createElement('span');
-		p.id = word;
-		p.className = "tag";
-		p.textContent = json.rows[0].key;
-		zone = document.getElementById('tagsZone')
-		zone.appendChild(p);
-		$(p).click(function() {
-			zone = document.getElementById('tagsZone');
-			tag = document.getElementById(word);
-			zone.removeChild(tag);
-		});
-	}
-
+function addTag(value){
+	$(".popup #tagBar").attr("value","");
+	d=new Date();
+	id=  d.getMilliseconds();
+	$('<span>', {
+		id : id,
+		text : value,
+		class : "tag",
+	}).appendTo(".popup #tagsZone");
+	$("#"+id).click(function(){$("#"+this.id).remove();});
+	
 }
 
-function postQuestion() {
-	question = $("#postBar").val();
+function appendTag(data) {
+	json = eval(data);
+	
+	if (json.rows[0]) {
+		addTag(json.rows[0].key);
+		console.log(json.rows[0].key);
+	}
+}
+
+function postQuestion() {	
+	question = $(".popup #postQuestionBar").val();
+	question= replaceAll(question,"  +"," ");
+	console.log('posting:' +question);
 	tokenValue = $("#security_csrf input:first").val();
 	$.ajax({
 		type : "POST",
 		url : "/question/post/",
 		data : "question=" + question + "&csrfmiddlewaretoken=" + tokenValue,
 		success : function(data, textStatus, jhxqr) {
-			displayMessageCallback(data, jhxqr, "postMessageContainer");
+			displayMessageCallbackPop(data, jhxqr, "postMessageContainer");
 		}
 	});
 }
@@ -65,8 +72,6 @@ function enhanceSearch(search) {
 	if (search.substr(-1) !== " ") {
 		search += '*';
 	}
-	// search = search.replace(new RegExp(" ", 'g'), "+");
-
 	return search;
 }
 
@@ -90,12 +95,10 @@ function searchQuestions() {
 				}
 			});
 		}
-
 	} else {
 		cleanQuestionList();
 	}
 	lastSearch = search;
-
 }
 
 // the minimun score a match should have in order to be displayed
@@ -147,7 +150,6 @@ function cleanQuestionList() {
 function viewQuestion() {
 	// obtain csrftoken needed to post data
 	var csrf = $("#security_csrf input:first").val();
-
 	// send ajax request to questioncontroller's viewQuestion
 	$.ajax({
 		url : '/question/view/',
@@ -160,12 +162,10 @@ function viewQuestion() {
 			$("#questionDetail").removeClass("hidden");
 			// embed current question ID into #questionDetail
 			$("#questionDetail").attr("data-questionId", data.id);
-
 			// set question Title
 			$("#questionTitle").text(data.content);
 			// display asker
 			$("#questionAsker").text(data.asker);
-
 			// clear existing answer list
 			$("#answerList").empty();
 			// populate answer list
@@ -174,9 +174,7 @@ function viewQuestion() {
 					text : data.answers[i].content
 				}).appendTo($("#answerList"));
 			}
-
 			/* TODO:use javascript to produce the whole detail view? */
-
 		}
 	});
 }
@@ -188,7 +186,7 @@ function postAnswer(answerText) {
 
 	// check if answer is empty
 	if (answer == "") {
-		displayMessage('an answer need words','answerMessageContainer')
+		displayMessage('an answer need words', 'answerMessageContainer')
 		return;
 	}
 
@@ -217,9 +215,8 @@ function postAnswerCallback(data) {
 		$('<li>', {
 			text : data.answer
 		}).appendTo($("#answerList"));
-	}
-	else {
-		displayMessage(response.message,'answerMessageContainer')
+	} else {
+		displayMessage(response.message, 'answerMessageContainer')
 	}
 
 }
@@ -228,36 +225,43 @@ function postAnswerCallback(data) {
 
 /** ***Util****** */
 
-function displayMessage(messageContent,containerId){
+function displayMessage(messageContent, containerId) {
 	removeMessage(containerId);
-	
 	content = document.getElementById(containerId);
-	console.log(content);
 	message = document.createElement("h3");
-	message.className = "message nodisp";
 	message.id = "message";
-
+	message.className = "message hidden";
 	message.textContent = messageContent;
 	content.appendChild(message);
-	$("#message").click(function() {
+	$("#" + containerId + " #message").click(function() {
 		removeMessage(containerId);
 	});
-	$("#message").addClass("#display").show("fast");
-	
+	$("#message").removeClass("#hidden").show("fast");
 }
 
 function displayMessageCallback(data, textStatus, containerId) {
-	displayMessage(textStatus.getResponseHeader("message"),containerId);
+	displayMessage(textStatus.getResponseHeader("message"), containerId);
+}
 
+function displayMessagePop(messageContent){
+	$(".popup  .message #message").remove()
+	$("<h3>", {
+		text : messageContent,
+		id : "message",
+		class : "pop_message hidden",
+		click : function() {
+			$(".popup  .message #message").remove();
+		}
+	}).appendTo($(".popup .message"));
+	$('.popup .message #message').removeClass("#hidden").show('fast');
+}
+
+function displayMessageCallbackPop(data, textStatus, containerId) {
+displayMessagePop(textStatus.getResponseHeader("message"));
 }
 
 function removeMessage(containerId) {
-	content = document.getElementById(containerId);
-	child = document.getElementById("message");
-	if (child != undefined) {
-		content.removeChild(child);
-	}
-
+	$("#" + containerId + " #message").remove();
 }
 
 /** ******* Init *************** */
@@ -300,13 +304,7 @@ $(document).ready(function() {
 function init() {
 	$('#searchBar').keyup(function(event) {
 		searchQuestions();
-
 	});
-
-	$('#postBar').change(function(event) {
-		loadQuestionTags();
-	});
-
 	$('#message').click(function() {
 		removeMessage('messageContainer');
 	})
