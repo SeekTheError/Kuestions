@@ -47,14 +47,14 @@ function appendTag(data) {
 }
 
 function postQuestion() {
-  question = $("#postBar").val();
-  tokenValue = $("#security_csrf input:first").val();
+	question = $("#postBar").val();
+	tokenValue = $("#security_csrf input:first").val();
 	$.ajax({
 		type : "POST",
 		url : "/question/post/",
 		data : "question=" + question + "&csrfmiddlewaretoken=" + tokenValue,
 		success : function(data, textStatus, jhxqr) {
-			displayMessage(data, jhxqr, "postMessageContainer");
+			displayMessageCallback(data, jhxqr, "postMessageContainer");
 		}
 	});
 }
@@ -77,7 +77,7 @@ var lastSearch = '';
 function searchQuestions() {
 	search = document.getElementById("searchBar").value
 	if (search != "") {
-		search=enhanceSearch(search);
+		search = enhanceSearch(search);
 		console.log(search);
 		if (search != lastSearch) {
 			var url = '/api/_fti/_design/question/by_content';
@@ -98,27 +98,27 @@ function searchQuestions() {
 
 }
 
-
 // the minimun score a match should have in order to be displayed
 var minScore = 0.5;
 function displaySearchResults(data) {
 	cleanQuestionList();
 	object = eval(data);
 	if (object.rows) {
-    //create unordered list under questionList div
-    $("#questionList").append('<ul id="questionSearchResults"/>');
-    //fill the search results with retrieved data
+		// create unordered list under questionList div
+		$("#questionList").append('<ul id="questionSearchResults"/>');
+		// fill the search results with retrieved data
 		question = object.rows;
 		for (i = 0; i < object.total_rows; i++) {
-      //TODO:reintegrate formatQuestion (it will be nice to have question previews instead of a plain question list here)
+			// TODO:reintegrate formatQuestion (it will be nice to have question
+			// previews instead of a plain question list here)
 			if (question[i].score >= minScore) {
 
-        //append li element
-        jQuery('<li/>',{
-          id: question[i].id,
-          text: question[i].fields.content,
-          click: viewQuestion
-        }).appendTo($("#questionSearchResults"));
+				// append li element
+				jQuery('<li/>', {
+					id : question[i].id,
+					text : question[i].fields.content,
+					click : viewQuestion
+				}).appendTo($("#questionSearchResults"));
 			}
 		}
 	}
@@ -127,7 +127,7 @@ function displaySearchResults(data) {
 function formatQuestion(question) {
 	span = document.createElement("span");
 	p = document.createElement("p");
-	p.id=question.id
+	p.id = question.id
 	p.textContent = question.content;
 	span.appendChild(p);
 	return p;
@@ -144,88 +144,111 @@ function cleanQuestionList() {
 
 // views a question when you click one
 // creates a 'question page' on the right side of the page
-function viewQuestion(){
-  //obtain csrftoken needed to post data
-  var csrf = $("#security_csrf input:first").val();
+function viewQuestion() {
+	// obtain csrftoken needed to post data
+	var csrf = $("#security_csrf input:first").val();
 
-  //send ajax request to questioncontroller's viewQuestion
-  $.ajax({
-    url: '/question/view/',
-    type: "POST",
-    data: "questionId=" + this.id + '&csrfmiddlewaretoken=' + csrf,
-    dataType: "json",
-    success: function(data) {
-      console.log(data)
-      //unhide question detail
-      $("#questionDetail").removeClass("hidden");
-      //embed current question ID into #questionDetail
-      $("#questionDetail").attr("data-questionId", data.id);
+	// send ajax request to questioncontroller's viewQuestion
+	$.ajax({
+		url : '/question/view/',
+		type : "POST",
+		data : "questionId=" + this.id + '&csrfmiddlewaretoken=' + csrf,
+		dataType : "json",
+		success : function(data) {
+			console.log(data)
+			// unhide question detail
+			$("#questionDetail").removeClass("hidden");
+			// embed current question ID into #questionDetail
+			$("#questionDetail").attr("data-questionId", data.id);
 
-      //set question Title
-      $("#questionTitle").text(data.content);
-      //display asker
-      $("#questionAsker").text(data.asker);
+			// set question Title
+			$("#questionTitle").text(data.content);
+			// display asker
+			$("#questionAsker").text(data.asker);
 
-      //clear existing answer list
-      $("#answerList").empty();
-      //populate answer list
-      for (var i = 0; i < data.answers.length; i++){
-        $('<li>',{
-          text: data.answers[i].content
-        }).appendTo($("#answerList"));
-      }
+			// clear existing answer list
+			$("#answerList").empty();
+			// populate answer list
+			for ( var i = 0; i < data.answers.length; i++) {
+				$('<li>', {
+					text : data.answers[i].content
+				}).appendTo($("#answerList"));
+			}
 
+			/* TODO:use javascript to produce the whole detail view? */
 
-      /* TODO:use javascript to produce the whole detail view? */
-      
-    }
-  });
+		}
+	});
 }
 
 /** *********Answering******** */
 
-function postAnswer(answerText){
-  var answer = $("#answerInput").val();
-  
-  //check if answer is empty
-  if (answer == ""){
-    return;
-  }
+function postAnswer(answerText) {
+	var answer = $("#answerInput").val();
 
-  //obtain csrftoken needed to post data
-  var csrf = $("#security_csrf input:first").val();
-  $.ajax({
-    url: '/question/postAnswer/',
-    type: "POST",
-    data: "answer=" + answer + '&questionId=' + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
-    success: function(answer){
-      $('<li>',{
-        text: answer
-      }).appendTo($("#answerList"));
-    }
-  });
+	// check if answer is empty
+	if (answer == "") {
+		displayMessage('an answer need words','answerMessageContainer')
+		return;
+	}
 
-  //clear answer input
-  $("#answerInput").val("");
+	// obtain csrftoken needed to post data
+	var csrf = $("#security_csrf input:first").val();
+	$.ajax({
+		url : '/question/postAnswer/',
+		type : "POST",
+		dataType : "json",
+		data : "answer=" + answer + '&questionId='
+				+ $("#questionDetail").attr("data-questionId")
+				+ '&csrfmiddlewaretoken=' + csrf,
+		success : function(data) {
+			postAnswerCallback(data);
+		}
+	});
+	// clear answer input
+	$("#answerInput").val("");
 }
+
+function postAnswerCallback(data) {
+	response = eval(data);
+	console.log(response);
+	if (response.success) {
+		console.log('true')
+		$('<li>', {
+			text : data.answer
+		}).appendTo($("#answerList"));
+	}
+	else {
+		displayMessage(response.message,'answerMessageContainer')
+	}
+
+}
+/*
+ */
 
 /** ***Util****** */
 
-function displayMessage(data, textStatus, containerId) {
+function displayMessage(messageContent,containerId){
 	removeMessage(containerId);
-
+	
 	content = document.getElementById(containerId);
-
+	console.log(content);
 	message = document.createElement("h3");
 	message.className = "message nodisp";
 	message.id = "message";
 
-	message.textContent = textStatus.getResponseHeader("message");
+	message.textContent = messageContent;
 	content.appendChild(message);
 	$("#message").click(function() {
 		removeMessage(containerId);
 	});
 	$("#message").addClass("#display").show("fast");
+	
+}
+
+function displayMessageCallback(data, textStatus, containerId) {
+	displayMessage(textStatus.getResponseHeader("message"),containerId);
+
 }
 
 function removeMessage(containerId) {
@@ -266,24 +289,25 @@ $(document).ready(function() {
 
 	init();
 
-	//for loading dialog
+	// for loading dialog
 	$(".ld_line").fadeOut(1000);
 
-	//for modal dialog
+	// for modal dialog
 	$('a[rel*=facebox]').facebox();
-	//$('button[rel*=facebox]').facebox();
+	// $('button[rel*=facebox]').facebox();
 });
-
 
 function init() {
 	$('#searchBar').keyup(function(event) {
 		searchQuestions();
 
 	});
-	
+
 	$('#postBar').change(function(event) {
 		loadQuestionTags();
 	});
- 
-    $('#message').click(function () {removeMessage('messageContainer');})
+
+	$('#message').click(function() {
+		removeMessage('messageContainer');
+	})
 }

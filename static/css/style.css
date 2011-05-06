@@ -119,6 +119,8 @@ padding: 20px 10px 20px 20px;
 	font-size: 12px;
 }
 
+.button{font-size: 20px ;color: white;}
+
 .submit, .register{ width:64px; padding:4px; text-align:center; white-space:nowrap; font-weight:bold;
 background:#ddd url(../image/bg-btn.png) repeat-x 0 0; border-color: #BBBBBB #BBBBBB #999999; border-radius: 4px 4px 4px 4px;
 border-style: solid; border-width: 1px;}

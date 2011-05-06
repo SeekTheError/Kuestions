@@ -26,11 +26,15 @@
 				<a href="/"><img src="{{ MEDIA_URL }}/image/top_logo.png"
 					alt="What do you want to know?" width=150 height=20 /> </a>
 				<div class="search">
+				
 					<input type="text" size="50"
 						placeholder="What do you need to Know? ..." id="searchBar">
-						{% if sessionIsOpen %} <a class="button" href="#question_dialog"
-						rel=facebox />Add a question</input> {% endif %}
+						{% if sessionIsOpen %} 
+						<a  class="button" href="#question_dialog" rel=facebox />Add a question</input>		
+						 {% endif %}
+				
 				</div>
+				
 			</div>
 			<div class="top_right">
 				{% if sessionIsOpen %}
@@ -45,33 +49,29 @@
 				<div class="signin_box">
 					<form action="/security/in/" method="post">
 						{% csrf_token %}
-						<table cellspacing="0">
+						
 							<!--  <tr class="text_row">
 								<td><label for="email">Username</label></td>
 								<td><label for="pass">Password</label></td>
 							</tr>-->
-							<tr class="input_row">
-								<td><input type="text" placeholder='Username'
+							<span class="input_row">
+								<input type="text" placeholder='Username'
 									class="inputtext" name="login" id="email" tabindex="1">
-								</td>
-								<td><input type="password" class="inputtext"
+								
+								<input type="password" class="inputtext"
 									name="password" id="pass" tabindex="2" placeholder='Password'>
-								</td>
-								<td><button type="submit" class="submit button">Sign
+
+								<button type="submit" class="submit button">Sign
 										in</button>
-								</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td></td>
-							</tr>
-						</table>
+							
+							</span>
+					
 					</form>
 					<!-- turning this element to a link allow it to work via firefox <button type="button" class="register button">-->
-					<div>
+					<span class="register_link">
 						<a href="#register_dialog" rel="facebox">Register to Kuestions</a>
 						<!--  </button>-->
-					</div>
+					</span>
 				</div>
 				{% endif %}
 			</div>
@@ -88,10 +88,6 @@
 						<h3 id="message" class="message">{{ message }}</h3>
 						{% endif %}
 					</div>
-					<!-- 
-					
-					 -->
-
 					<div class="question_list" id="questionList">
 						<ul id="questionSearchResults">
 						</ul>
@@ -109,6 +105,7 @@
 								class="i.postBar" size=60 /> <input id="answerButton"
 								type="button" value="post" onClick="postAnswer()" />
 						</div>
+						<div id="answerMessageContainer"></div>
 					</div>
 				</div>
 
@@ -135,7 +132,7 @@
 		<div id="postMessageContainer"></div>
 	</div>
 	<div id='tagsZone'></div>
-	<input type="button" value="Add a question" onclick="postQuestion()" />
+	<input type="button" value="Add a Question" onclick="postQuestion()" />
 </div>
 {% endif %}
 
