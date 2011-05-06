@@ -247,14 +247,10 @@ function init() {
 		searchQuestions();
 
 	});
-
-	/***************************************************************************
-	 * $('#searchBar').change(function(event) {
-	 * searchQuestion(document.getElementById("searchBar").value); });
-	 **************************************************************************/
-
+	
 	$('#postBar').change(function(event) {
 		loadQuestionTags();
 	});
-
+ 
+    $('#message').click(function () {removeMessage('messageContainer');})
 }

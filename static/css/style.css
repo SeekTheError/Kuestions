@@ -166,6 +166,8 @@ form.delete{display: inline;}
   max-width: 140px;
   max-height: 140px;
 }
+.register_form{text-align: center;  }
+
 .info_container {padding-left: 5px; max-height: 140px;}
 
 .profile .picture_uploader{padding: 10px 0 0 0;}

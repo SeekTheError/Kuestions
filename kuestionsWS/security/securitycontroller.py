@@ -32,8 +32,9 @@ def signout(request) :
     sessionId=request.COOKIES[userauth.COOKIE_KEY]
     user=User(sessionId=sessionId)
     user=user.findBySessionId()
-    user.sessionId='XXX'+str(uuid.uuid1())
-    user.update()
+    if user :
+      user.sessionId='XXX'+str(uuid.uuid1())
+      user.update()
   response=HttpResponseRedirect('/')
   response.delete_cookie(userauth.COOKIE_KEY)
   return response

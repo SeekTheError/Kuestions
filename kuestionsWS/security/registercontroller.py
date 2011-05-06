@@ -22,7 +22,7 @@ def register(request) :
   
   
   #parameter validation
-  loginIsValid= re.match('[\w0-9]*',login) and len(login) > 3 and len(login) < 16
+  loginIsValid= re.match('[\w0-9]*',login) and len(login) >= 3 and len(login) < 16
   passwordIsValid=len(password) >= 6 
   #TODO check with number
   emailIsValid=re.match('[\w.]*@\w*\.[\w.]*',email)
@@ -48,7 +48,7 @@ def processFormInformation(login,password,email,request) :
     code=sendActivationMail(login,email)
     u.activationCode=code
     u.update()
-    message= 'account succesfully created'
+    message= 'account successfully created, you are going to receive your activation mail soon'
   else :
     message= 'error: login name already taken'
   context={'message': message}
