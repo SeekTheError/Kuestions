@@ -28,6 +28,10 @@
 				<div class="search">
 					<input type="text" size="50"
 						placeholder="What do you need to Know? ..." id="searchBar">
+						{% if sessionIsOpen %}
+					<a class="button" href="#question_dialog" rel=facebox />Add a question</input>
+					
+					{% endif %}
 				</div>
 			</div>
 			<div class="top_right session{{ sessionIsOpen }}">
@@ -88,6 +92,7 @@
 						<h3 id="message" class="message">{{ message }}</h3>
 						{% endif %}
 					</div>
+					<!-- 
 					{% if sessionIsOpen %}
 					<div class="post_form">
 						What do you need to Know? <br /> <input type="text" id="postBar"
@@ -95,21 +100,15 @@
 						<div id="postMessageContainer"></div>
 					</div>
 					<div id='tagsZone'></div>
-					<input type="button" value="Post" onclick="postQuestion()" />
-					<!--  -->
+					<input type="button" value="Add a question" onclick="postQuestion()" />
+					
 					{% endif %}
+					 -->
+					
 					<div class="question_list" id="questionList">
 						<ul id="questionSearchResults">
 						</ul>
 					</div>
-					{% if question%}
-					<div class="question_detail">
-						question: {{question.content}}<br />
-						<!-- will be replace by javascript -->
-						Asker: <a href="/user/{{question.asker}}">{{question.asker}}</a><br />
-						Posted:{{question.postDate}}<br />
-					</div>
-					{% endif %}
 				</div>
 				<div class="right">
 					<div id="questionDetail" class="hidden">
@@ -140,6 +139,7 @@
 	</div>
 	<div class="rgt"></div>
 </div>
+<div id="question_dialog"><p>TEST</p></div>
 <div id="register_dialog" style="display: none">
 	<form action="/register/" method="post">
 		{% csrf_token %}

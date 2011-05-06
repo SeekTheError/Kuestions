@@ -271,7 +271,7 @@ $(document).ready(function() {
 
 	//for modal dialog
 	$('a[rel*=facebox]').facebox();
-	$('button[rel*=facebox]').facebox();
+	//$('button[rel*=facebox]').facebox();
 });
 
 
