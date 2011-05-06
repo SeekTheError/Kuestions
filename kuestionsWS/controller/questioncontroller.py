@@ -77,16 +77,22 @@ def viewQuestion(request):
 
 def postAnswer(request):
   #obtain question by ID
-  questionId = request.POST["questionId"]
-  q = Question(id=questionId)
-  q = q.findById()
+  context=checkSession(request)
+  currentUser=getCurrentUser(context)
+  if currentUser:
+    #retrieve question
+    questionId = request.POST["questionId"]
+    q = Question(id=questionId)
+    q = q.findById()
+    
+    #generate answer
+    answer = {'content': request.POST["answer"]}
+    answer['poster']=currentUser.login
+    answer['score']=0
+    q.answers.append(answer)
+    q.update()
+    print 'answer added to question: ' + str(q)
 
-  print q
-
-  answer = {'content': request.POST["answer"]}
-  q.answers.append(answer)
-  q.update()
-  print 'answer added to question: ' + str(q)
-
-  return HttpResponse(answer['content'])
-
+    return HttpResponse(answer['content'])
+  else :
+    return HttpResponse(message['You need to be logged in to post an Answer'])
