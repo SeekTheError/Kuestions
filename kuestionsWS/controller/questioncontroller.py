@@ -21,7 +21,7 @@ def post(request) :
     q.create()
     message='question successfully posted'
   else :
-    message='a question need words!'
+    message='a question needs words!'
   #remove the displayed question 
   response = HttpResponse();
   response["message"]=message;
