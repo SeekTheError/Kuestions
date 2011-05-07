@@ -1,4 +1,4 @@
-/**************question section********** */
+/** ************question section********** */
 
 function loadQuestionTags(questionContent) {
 	questionContent = replaceAll(questionContent, ' +', ' ');
@@ -192,10 +192,70 @@ function viewQuestion(questionId){
       // display asker
       $("#questionAsker").attr("href","/user/"+ data.asker);
       $("#questionAsker").text(data.asker);
+      // display follow or unfollow on the button, and set it action
+      setManageFollowButton(questionId);
       viewAnswers(data.answers);
 	$("#answerInput").val("");}
   });
   }
+
+function setManageFollowButton(questionId){
+	if(user_session.isOpen ){
+	  $("#manageFollow").removeAttr('disabled');
+  	  $("#manageFollow").removeClass("hidden");
+    if(userIsFollowingQuestion(questionId)){
+     console.log('user is following');
+     $("#manageFollow").text('Unfollow');
+     $("#manageFollow").attr('action','un');
+    } 
+    else {
+  	  console.log('user is NOT following');
+  	  $("#manageFollow").text('Follow');
+  	  $("#manageFollow").attr('action','fo');
+  	  }
+     $("#manageFollow").click(function(){
+    	 $("#manageFollow").attr('disabled','disabled'); 
+  	     manageFollowQuestion(questionId);
+     });}
+    else
+  	 {$("#manageFollow").addClass("hidden");}
+}
+
+function manageFollowQuestion(questionId){
+	csrf = $("#security_csrf input:first").val();
+	data="questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' 
+			+ csrf+"&action="+$("#manageFollow").attr('action');
+	$.ajax({
+	  url: '/question/manageFollowQuestion/',
+	  type: "POST",
+	  data: data,
+	  dataType: "json",
+	  success: function(data){
+	    response=eval(data);
+	    console.log(response);
+	    if(response.followed){
+		  user_session.followedQuestions.push(questionId);
+	    }
+	    else {
+	      user_session.followedQuestions.pop(questionId);
+	    }
+	    setManageFollowButton(questionId);
+	  }
+	});
+}
+
+function userIsFollowingQuestion(questionId){
+	if(user_session.isOpen){
+		length=user_session.followedQuestions.length
+	for (i=0;i<length;i++){
+		if(questionId == user_session.followedQuestions[i])
+			{return true;}
+	}
+		return false;
+	}
+	else 
+		{return false;}
+}
 
 // takes list of answers as input and displays them on #answerList
 function viewAnswers(answers){
@@ -292,7 +352,6 @@ function decAnswerScore(answerId){
 
 
 function displayMessage(messageContent, containerId) {
-	console.log("display message :"+containerId);
 	removeMessage(containerId);
 	content = document.getElementById(containerId);
 	message = document.createElement("h3");
@@ -351,8 +410,10 @@ function getUrlVars()
 }
 
 /** ******* Init *************** */
-
+var user_session=null;
 $(document).ready(function() {
+	loadSession();
+	init();
 	$(window).resize(function() {
 		var height = parseInt($(window).height()) - 200;
 		height = height + 'px';
@@ -371,15 +432,11 @@ $(document).ready(function() {
 	$("div.left").css({
 		'min-height' : height
 	});
-
-	init();
 	// for loading dialog
 	$(".ld_line").fadeOut(1000);
 	// for modal dialog
-	$('a[rel*=facebox]').facebox();
-	// $('button[rel*=facebox]').facebox();
-	
-	//Display a search comming from the profile page
+	$('a[rel*=facebox]').facebox();	
+	// Display a search comming from the profile page
 	 vars=getUrlVars();
 	if(vars["search"]){
 		search=vars["search"];
@@ -403,6 +460,16 @@ $(document).ready(function() {
   
 });
 
+function loadSession(){
+	$.ajax({
+		url:'/security/session/',
+		TYPE : 'GET',
+		dataType : 'json',
+		success: function(data){
+			user_session=eval(data);
+		}	
+	})
+}
 
 function init() {
 	$('#searchBar').keyup(function(event) {

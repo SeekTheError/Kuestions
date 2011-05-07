@@ -62,6 +62,26 @@ def getTomorowDatetime() :
   oneDay=timedelta(hours=24)
   now=datetime.now()
   return now+oneDay
+
+
+import json 
+def session(request):
+  '''
+  this method allow to retrieve the current logged user information, if any,
+  from the javascript
+  '''
+  sessionId=None
+  if request.COOKIES.__contains__(userauth.COOKIE_KEY) :
+    sessionId=request.COOKIES[userauth.COOKIE_KEY]
+    user=User(sessionId=sessionId)
+    user=user.findBySessionId()
+    userW={"login":user.login,
+           "followedQuestions":user.followedQuestions,
+           "isOpen":True         
+           }
+    return HttpResponse(json.dumps(userW))
+  else :
+    return HttpResponse(json.dumps({"isOpen":False}))
   
 
 

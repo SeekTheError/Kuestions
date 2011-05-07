@@ -141,4 +141,46 @@ def getAnswersJson(questionId):
   for answer in q.answers:
     answerList.append(answer.unwrap())
   return json.dumps(answerList)
+
+def manageFollowQuestion(request):
+  '''
+  post has two parameter : 
+  the question Id
+  and an action, fo(follow) or un(unfollow)
+  '''
+  context=checkSession(request)
+  user = getCurrentUser(context)
+  if user is None:
+    response=HttpResponse()
+    return response
+  questionId=request.POST["questionId"]
+  action=request.POST["action"]
+  user=user.findByLogin()
+  print 'action: '+action
+  if action == 'fo' :
+    contain=True
+    try :
+      user.followedQuestions.index(questionId)
+    except ValueError :
+      contain=False
+    if not contain :    
+      print 'appending question '+questionId
+      user.followedQuestions.append(questionId)
+      user.update()
+    return HttpResponse(json.dumps({'followed':True}))                     
+  if action == 'un':    
+    try :
+      user.followedQuestions.remove(questionId)
+      user.update()
+    except ValueError :
+      pass
+    return HttpResponse(json.dumps({'followed':False}))
+  
+
+ 
+  
+  
+  
+  
+  
   

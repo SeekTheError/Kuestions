@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     
     (r'^security/in/$', 'security.securitycontroller.signin'),
     (r'^security/out/$', 'security.securitycontroller.signout'),
+    (r'^security/session/$', 'security.securitycontroller.session'),
     
     (r'^user/picture/upload$','controller.profilecontroller.pictureUpload'),
     (r'^user/update/(?P<type>\w+)$','controller.profilecontroller.update'),
@@ -25,6 +26,7 @@ urlpatterns = patterns('',
     (r'^question/view/$', 'controller.questioncontroller.viewQuestion'),
     (r'^question/postAnswer/$', 'controller.questioncontroller.postAnswer'), 
     (r'^question/rateAnswer/$', 'controller.questioncontroller.rateAnswer'),
+    (r'^question/manageFollowQuestion/$', 'controller.questioncontroller.manageFollowQuestion'),
     
     
     #For static media files
