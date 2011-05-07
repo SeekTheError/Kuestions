@@ -89,6 +89,7 @@ body{
 	margin-top:20px;
 	margin-bottom: 20px;
 	background-color: rgba(239, 239,239,1.0);
+	font-size: 10pt;
 
 }
 .main.sessionTrue{margin-top: 5px;}

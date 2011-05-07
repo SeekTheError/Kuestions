@@ -213,17 +213,15 @@ function setManageFollowButton(questionId){
   	  $("#manageFollow").text('Follow');
   	  $("#manageFollow").attr('action','fo');
   	  }
-     $("#manageFollow").click(function(){
-    	 $("#manageFollow").attr('disabled','disabled'); 
-  	     manageFollowQuestion(questionId);
-     });}
+     }
     else
   	 {$("#manageFollow").addClass("hidden");}
 }
 
-function manageFollowQuestion(questionId){
+function manageFollowQuestion(){
 	csrf = $("#security_csrf input:first").val();
-	data="questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' 
+	questionId=$("#questionDetail").attr("data-questionId")
+	data="questionId=" + questionId + '&csrfmiddlewaretoken=' 
 			+ csrf+"&action="+$("#manageFollow").attr('action');
 	$.ajax({
 	  url: '/question/manageFollowQuestion/',
@@ -483,6 +481,10 @@ function init() {
 	});
 	$('#message').click(function() {
 		removeMessage('messageContainer');
-	})
+	});
+	$("#manageFollow").click(function(){
+   	 $("#manageFollow").attr('disabled','disabled'); 
+ 	     manageFollowQuestion();
+    });
 	$("#searchBar").focus();
 }
