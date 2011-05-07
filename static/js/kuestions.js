@@ -52,25 +52,40 @@ function appendTag(data) {
 }
 
 function postQuestion() {	
-	//retrieve question
+	// retrieve question
 	question = $(".popup #postQuestionBar").val();
 	question= replaceAll(question,"  +"," ");
+	if(question == "" | question ==" "){
+		displayMessagePop("A question needs words");
+	    return;
+	    }
 	console.log('posting:' +question);
-	//retrieve tags
+	// retrieve tags
 	tags=[];
 	arr=$(".popup #tagsZone .tag");
 	i=0
 	$.each(arr,function (){tags[i]=$(this).text();i++; });
 	console.log(tags);
 	tokenValue = $("#security_csrf input:first").val();
+	
+	data= "question=" + question + "&csrfmiddlewaretoken="+tokenValue;
+	if( tags.length > 0)
+		data=data+"&tags="+tags;
+	
 	$.ajax({
 		type : "POST",
 		url : "/question/post/",
-		data : "question=" + question + "&csrfmiddlewaretoken=" + tokenValue+"&tags="+tags,
+		data : data,
 		success : function(data, textStatus, jhxqr) {
-			displayMessageCallbackPop(data, jhxqr, "postMessageContainer");
+			questionCallBack(data, jhxqr);
+			// displayMessageCallbackPop(data, jhxqr, "postMessageContainer");
 		}
 	});
+}
+
+function questionCallBack(data, textStatus){
+	$.facebox.close();
+	displayMessage(textStatus.getResponseHeader("message"),"messageContainer");
 }
 
 /** *********Search*********** */
