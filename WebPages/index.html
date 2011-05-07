@@ -93,18 +93,19 @@
 						<ul id="questionSearchResults">
 						</ul>
 					</div>
-					
+					{% if sessionIsOpen %}
 					<hr/>
 					<h2 id=timeline>TimeLine</h2>
 					<div class="timeline list" id="questionList"></div>
 					<hr/>
 					<h2 id=followedQuestion>Followed question</h2>
 					<div class="followed list" id="questionList"></div>
+					{% endif %}
 				</div>
 				<div class="right">
 					<div id="questionDetail" class="hidden">
 						<h1 id="questionTitle"></h1>
-						<h2 id="questionAsker"></h2>
+						<a id="questionAsker" href=""></a>
 						<ul id="answerList">
 							<li>This is an Answer</li>
 						</ul>
@@ -159,8 +160,6 @@
 	 
 </div>
 {% endif %}
-
-
 <div id="register_dialog" style="display: none">
 	<form action="/register/" method="post">
 		{% csrf_token %}

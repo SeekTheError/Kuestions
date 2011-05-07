@@ -1,5 +1,8 @@
+/**************question section********** */
+
 function loadQuestionTags(questionContent) {
 	questionContent = replaceAll(questionContent, ' +', ' ');
+	questionContent=questionContent.replace("?","");
 	// words = replaceAll(questionContent, '\u003F', '').split(" ");
 	words = questionContent.split(" ");
 	zone = document.getElementById('tagsZone')
@@ -173,14 +176,11 @@ function cleanQuestionList(){
 // views a question when you click one
 // creates a 'question page' on the right side of the page
 function viewQuestion(questionId){
-  // obtain csrftoken needed to post data
-  var csrf = $("#security_csrf input:first").val();
-
-  // send ajax request to questioncontroller's viewQuestion
+  removeMessage("answerMessageContainer");
   $.ajax({
     url: '/question/view/',
-    type: "POST",
-    data: "questionId=" + questionId + '&csrfmiddlewaretoken=' + csrf,
+    type: "GET",
+    data: "questionId=" + questionId ,
     dataType: "json",
     success: function(data) { // data is question json data
       // unhide question detail
@@ -190,13 +190,12 @@ function viewQuestion(questionId){
       // set question Title
       $("#questionTitle").text(data.content);
       // display asker
-      $("#questionAsker").text("asker: " + data.asker);
+      $("#questionAsker").attr("href","/user/"+ data.asker);
+      $("#questionAsker").text(data.asker);
       viewAnswers(data.answers);
 	$("#answerInput").val("");}
   });
   }
-  
-
 
 // takes list of answers as input and displays them on #answerList
 function viewAnswers(answers){
@@ -347,7 +346,6 @@ function getUrlVars()
         hash = hashes[i].split('=');
         vars.push(hash[0]);
         vars[hash[0]] = hash[1];
-        console.log(hash[1]);
     }
     return vars;
 }
@@ -388,6 +386,10 @@ $(document).ready(function() {
 		$('#searchBar').attr('value',unescape(search));
 		searchQuestions(vars["search"]);		
 	}
+	if(vars["question"]){
+		viewQuestion(vars["question"]);
+	}
+		
 });
 
 function init() {
