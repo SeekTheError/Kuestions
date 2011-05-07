@@ -29,13 +29,13 @@ class Question(Document):
   NOTE: as a user should only vote once on an answer, we should think of a way to enforce that
   '''  
   answers = ListField(DictField(Mapping.build(
+         id = TextField(), #id is hash of poster + question
          poster = TextField(),
          content = TextField(),
          time = DateTimeField(default=datetime.now()),
-         score =IntegerField()
+         score =IntegerField(default=0)
      )))
 
-  import datetime
   def create(self) :
     self.type=self.TYPE
     if self.asker == None or self.content == None :
