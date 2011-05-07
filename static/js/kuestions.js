@@ -104,8 +104,7 @@ var lastSearch = '';
 function searchQuestions() {
 	search = document.getElementById("searchBar").value
 	if (search != "") {
-		search = enhanceSearch(search);
-		console.log(search);
+		search=enhanceSearch(search);
 		if (search != lastSearch) {
 			var url = '/api/_fti/_design/question/by_content';
 			$.ajax({
@@ -126,7 +125,8 @@ function searchQuestions() {
 // the minimun score a match should have in order to be displayed
 var minScore = 0.5;
 function displaySearchResults(data) {
-	cleanQuestionList();
+  cleanQuestionList();
+
 	object = eval(data);
 	if (object.rows) {
 		// create unordered list under questionList div
@@ -138,12 +138,16 @@ function displaySearchResults(data) {
 			// previews instead of a plain question list here)
 			if (question[i].score >= minScore) {
 
-				// append li element
-				jQuery('<li/>', {
-					id : question[i].id,
-					text : question[i].fields.content,
-					click : viewQuestion
-				}).appendTo($("#questionSearchResults"));
+        // append li element
+        var li = $('<li>',{
+          id: question[i].id,
+          text: question[i].fields.content,
+        }).appendTo($("#questionSearchResults"));
+
+        // add click event
+        li.click({'questionId': question[i].id}, function(event){
+          viewQuestion(event.data.questionId);
+        });
 			}
 		}
 	}
@@ -157,97 +161,137 @@ function formatQuestion(question) {
 	span.appendChild(p);
 	return p;
 }
-function cleanQuestionList() {
-	el = document.getElementById("questionList");
-	child = document.getElementById("questionSearchResults");
-	if (child != undefined) {
-		el.removeChild(child);
-	}
+
+function cleanQuestionList(){
+  $("#questionList").empty();
 }
 
 /** ********View Question*********** */
 
 // views a question when you click one
 // creates a 'question page' on the right side of the page
-function viewQuestion() {
-	// obtain csrftoken needed to post data
-	var csrf = $("#security_csrf input:first").val();
-	// send ajax request to questioncontroller's viewQuestion
-	$.ajax({
-		url : '/question/view/',
-		type : "POST",
-		data : "questionId=" + this.id + '&csrfmiddlewaretoken=' + csrf,
-		dataType : "json",
-		success : function(data) {
-			console.log(data)
-			// unhide question detail
-			$("#questionDetail").removeClass("hidden");
-			// embed current question ID into #questionDetail
-			$("#questionDetail").attr("data-questionId", data.id);
-			// set question Title
-			$("#questionTitle").text(data.content);
-			// display asker
-			$("#questionAsker").text(data.asker);
-			// clear existing answer list
-			$("#answerList").empty();
-			// populate answer list
-			for ( var i = 0; i < data.answers.length; i++) {
-				$('<li>', {
-					text : data.answers[i].content
-				}).appendTo($("#answerList"));
-			}
-			/* TODO:use javascript to produce the whole detail view? */
-		}
-	});
+function viewQuestion(questionId){
+  // obtain csrftoken needed to post data
+  var csrf = $("#security_csrf input:first").val();
+
+  // send ajax request to questioncontroller's viewQuestion
+  $.ajax({
+    url: '/question/view/',
+    type: "POST",
+    data: "questionId=" + questionId + '&csrfmiddlewaretoken=' + csrf,
+    dataType: "json",
+    success: function(data) { // data is question json data
+      // unhide question detail
+      $("#questionDetail").removeClass("hidden");
+      // embed current question ID into #questionDetail
+      $("#questionDetail").attr("data-questionId", data.id);
+      // set question Title
+      $("#questionTitle").text(data.content);
+      // display asker
+      $("#questionAsker").text("asker: " + data.asker);
+      viewAnswers(data.answers);
+	$("#answerInput").val("");}
+  });
+  }
+  
+
+
+// takes list of answers as input and displays them on #answerList
+function viewAnswers(answers){
+  // clear existing answer list
+  $("#answerList").empty();
+  // populate answer list
+  for (var i = 0; i < answers.length; i++){
+    var li = $('<li>',{
+      text: answers[i].content + ": " + answers[i].score,
+      id: answers[i].id
+    }).appendTo($("#answerList"));
+
+    // rating buttons
+    var plusButton = $('<input>',{
+      type: "button",
+      value: "+",
+    }).appendTo(li);
+
+    plusButton.click({'answerId': answers[i].id}, function(e){
+      incAnswerScore(e.data.answerId);
+    });
+
+    var minusButton = $('<input>',{
+      type: "button",
+      value: "-",
+    }).appendTo(li);
+
+    minusButton.click({'answerId': answers[i].id}, function(e){
+      decAnswerScore(e.data.answerId);
+    });
+  }
 }
 
-/** *********Answering******** */
+function postAnswer(answerText){
+  var answer = $("#answerInput").val();
+  
+  // check if answer is empty
+  if (answer == ""){
+	displayMessage("an answer needs word","messageContainer"); 
+    return;
+  }
 
-function postAnswer(answerText) {
-	var answer = $("#answerInput").val();
+  // obtain csrftoken needed to post data
+  var csrf = $("#security_csrf input:first").val();
+  $.ajax({
+    url: '/question/postAnswer/',
+    type: "POST",
+    dataType: "JSON",
+    data: "answer=" + answer + '&questionId=' + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    success: function(data){
+      if (data.error){
+        displayMessage(data.errorMessage);
+        return;
+      }
+      viewAnswers(data);
+    }
+  });
 
-	// check if answer is empty
-	if (answer == "") {
-		displayMessage('an answer need words', 'answerMessageContainer')
-		return;
-	}
-
-	// obtain csrftoken needed to post data
-	var csrf = $("#security_csrf input:first").val();
-	$.ajax({
-		url : '/question/postAnswer/',
-		type : "POST",
-		dataType : "json",
-		data : "answer=" + answer + '&questionId='
-				+ $("#questionDetail").attr("data-questionId")
-				+ '&csrfmiddlewaretoken=' + csrf,
-		success : function(data) {
-			postAnswerCallback(data);
-		}
-	});
-	// clear answer input
-	$("#answerInput").val("");
-}
-
-function postAnswerCallback(data) {
-	response = eval(data);
-	console.log(response);
-	if (response.success) {
-		console.log('true')
-		$('<li>', {
-			text : data.answer
-		}).appendTo($("#answerList"));
-	} else {
-		displayMessage(response.message, 'answerMessageContainer')
-	}
-
+  // clear answer input
+  $("#answerInput").val("");
 }
 /*
  */
 
-/** ***Util****** */
+function incAnswerScore(answerId){
+  // obtain csrftoken needed to post data
+  var csrf = $("#security_csrf input:first").val();
+  $.ajax({
+    url: '/question/rateAnswer/',
+    type: "POST",
+    data: "type=increment" + "&answerId=" + answerId + "&questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    dataType: "json",
+    success: function(data, textStatus, jqxhr){
+      viewAnswers(data);
+      displayMessage(jqxhr.getResponseHeader('message'),"messageContainer");
+    }
+  });
+}
+
+function decAnswerScore(answerId){
+  // obtain csrftoken needed to post data
+  var csrf = $("#security_csrf input:first").val();
+  $.ajax({
+    url: '/question/rateAnswer/',
+    type: "POST",
+    data: "type=decrement" + "&answerId=" + answerId + "&questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    dataType: "json",
+    success: function(data, textStatus, jqXHR){
+      viewAnswers(data);
+      displayMessage(jqXHR.getResponseHeader('message'),"messageContainer");
+    }
+  });
+}
+
 
 function displayMessage(messageContent, containerId) {
+	console.log("display message :"+containerId);
 	removeMessage(containerId);
 	content = document.getElementById(containerId);
 	message = document.createElement("h3");
@@ -255,7 +299,7 @@ function displayMessage(messageContent, containerId) {
 	message.className = "message hidden";
 	message.textContent = messageContent;
 	content.appendChild(message);
-	$("#" + containerId + " #message").click(function() {
+	$("#" + containerId + " .message").click(function() {
 		removeMessage(containerId);
 	});
 	$("#message").removeClass("#hidden").show("fast");
@@ -283,13 +327,10 @@ displayMessagePop(textStatus.getResponseHeader("message"));
 }
 
 function removeMessage(containerId) {
-	$("#" + containerId + " #message").remove();
-}
+	$("#" + containerId ).empty();
+	}
 
 /** ******* Init *************** */
-$(document).ready(function() {
-	init();
-});
 
 $(document).ready(function() {
 	$(window).resize(function() {
