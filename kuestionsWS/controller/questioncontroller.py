@@ -13,11 +13,15 @@ credentials = creds[0] + ':' + creds[1]
 
 
 def post(request) :
-  content = smart_unicode(request.POST["question"], encoding='utf-8', strings_only=False, errors='strict')
+  questionContent = smart_unicode(request.POST["question"], encoding='utf-8', strings_only=False, errors='strict')
+  tags=smart_unicode(request.POST["tags"], encoding='utf-8', strings_only=False, errors='strict')
+  topics=tags.split(',')
+  print topics
   context = checkSession(request)
   user = getCurrentUser(context)
-  if content != "": 
-    q = Question(asker=user.login, content=content)
+  if questionContent != "": 
+    q = Question(asker=user.login, content=questionContent,topics=topics)
+
     print q
     q.create()
     message = 'question successfully posted'

@@ -52,14 +52,21 @@ function appendTag(data) {
 }
 
 function postQuestion() {	
+	//retrieve question
 	question = $(".popup #postQuestionBar").val();
 	question= replaceAll(question,"  +"," ");
 	console.log('posting:' +question);
+	//retrieve tags
+	tags=[];
+	arr=$(".popup #tagsZone .tag");
+	i=0
+	$.each(arr,function (){tags[i]=$(this).text();i++; });
+	console.log(tags);
 	tokenValue = $("#security_csrf input:first").val();
 	$.ajax({
 		type : "POST",
 		url : "/question/post/",
-		data : "question=" + question + "&csrfmiddlewaretoken=" + tokenValue,
+		data : "question=" + question + "&csrfmiddlewaretoken=" + tokenValue+"&tags="+tags,
 		success : function(data, textStatus, jhxqr) {
 			displayMessageCallbackPop(data, jhxqr, "postMessageContainer");
 		}
