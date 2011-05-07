@@ -55,7 +55,6 @@
 				<div class="signin_box">
 					<form action="/security/in/" method="post">
 						{% csrf_token %}
-
 						<!--  <tr class="text_row">
 								<td><label for="email">Username</label></td>
 								<td><label for="pass">Password</label></td>
@@ -89,10 +88,18 @@
 						<h3 id="message" class="message">{{ message }}</h3>
 						{% endif %}
 					</div>
-					<div class="question_list" id="questionList">
+					<h2 id=search>Search</h2>
+					<div class="question list" id="questionList">
 						<ul id="questionSearchResults">
 						</ul>
 					</div>
+					
+					<hr/>
+					<h2 id=timeline>TimeLine</h2>
+					<div class="timeline list" id="questionList"></div>
+					<hr/>
+					<h2 id=followedQuestion>Followed question</h2>
+					<div class="followed list" id="questionList"></div>
 				</div>
 				<div class="right">
 					<div id="questionDetail" class="hidden">
