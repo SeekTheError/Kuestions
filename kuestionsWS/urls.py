@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     (r'^question/post/$', 'controller.questioncontroller.post'),
     (r'^question/view/$', 'controller.questioncontroller.viewQuestion'),
     (r'^question/postAnswer/$', 'controller.questioncontroller.postAnswer'), 
-    (r'^question/(?P<question>\w+)/+$', 'controller.questioncontroller.displayQuestion'),
+    (r'^question/rateAnswer/$', 'controller.questioncontroller.rateAnswer'),
     
     
     #For static media files
