@@ -389,8 +389,20 @@ $(document).ready(function() {
 	if(vars["question"]){
 		viewQuestion(vars["question"]);
 	}
-		
+  $('#coda-slider-1').codaSlider({
+    dynamicArrows: false,
+    dynamicTabs: false,
+    firstPanelToLoad: 1,
+    autoHeight: false,
+  });
+  
+  $('ul.tabs').find('li').click(function(){
+      $('ul.tabs li').attr("class","");
+      $(this).attr("class","radiusT selected");
+  });
+  
 });
+
 
 function init() {
 	$('#searchBar').keyup(function(event) {

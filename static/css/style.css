@@ -33,6 +33,16 @@ body{
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
+.radiusTL{
+  -webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+	border-radius: 5px 0 0 0;
+}
+.radiusT{
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+}
 
 /* Top Area */
 .wrapper .top_header{
@@ -84,7 +94,7 @@ body{
 .main.sessionTrue{margin-top: 5px;}
 
 div.main div.left{
-width: 380px;
+width: 400px;
 float: left;
 display: inline-block;
 z-index: 4;
@@ -93,7 +103,6 @@ position: relative;
 background: white;
 height: 100%;
 min-height: 700px;
-padding: 20px 10px 20px 10px;
 
 	-webkit-border-radius: 5px 0px 0px 5px;
 	-moz-border-radius: 5px 0px 0px 5px;
@@ -198,3 +207,15 @@ form.delete{display: inline;}
 
 p.justified{text-align: justify;}
 
+
+ul.tabs, ul.tabs li{list-style: none; margin:0; padding:0; font-size: 12px; font-weight: bold;}
+ul.tabs{display: block; border-bottom:1px dashed black; padding:10px;padding-bottom: 5px; background-image:url(../image/top_bg.png);}
+ul.tabs li{display: inline; padding:5px 20px 10px 20px;}
+
+ul.tabs li.selected,ul.tabs li:hover{background-color: white;}
+
+
+
+ul#questionSearchResults, ul#questionSearchResults li {list-style: none;margin:0; padding:0;}
+ul#questionSearchResults li {padding:10px;border-bottom: 1px dashed #ebebeb;}
+ul#questionSearchResults li:hover {background-color: #ebebeb;}

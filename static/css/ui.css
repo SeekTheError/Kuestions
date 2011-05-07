@@ -4,9 +4,9 @@
 .ld_line{position:absolute;top:64px;left:56px;z-index:1000;height:40px;}
 .ld_line:after{display:block;clear:both;content:''}
 .ld_line .lft,.ld_line .rgt{float:left;width:11px;height:40px;font-size:0;line-height:0}
-.ld_line .lft{background:url(http://static.naver.com/desk/ld1_lft.png) no-repeat 0 0;}
-.ld_line .rgt{background:url(http://static.naver.com/desk/ld1_rgt.png) no-repeat 0 0;}
-.ld_line .cont{float:left;height:26px;padding:14px 7px 0 0;background:url(http://static.naver.com/desk/ld1_cen.png) repeat-x 0 0;color:#fff}
+.ld_line .lft{background:url(../image/ld1_lft.png) no-repeat 0 0;}
+.ld_line .rgt{background:url(../image/ld1_rgt.png) no-repeat 0 0;}
+.ld_line .cont{float:left;height:26px;padding:14px 7px 0 0;background:url(../image/ld1_cen.png) repeat-x 0 0;color:#fff}
 .ld_line .cont img{margin:-3px 9px 0 0;vertical-align:top}
 /* //UI Object */
 

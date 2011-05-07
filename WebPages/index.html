@@ -5,8 +5,13 @@
 <link href="{{ MEDIA_URL }}/css/style.css" rel="stylesheet"
 	type="text/css" />
 <link href="{{ MEDIA_URL }}/css/ui.css" rel="stylesheet" type="text/css" />
+<link href="{{ MEDIA_URL }}/css/coda.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript"
 	src="{{ MEDIA_URL }}/js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript"
+	src="{{ MEDIA_URL }}/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript"
+	src="{{ MEDIA_URL }}/js/jquery.coda-slider-2.0.js"></script>
 <script type="text/javascript"
 	src="{{ MEDIA_URL }}/js/facebox/facebox.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}/js/kuestions.js"></script>
@@ -88,19 +93,39 @@
 						<h3 id="message" class="message">{{ message }}</h3>
 						{% endif %}
 					</div>
-					<h2 id=search>Search</h2>
-					<div class="question list" id="questionList">
-						<ul id="questionSearchResults">
-						</ul>
-					</div>
 					{% if sessionIsOpen %}
-					<hr/>
-					<h2 id=timeline>TimeLine</h2>
-					<div class="timeline list" id="questionList"></div>
-					<hr/>
-					<h2 id=followedQuestion>Followed question</h2>
-					<div class="followed list" id="questionList"></div>
+					
 					{% endif %}
+					
+					<ul class="tabs radiusTL">
+					  <a class="xtrig" href="#1" rel="coda-slider-1"><li class="radiusT selected">Search</li></a>
+					  <a class="xtrig" href="#2" rel="coda-slider-1"><li class="radiusT">Timeline</li></a>
+					  <a class="xtrig" href="#3" rel="coda-slider-1"><li class="radiusT">Followed</li></a>
+					</ul>
+					<div class="coda-slider-wrapper">
+            <div class="coda-slider preload" id="coda-slider-1">
+       	      <div class="panel">
+           	    <div class="panel-wrapper">
+                  <div class="question list" id="questionList">
+						        <ul id="questionSearchResults">
+						        </ul>
+					        </div>
+            	  </div>
+              </div>
+              <div class="panel">
+             	  <div class="panel-wrapper">
+                  <div class="timeline list" id="questionList"></div>
+                </div>
+              </div>
+              <div class="panel">
+             	  <div class="panel-wrapper">
+                  <div class="followed list" id="questionList"></div>
+                </div>
+              </div>
+            </div><!-- .coda-slider -->
+        </div><!-- .coda-slider-wrapper -->
+
+					
 				</div>
 				<div class="right">
 					<div id="questionDetail" class="hidden">
