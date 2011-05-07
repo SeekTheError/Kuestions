@@ -1,27 +1,27 @@
 from couchdb.mapping import *
-from couchdbinterface.dblayer import getDb ,getDocument
+from couchdbinterface.dblayer import getDb , getDocument
 from couchdbinterface.entities  import User 
 from datetime import datetime
 import couchdbinterface.dblayer
 
 
 class Question(Document):
-  content=TextField()
+  content = TextField()
   '''
   the login of the asker
   '''
-  asker=TextField()
+  asker = TextField()
   '''
   a list of topics chose by the user and related to the question
   '''
-  topics=ListField(TextField())
-  type=TextField()
-  TYPE="question"
+  topics = ListField(TextField())
+  type = TextField()
+  TYPE = "question"
   postDate = DateTimeField(default=datetime.now())
   '''
   the number of time a question has been displayed
   '''
-  views=IntegerField()
+  views = IntegerField()
   '''
   poster:the login of the user who post the answer
   content: the content of the answer
@@ -29,21 +29,21 @@ class Question(Document):
   NOTE: as a user should only vote once on an answer, we should think of a way to enforce that
   '''  
   answers = ListField(DictField(Mapping.build(
-         id = TextField(), #id is hash of poster + question
-         poster = TextField(),
-         content = TextField(),
-         time = DateTimeField(default=datetime.now()),
-         score =IntegerField(default=0)
+         id=TextField(), #id is hash of poster + question
+         poster=TextField(),
+         content=TextField(),
+         time=DateTimeField(default=datetime.now()),
+         score=IntegerField(default=0)
      )))
 
   def create(self) :
-    self.type=self.TYPE
+    self.type = self.TYPE
     if self.asker == None or self.content == None :
       print "Question: asker or question content cannot be None"
       return None
-    u=User(login=self.asker).findByLogin()
+    u = User(login=self.asker).findByLogin()
     print u.login
-    self.asker=u.login
+    self.asker = u.login
     print u
 
     if u != None :
@@ -66,7 +66,7 @@ class Question(Document):
     '''
     return user that matches id
     '''
-    view = couchdbinterface.dblayer.view("question/id",self.id)
+    view = couchdbinterface.dblayer.view("question/id", self.id)
     if len(view) == 0:
       return None
     elif len(view) == 1:
@@ -74,3 +74,15 @@ class Question(Document):
     else:
       print 'ERROR: more than one question for this ID'
       raise IntegrityConstraintException
+    
+class Rating(Document):
+  _id = TextField()
+  type = TextField()
+  TYPE = "rating"
+  
+  def create(self):
+    self.type = self.TYPE
+    self.store(getDb())
+    
+  def findById(self):
+    return Rating.load(getDb(), self.id)

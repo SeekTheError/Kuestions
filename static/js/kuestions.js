@@ -268,9 +268,9 @@ function incAnswerScore(answerId){
     type: "POST",
     data: "type=increment" + "&answerId=" + answerId + "&questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     dataType: "json",
-    success: function(data, textStatus, jqxhr){
-      viewAnswers(data);
+    success: function(data, textStatus, jqxhr){    
       displayMessage(jqxhr.getResponseHeader('message'),"answerMessageContainer");
+      viewAnswers(data);
     }
   });
 }
@@ -284,8 +284,8 @@ function decAnswerScore(answerId){
     data: "type=decrement" + "&answerId=" + answerId + "&questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     dataType: "json",
     success: function(data, textStatus, jqXHR){
-      viewAnswers(data);
       displayMessage(jqXHR.getResponseHeader('message'),"answerMessageContainer");
+      viewAnswers(data);     
     }
   });
 }
@@ -417,4 +417,5 @@ function init() {
 	$('#message').click(function() {
 		removeMessage('messageContainer');
 	})
+	$("#searchBar").focus();
 }

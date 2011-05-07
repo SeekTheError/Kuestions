@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from model.entities import Question
+from model.entities import Question,Rating
 from django.utils.encoding import smart_unicode
 from security.userauth import checkSession, getCurrentUser
 import json
+from hashlib import sha1
 
 #retrival of the couchdb credentials
 file = open('.couchDbCredentials', 'r')
@@ -29,9 +30,6 @@ def post(request) :
   response = HttpResponse();
   response["message"] = message;
   return response;
-
-   
-
   
 def viewQuestion(request):
   #obtain question by ID
@@ -87,10 +85,26 @@ def postAnswer(request):
   return HttpResponse(json.dumps(answerList))
 
 def rateAnswer(request):
+  context=checkSession(request)
+  user = getCurrentUser(context)
+  
+  if user is None:
+    response=HttpResponse(getAnswersJson(questionId))
+    response['message']='You must be logged in to rate an answer'
+    return response
+    
+  
   ratingType = request.POST["type"]
   answerId = request.POST["answerId"]
   questionId = request.POST["questionId"]
-
+  
+  r=Rating(_id=sha1(user.id+answerId).hexdigest())  
+  if r.findById() :
+    response=HttpResponse(getAnswersJson(questionId))
+    response['message']='You have already rate this answer'
+    return response
+  
+  
   q = Question(id=questionId)
   q = q.findById()
   updated = False
@@ -108,6 +122,7 @@ def rateAnswer(request):
   message = ''
   if updated:
     message = 'updated rating'
+    r.create();
   else:
     message = 'could not update rating'
 
@@ -115,7 +130,15 @@ def rateAnswer(request):
   answerList = []
   for answer in q.answers:
     answerList.append(answer.unwrap())
-
   response = HttpResponse(json.dumps(answerList))
   response['message'] = message
   return response
+
+def getAnswersJson(questionId):
+  q = Question(id=questionId)
+  q = q.findById()
+  answerList = []
+  for answer in q.answers:
+    answerList.append(answer.unwrap())
+  return json.dumps(answerList)
+  
