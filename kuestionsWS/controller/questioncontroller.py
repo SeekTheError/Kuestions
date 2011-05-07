@@ -62,6 +62,8 @@ def postAnswer(request):
   #create answer ID by hashing (userId, questionId) 
   context=checkSession(request)
   user = getCurrentUser(context)
+  if user is None:
+    return HttpResponse(json.dumps({'error':1, 'errorMessage': 'You need to be logged in to post an answer'}))
   from hashlib import sha1
   answerId = sha1(user.id + questionId).hexdigest()
 

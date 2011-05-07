@@ -101,8 +101,10 @@ function replaceAll(text, toReplace, replacement) {
 	return text.replace(new RegExp(toReplace, 'g'), replacement);
 }
 var lastSearch = '';
-function searchQuestions() {
-	search = document.getElementById("searchBar").value
+function searchQuestions(search) {
+	if(search==null){
+		search = document.getElementById("searchBar").value;
+	}
 	if (search != "") {
 		search=enhanceSearch(search);
 		if (search != lastSearch) {
@@ -233,7 +235,7 @@ function postAnswer(answerText){
   
   // check if answer is empty
   if (answer == ""){
-	displayMessage("an answer needs word","messageContainer"); 
+	displayMessage("an answer needs word","answerMessageContainer"); 
     return;
   }
 
@@ -246,7 +248,7 @@ function postAnswer(answerText){
     data: "answer=" + answer + '&questionId=' + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     success: function(data){
       if (data.error){
-        displayMessage(data.errorMessage);
+        displayMessage(data.errorMessage,'answerMessageContainer');
         return;
       }
       viewAnswers(data);
@@ -269,7 +271,7 @@ function incAnswerScore(answerId){
     dataType: "json",
     success: function(data, textStatus, jqxhr){
       viewAnswers(data);
-      displayMessage(jqxhr.getResponseHeader('message'),"messageContainer");
+      displayMessage(jqxhr.getResponseHeader('message'),"answerMessageContainer");
     }
   });
 }
@@ -284,7 +286,7 @@ function decAnswerScore(answerId){
     dataType: "json",
     success: function(data, textStatus, jqXHR){
       viewAnswers(data);
-      displayMessage(jqXHR.getResponseHeader('message'),"messageContainer");
+      displayMessage(jqXHR.getResponseHeader('message'),"answerMessageContainer");
     }
   });
 }
@@ -330,17 +332,35 @@ function removeMessage(containerId) {
 	$("#" + containerId ).empty();
 	}
 
+/*
+ * use to display a search comming from the profile page
+ * 
+ * 
+ */
+
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+        console.log(hash[1]);
+    }
+    return vars;
+}
+
 /** ******* Init *************** */
 
 $(document).ready(function() {
 	$(window).resize(function() {
-
 		var height = parseInt($(window).height()) - 200;
 		height = height + 'px';
 		$("div.panel_contents").css({
 			'height' : height
 		});
-
 		height = parseInt($(window).height()) - 130;
 		height = height + 'px';
 		$("div.left").css({
@@ -355,18 +375,30 @@ $(document).ready(function() {
 	});
 
 	init();
-
 	// for loading dialog
 	$(".ld_line").fadeOut(1000);
-
 	// for modal dialog
 	$('a[rel*=facebox]').facebox();
 	// $('button[rel*=facebox]').facebox();
+	
+	//Display a search comming from the profile page
+	 vars=getUrlVars();
+	if(vars["search"]){
+		search=vars["search"];
+		$('#searchBar').attr('value',unescape(search));
+		searchQuestions(vars["search"]);		
+	}
 });
 
 function init() {
 	$('#searchBar').keyup(function(event) {
 		searchQuestions();
+	});
+	// from the profile page, a new search redirect to the main page
+	$('#searchBarProfile').keyup(function(event) {
+		 if (event.keyCode == '13') {
+		search = document.getElementById("searchBarProfile").value;
+	    document.location.href = '/?search='+search; }
 	});
 	$('#message').click(function() {
 		removeMessage('messageContainer');
