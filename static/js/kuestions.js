@@ -91,7 +91,7 @@ function questionCallBack(data, textStatus){
 	displayMessage(textStatus.getResponseHeader("message"),"messageContainer");
 }
 
-/** *********Search*********** */
+/** *********Display Questions (Search/timeline/followed)*********** */
 
 function enhanceSearch(search) {
 	if (search.substr(-1) !== " ") {
@@ -117,7 +117,7 @@ function searchQuestions(search) {
 				data : 'q=' + search,
 				dataType : 'json',
 				success : function(data) {
-					displayQuestionList(data.rows);
+					displayQuestionList(data.rows, 'search');
 				}
 			});
 		}
@@ -127,17 +127,38 @@ function searchQuestions(search) {
 	lastSearch = search;
 }
 
+function displayFollowedQuestions(){
+  if(!user_session.isOpen){
+    console.log('need to log in first');
+    return;
+  }
+
+  $.ajax({
+    url: '/question/display/followed/',
+    dataType: "JSON",
+    success: function(data){
+      displayQuestionList(data, 'followed');
+    }
+  });
+}
+
+
 // the minimun score a match should have in order to be displayed
 var minScore = 0.5;
 
 //displayQuestionList: accepts json list of questions, displays them as list on left side of the page
-function displayQuestionList(questionList){
+//filterType = (search/timeline/followed)
+function displayQuestionList(questionList, filterType){
   cleanQuestionList();
 
-  if (questionList){
-    //create ul
-    $("#questionList").append('<ul id="questionSearchResults" />');
-    
+  //determine container to display questions
+  var containerId = '#questionList_' + filterType;
+
+  //create ul
+  $(containerId).append('<ul id="questionSearchResults"></ul>');
+
+  //question data is not always consistent...need to parse data case by case
+  if (filterType == 'search'){
     //fill search results
     for (i = 0; i < questionList.length; i++){
       if (questionList[i].score >= minScore){
@@ -150,6 +171,18 @@ function displayQuestionList(questionList){
           viewQuestion(event.data.questionId);
         });
       }
+    }
+  } else if (filterType == 'followed'){
+    //fill search results
+    for (i = 0; i < questionList.length; i++){
+      var li = $('<li>',{
+        id: questionList[i].id,
+        text: questionList[i].content,
+      }).appendTo($("#questionSearchResults"));
+
+      li.click({'questionId': questionList[i].id}, function(event){
+        viewQuestion(event.data.questionId);
+      });
     }
   }
 }
@@ -164,7 +197,7 @@ function formatQuestion(question) {
 }
 
 function cleanQuestionList(){
-  $("#questionList").empty();
+  $("#questionSearchResults").remove();
 }
 
 /** ********View Question*********** */
@@ -194,7 +227,11 @@ function viewQuestion(questionId){
       viewAnswers(data.answers);
 	$("#answerInput").val("");}
   });
-  }
+}
+
+function hideQuestionDetail(){
+  $("#questionDetail").addClass("hidden");
+}
 
 function setManageFollowButton(questionId){
 	if(user_session.isOpen ){
@@ -230,7 +267,7 @@ function manageFollowQuestion(){
 	    response=eval(data);
 	    console.log(response);
 	    if(response.followed){
-		  user_session.followedQuestions.push(questionId);
+		    user_session.followedQuestions.push(questionId);
 	    }
 	    else {
 	      user_session.followedQuestions.pop(questionId);
@@ -455,6 +492,9 @@ $(document).ready(function() {
       $(this).attr("class","radiusT selected");
   });
   
+  $('#followedTab').click(function(){
+    displayFollowedQuestions();
+  });
 });
 
 function loadSession(){

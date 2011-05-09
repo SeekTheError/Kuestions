@@ -98,28 +98,31 @@
 					{% endif %}
 					
 					<ul class="tabs radiusTL">
-					  <a class="xtrig" href="#1" rel="coda-slider-1"><li class="radiusT selected">Search</li></a>
+					  <a id="searchTab" class="xtrig" href="#1" rel="coda-slider-1"><li class="radiusT selected">Search</li></a>
 					  <a class="xtrig" href="#2" rel="coda-slider-1"><li class="radiusT">Timeline</li></a>
-					  <a class="xtrig" href="#3" rel="coda-slider-1"><li class="radiusT">Followed</li></a>
+					  <a id="followedTab" class="xtrig" href="#3" rel="coda-slider-1"><li class="radiusT">Followed</li></a>
 					</ul>
 					<div class="coda-slider-wrapper">
             <div class="coda-slider preload" id="coda-slider-1">
        	      <div class="panel">
            	    <div class="panel-wrapper">
-                  <div class="question list" id="questionList">
-						        <ul id="questionSearchResults">
-						        </ul>
+                  <div class="question list" id="questionList_search">
+                    search
 					        </div>
             	  </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
-                  <div class="timeline list" id="questionList"></div>
+                  <div class="timeline list" id="questionList_timeline">
+                    timeline
+                  </div>
                 </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
-                  <div class="followed list" id="questionList"></div>
+                  <div class="followed list" id="questionList_followed">
+                    followed
+                  </div>
                 </div>
               </div>
             </div><!-- .coda-slider -->

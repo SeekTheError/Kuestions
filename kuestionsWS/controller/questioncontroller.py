@@ -62,7 +62,6 @@ def postAnswer(request):
   user = getCurrentUser(context)
   if user is None:
     return HttpResponse(json.dumps({'error':1, 'errorMessage': 'You need to be logged in to post an answer'}))
-  from hashlib import sha1
   answerId = sha1(user.id + questionId).hexdigest()
 
   #check if answer ID already exists
@@ -87,6 +86,7 @@ def postAnswer(request):
 def rateAnswer(request):
   context=checkSession(request)
   user = getCurrentUser(context)
+  questionId = request.POST["questionId"]
   
   if user is None:
     response=HttpResponse(getAnswersJson(questionId))
@@ -96,7 +96,6 @@ def rateAnswer(request):
   
   ratingType = request.POST["type"]
   answerId = request.POST["answerId"]
-  questionId = request.POST["questionId"]
   
   r=Rating(_id=sha1(user.id+answerId).hexdigest())  
   if r.findById() :
@@ -176,11 +175,21 @@ def manageFollowQuestion(request):
       pass
     return HttpResponse(json.dumps({'followed':False}))
   
+def displayFollowedQuestions(request):
+  context = checkSession(request)
+  user = getCurrentUser(context)
+  if user is None:
+    return HttpResponse()
 
- 
-  
-  
-  
-  
-  
-  
+  user = user.findByLogin()
+
+  questionList = []
+  for questionId in user.followedQuestions:
+    q = Question(id=questionId)
+    q = q.findById()
+    questionList.append({
+      'id': q.id,
+      'content': q.content,
+    })
+
+  return HttpResponse(json.dumps(questionList))

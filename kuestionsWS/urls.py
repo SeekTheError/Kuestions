@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     (r'^question/postAnswer/$', 'controller.questioncontroller.postAnswer'), 
     (r'^question/rateAnswer/$', 'controller.questioncontroller.rateAnswer'),
     (r'^question/manageFollowQuestion/$', 'controller.questioncontroller.manageFollowQuestion'),
+    (r'^question/display/followed/$', 'controller.questioncontroller.displayFollowedQuestions'),
     
     
     #For static media files

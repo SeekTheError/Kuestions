@@ -1,5 +1,5 @@
 from couchdb.mapping import *
-from couchdbinterface.dblayer import getDb , getDocument
+from couchdbinterface.dblayer import getDb
 from couchdbinterface.entities  import User 
 from datetime import datetime
 import couchdbinterface.dblayer
