@@ -103,28 +103,25 @@ function enhanceSearch(search) {
 function replaceAll(text, toReplace, replacement) {
 	return text.replace(new RegExp(toReplace, 'g'), replacement);
 }
-var lastSearch = '';
 function searchQuestions(search) {
 	if(search==null){
 		search = document.getElementById("searchBar").value;
 	}
+
 	if (search != "") {
 		search=enhanceSearch(search);
-		if (search != lastSearch) {
-			var url = '/api/_fti/_design/question/by_content';
-			$.ajax({
-				url : url,
-				data : 'q=' + search,
-				dataType : 'json',
-				success : function(data) {
-					displayQuestionList(data.rows, 'search');
-				}
-			});
-		}
+    var url = '/api/_fti/_design/question/by_content';
+    $.ajax({
+      url : url,
+      data : 'q=' + search,
+      dataType : 'json',
+      success : function(data) {
+        displayQuestionList(data.rows, 'search');
+      }
+    });
 	} else {
 		cleanQuestionList();
 	}
-	lastSearch = search;
 }
 
 function displayFollowedQuestions(){
@@ -491,7 +488,11 @@ $(document).ready(function() {
       $('ul.tabs li').attr("class","");
       $(this).attr("class","radiusT selected");
   });
-  
+
+  //tabs onclick
+  $('#searchTab').click(function(){
+    searchQuestions();
+  });
   $('#followedTab').click(function(){
     displayFollowedQuestions();
   });
