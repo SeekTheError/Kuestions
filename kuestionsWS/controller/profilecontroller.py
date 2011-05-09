@@ -1,4 +1,4 @@
-#Author Remi Bouchar
+#Author Remi Bouchar, Uijune Jeong
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import Context, RequestContext, loader
 from couchdbinterface.entities import User
@@ -42,6 +42,8 @@ def view(request, login) :
   if user is None :
     print "not found"
     return userNotFound(request)
+  if not user.picture:
+    user.picture='default.png'
   context["user"] = user  
   t = loader.get_template('profile.html')
   return HttpResponse(t.render(context))
@@ -131,7 +133,7 @@ def deleteTopic(request):
   return HttpResponseRedirect('/user/') 
 
 
-
+from time import gmtime, strftime
 
 def pictureUpload(request):
   if request.method == 'POST':
@@ -139,10 +141,14 @@ def pictureUpload(request):
     if form.is_valid():
       currentUser = getCurrentUser(request)
       if currentUser:
-        path = STATIC_MEDIA_ROOT+"/profile/"+currentUser.login+".jpg"
-        destination = open(path, 'wb+')
+        path = "profile/"+currentUser.login+strftime("(%Y-%m-%d_%H.%M.%S)", gmtime())+".jpg"
+        destination = open(STATIC_MEDIA_ROOT+"/"+path, 'wb+')
         for chunk in request.FILES['picture'].chunks():
           destination.write(chunk)
         destination.close()
+        user = User(login=currentUser.login)
+        user = user.findByLogin()
+        user.picture=path
+        user.update()
   
   return HttpResponseRedirect('/user/') 

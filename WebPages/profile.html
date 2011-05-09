@@ -127,7 +127,7 @@ function editResume(){
 				</h3>
 				<div class="profile box">
 				<h3>Profile</h3>
-				<div class="picture_container"><img src="{{ MEDIA_URL }}/profile/{{ user.login }}.jpg"/></div>
+				<div class="picture_container"><img src="{{ MEDIA_URL }}/{{ user.picture }}"/></div>
 				<div class="info_container">
 				  <h2>{{ user.login }}</h2>
 				  
@@ -190,7 +190,7 @@ function editResume(){
 				{% endif %}
 			</div>
 			<div class="right">
-			Right
+			{{ user }}
 			</div>
 			
 			</div>

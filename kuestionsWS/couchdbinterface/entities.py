@@ -16,7 +16,7 @@ class User(Document) :
   topics=ListField(TextField())
   followedQuestions=ListField(TextField())
   isActivated=BooleanField()
-  picture=TextField()
+  picture=TextField(default='default.png')
   
   type=TextField()
   TYPE='user'
