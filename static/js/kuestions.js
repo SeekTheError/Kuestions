@@ -117,7 +117,7 @@ function searchQuestions(search) {
 				data : 'q=' + search,
 				dataType : 'json',
 				success : function(data) {
-					displaySearchResults(data);
+					displayQuestionList(data.rows);
 				}
 			});
 		}
@@ -129,33 +129,29 @@ function searchQuestions(search) {
 
 // the minimun score a match should have in order to be displayed
 var minScore = 0.5;
-function displaySearchResults(data) {
+
+//displayQuestionList: accepts json list of questions, displays them as list on left side of the page
+function displayQuestionList(questionList){
   cleanQuestionList();
 
-	object = eval(data);
-	if (object.rows) {
-		// create unordered list under questionList div
-		$("#questionList").append('<ul id="questionSearchResults"/>');
-		// fill the search results with retrieved data
-		question = object.rows;
-		for (i = 0; i < object.total_rows; i++) {
-			// TODO:reintegrate formatQuestion (it will be nice to have question
-			// previews instead of a plain question list here)
-			if (question[i].score >= minScore) {
-
-        // append li element
+  if (questionList){
+    //create ul
+    $("#questionList").append('<ul id="questionSearchResults" />');
+    
+    //fill search results
+    for (i = 0; i < questionList.length; i++){
+      if (questionList[i].score >= minScore){
         var li = $('<li>',{
-          id: question[i].id,
-          text: question[i].fields.content,
+          id: questionList[i].id,
+          text: questionList[i].fields.content,
         }).appendTo($("#questionSearchResults"));
 
-        // add click event
-        li.click({'questionId': question[i].id}, function(event){
+        li.click({'questionId': questionList[i].id}, function(event){
           viewQuestion(event.data.questionId);
         });
-			}
-		}
-	}
+      }
+    }
+  }
 }
 
 function formatQuestion(question) {
@@ -172,6 +168,7 @@ function cleanQuestionList(){
 }
 
 /** ********View Question*********** */
+
 
 // views a question when you click one
 // creates a 'question page' on the right side of the page
@@ -202,20 +199,21 @@ function viewQuestion(questionId){
 function setManageFollowButton(questionId){
 	if(user_session.isOpen ){
 	  $("#manageFollow").removeAttr('disabled');
-  	  $("#manageFollow").removeClass("hidden");
+  	$("#manageFollow").removeClass("hidden");
     if(userIsFollowingQuestion(questionId)){
      console.log('user is following');
-     $("#manageFollow").text('Unfollow');
-     $("#manageFollow").attr('action','un');
+      $("#manageFollow").text('Unfollow');
+      $("#manageFollow").attr('action','un');
     } 
     else {
   	  console.log('user is NOT following');
   	  $("#manageFollow").text('Follow');
   	  $("#manageFollow").attr('action','fo');
-  	  }
-     }
-    else
-  	 {$("#manageFollow").addClass("hidden");}
+  	}
+  }
+  else {
+    $("#manageFollow").addClass("hidden");
+  }
 }
 
 function manageFollowQuestion(){
@@ -254,6 +252,8 @@ function userIsFollowingQuestion(questionId){
 	else 
 		{return false;}
 }
+
+/** ********Answer functions*********** */
 
 // takes list of answers as input and displays them on #answerList
 function viewAnswers(answers){
@@ -315,8 +315,6 @@ function postAnswer(answerText){
   // clear answer input
   $("#answerInput").val("");
 }
-/*
- */
 
 function incAnswerScore(answerId){
   // obtain csrftoken needed to post data
@@ -348,6 +346,7 @@ function decAnswerScore(answerId){
   });
 }
 
+/** **********Message functions ************* */
 
 function displayMessage(messageContent, containerId) {
 	removeMessage(containerId);
