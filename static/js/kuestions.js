@@ -273,7 +273,7 @@ function manageFollowQuestion(){
 
 
       //if followed tab is selected
-      if ( $('#followedTab li').attr('className') == 'selected'){
+      if ( $('#followedTab li').attr('className').indexOf('selected') != -1 ){
         //refresh followed list in question view
         displayFollowedQuestions();
       }
