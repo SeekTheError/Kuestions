@@ -2,7 +2,7 @@ from couchdb.mapping import *
 from couchdbinterface.dblayer import getDb
 from couchdbinterface.entities  import User 
 from datetime import datetime
-import couchdbinterface.dblayer
+import couchdbinterface.dblayer as dblayer
 
 
 class Question(Document):
@@ -43,6 +43,7 @@ class Question(Document):
       return None
     u = User(login=self.asker).findByLogin()
     print u.login
+    self.views=0
     self.asker = u.login
     print u
 
@@ -66,7 +67,7 @@ class Question(Document):
     '''
     return user that matches id
     '''
-    view = couchdbinterface.dblayer.view("question/id", self.id)
+    view = dblayer.view("question/id", self.id)
     if len(view) == 0:
       return None
     elif len(view) == 1:
@@ -76,16 +77,27 @@ class Question(Document):
       raise IntegrityConstraintException
     
 class TimeLineEvent(Document):
-  _id = TextField()
+  _id=TextField()
   type = TextField()
   TYPE = "timeLineEvent"
   user =  TextField()
-  event = TextField()
-  eventData= DateTimeField(default=datetime.now())
+  action = TextField()
+  question = TextField()
+  questionTitle = TextField()
+  answer = TextField()
+  eventDate= TextField()
   
   def create(self):
+    import time
+    import datetime
+    self.id=str(1/time.time())
+    self.eventDate=str(datetime.datetime.now())
     self.type = self.TYPE
     self.store(getDb())
+    
+  def findByQuestion(self) :
+    view=dblayer.view("timeLineEvent/question",self.question)
+    return view
   
 
 class Rating(Document):

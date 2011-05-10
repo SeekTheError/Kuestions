@@ -433,6 +433,37 @@ function removeMessage(containerId) {
  * 
  */
 
+function loadTimeline(){
+	 $("#questionList_timeline #timelineList").remove()
+	 $.ajax({
+		    url: '/timeline/',
+		    type: "GET",
+		    dataType: "json",
+		    success: function(data){
+		      displayTimeline(data);   
+		    }});
+	
+}
+
+function displayTimeline(data){
+	timeline=eval(data);
+	console.log(timeline);
+	$("#questionList_timeline").append('<ul id="timelineList"></ul>');
+	for(i=0;i<timeline.length;i++){
+	id=timeline[i]._id.replace(".","");
+	questionId=timeline[i].question
+	console.log("#questionList_timeline #"+timeline[i]._id);
+	 var li = $('<li>',{
+	      text: timeline[i].user + " post an answer on" + timeline[i].questionTitle+"  "+timeline[i].eventDate,
+	      id: id
+	    }).appendTo($("#timelineList"));
+	  $("#questionList_timeline #"+id).click(function(){
+	   viewQuestion(questionId);
+	  });
+	    
+	}
+}
+
 function getUrlVars()
 {
     var vars = [], hash;
@@ -516,7 +547,10 @@ function loadSession(){
 }
 
 function init() {
-	$('#searchBar').keyup(function(event) {
+  $("#timelineLink").click(function () {
+	  loadTimeline();})	
+	
+  $('#searchBar').keyup(function(event) {
 		searchQuestions();
 	});
   $('#searchBar').click(function(event){
