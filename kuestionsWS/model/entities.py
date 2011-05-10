@@ -75,6 +75,19 @@ class Question(Document):
       print 'ERROR: more than one question for this ID'
       raise IntegrityConstraintException
     
+class TimeLineEvent(Document):
+  _id = TextField()
+  type = TextField()
+  TYPE = "timeLineEvent"
+  user =  TextField()
+  event = TextField()
+  eventData= DateTimeField(default=datetime.now())
+  
+  def create(self):
+    self.type = self.TYPE
+    self.store(getDb())
+  
+
 class Rating(Document):
   _id = TextField()
   type = TextField()
@@ -86,3 +99,4 @@ class Rating(Document):
     
   def findById(self):
     return Rating.load(getDb(), self.id)
+  
