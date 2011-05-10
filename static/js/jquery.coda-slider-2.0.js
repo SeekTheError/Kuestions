@@ -177,7 +177,7 @@ $.fn.codaSlider = function(settings) {
     //TODO: GENERALIZE THIS CODE
     //trigger for search bar keyup
     // Make sure this only affects the targeted slider
-    $('#searchBar').bind("click", function(){
+    $('#searchBar').bind("click keyup", function(){
       $('#followedTab li').removeClass();
       $('#searchTab li').addClass('radiusT selected');
 

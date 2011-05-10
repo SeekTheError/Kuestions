@@ -271,8 +271,12 @@ function manageFollowQuestion(){
 	    }
 	    setManageFollowButton(questionId);
 
-      //refresh followed list in question view
-      displayFollowedQuestions();
+
+      //if followed tab is selected
+      if ( $('#followedTab li').attr('className') == 'selected'){
+        //refresh followed list in question view
+        displayFollowedQuestions();
+      }
 	  }
 	});
 }

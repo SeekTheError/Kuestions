@@ -44,6 +44,9 @@ def view(request, login) :
     return userNotFound(request)
   if not user.picture:
     user.picture='default.png'
+  if user.picture is None:
+    user.picture='default.png'
+
   context["user"] = user  
   t = loader.get_template('profile.html')
   return HttpResponse(t.render(context))
