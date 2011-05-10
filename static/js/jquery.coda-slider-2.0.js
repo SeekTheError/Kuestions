@@ -172,6 +172,26 @@ $.fn.codaSlider = function(settings) {
 				});
 			};
 		});
+
+    //HACKING BY HOONJI
+    //TODO: GENERALIZE THIS CODE
+    //trigger for search bar keyup
+    // Make sure this only affects the targeted slider
+    $('#searchBar').bind("click", function(){
+      $('#followedTab li').removeClass();
+      $('#searchTab li').addClass('radiusT selected');
+
+      navClicks++;
+      targetPanel = '1';
+      offset = - (panelWidth*(targetPanel - 1));
+      alterPanelHeight(targetPanel - 1);
+      currentPanel = targetPanel;
+      // Switch the current tab:
+      slider.siblings('.coda-nav').find('a').removeClass('current').parents('ul').find('li:eq(' + (targetPanel - 1) + ') a').addClass('current');
+      // Slide
+      $('.panel-container', slider).animate({ marginLeft: offset }, settings.slideEaseDuration, settings.slideEaseFunction);
+      if (!settings.crossLinking) { return false }; // Don't change the URL hash unless cross-linking is specified
+    });
 			
 		// Specify which tab is initially set to "current". Depends on if the loaded URL had a hash or not (cross-linking).
 		if (settings.crossLinking && location.hash && parseInt(location.hash.slice(1)) <= panelCount) {

@@ -270,6 +270,9 @@ function manageFollowQuestion(){
 	      user_session.followedQuestions.pop(questionId);
 	    }
 	    setManageFollowButton(questionId);
+
+      //refresh followed list in question view
+      displayFollowedQuestions();
 	  }
 	});
 }
@@ -468,7 +471,7 @@ $(document).ready(function() {
 	// for modal dialog
 	$('a[rel*=facebox]').facebox();	
 	// Display a search comming from the profile page
-	 vars=getUrlVars();
+  vars=getUrlVars();
 	if(vars["search"]){
 		search=vars["search"];
 		$('#searchBar').attr('value',unescape(search));
@@ -513,6 +516,9 @@ function init() {
 	$('#searchBar').keyup(function(event) {
 		searchQuestions();
 	});
+  $('#searchBar').click(function(event){
+    searchQuestions();
+  });
 	// from the profile page, a new search redirect to the main page
 	$('#searchBarProfile').keyup(function(event) {
 		 if (event.keyCode == '13') {
