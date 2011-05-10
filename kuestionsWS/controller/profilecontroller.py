@@ -8,6 +8,9 @@ from settings import *
 
 from forms import *
 
+from django.utils.encoding import smart_unicode
+
+
 def current(request) :
   '''
   this function display the profile page of the current user
@@ -84,7 +87,8 @@ def updateResume(request):
   if currentUser:
     user = User(login=currentUser.login)
     user = user.findByLogin()
-    newResume = request.POST['newResume'].decode('UTF-8')
+    newResume = smart_unicode(request.POST["newResume"], encoding='utf-8', strings_only=False, errors='strict')
+    #newResume = request.POST['newResume'].decode('UTF-8')
     if newResume:
       user.resume = newResume
       user.update()
@@ -100,7 +104,8 @@ def addTopic(request):
     user = user.findByLogin()
     
     if request.POST['newTopic']:
-      newTopic = request.POST['newTopic'].decode('UTF-8')
+      newTopic = smart_unicode(request.POST["newTopic"], encoding='utf-8', strings_only=False, errors='strict')
+      #newTopic = request.POST['newTopic'].decode('UTF-8')
       print "add Topic:"+newTopic
       topics = user.topics
       if not (newTopic.lower() in (topic.lower() for topic in topics)):
@@ -122,6 +127,7 @@ def deleteTopic(request):
     
     if request.POST['deleteTopic']:
       deleteTopic = request.POST['deleteTopic']
+      #deleteTopic = smart_unicode(request.POST["deleteTopic"], encoding='utf-8', strings_only=False, errors='strict')
       print "del Topic:"+deleteTopic
       topics = user.topics
       user.topics = [topic for topic in topics if deleteTopic.lower() != topic.lower()]
