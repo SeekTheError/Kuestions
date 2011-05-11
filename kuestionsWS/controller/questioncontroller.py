@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from model.entities import Question,Rating
+from model.entities import Question,Rating,TimeLineEvent
 from django.utils.encoding import smart_unicode
 from security.userauth import checkSession, getCurrentUser
 import json
@@ -66,14 +66,28 @@ def postAnswer(request):
 
   #check if answer ID already exists
   #this means that this user already posted an answer for this question -> abort post
+  #the following is deactivated for development purposes
+  '''
   for answer in q.answers:
     if answer.id == answerId:
       return HttpResponse(json.dumps({'error':1, 'errorMessage': 'You have already posted an answer for this Kuestion!'}))
-
+  '''
   content = request.POST["answer"]
-  newAnswer = {'content': content, 'id': answerId }
+  newAnswer = {'content': content, 'id': answerId, 'poster':user.login }
   q.answers.append(newAnswer)
   q.update()
+  #time line event creation
+  t=TimeLineEvent()
+  t.user=user.login
+  t.action="POST"
+  t.questionTitle=Question(id=questionId).findById().content
+  t.answer=answerId
+  t.question=questionId
+  t.create()
+
+  print t
+  
+  
   print 'answer added to question: ' + str(q)
 
   #unwrap answer dictionaries so that we can serialize into json

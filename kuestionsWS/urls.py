@@ -20,6 +20,7 @@ urlpatterns = patterns('',
      #block access to the root
     (r'^api/$', 'security.api.keeper'),
     (r'^api/', 'security.api.gate'),
+    (r'^timeline/', 'controller.timelinecontroller.get'),
     
     (r'^search/', 'controller.questioncontroller.search'),
     (r'^question/post/$', 'controller.questioncontroller.post'),
