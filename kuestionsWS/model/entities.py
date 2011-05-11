@@ -90,7 +90,7 @@ class TimeLineEvent(Document):
   def create(self):
     import time
     import datetime
-    self.id=str(1/time.time())
+    self.id=str(100000000000000000000/time.time()).replace('.','')
     self.eventDate=str(datetime.datetime.now())
     self.type = self.TYPE
     self.store(getDb())
