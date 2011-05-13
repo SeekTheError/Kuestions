@@ -5,7 +5,7 @@ function loadQuestionTags(questionContent) {
 	questionContent=questionContent.replace("?","");
 	// words = replaceAll(questionContent, '\u003F', '').split(" ");
 	words = questionContent.split(" ");
-	zone = document.getElementById('tagsZone')
+	zone = document.getElementById('tagsZone');
 	tags = zone.getElementsByTagName('span');
 	for (i = 0; i < tags.length; i++) {
 		zone.removeChild(tags[i]);
@@ -39,7 +39,7 @@ function addTag(value){
 	$('<span>', {
 		id : id,
 		text : value,
-		class : "tag",
+		class : "tag"
 	}).appendTo(".popup #tagsZone");
 	$("#"+id).click(function(){$("#"+this.id).remove();});
 	
@@ -66,7 +66,7 @@ function postQuestion() {
 	// retrieve tags
 	tags=[];
 	arr=$(".popup #tagsZone .tag");
-	i=0
+	i=0;
 	$.each(arr,function (){tags[i]=$(this).text();i++; });
 	console.log(tags);
 	tokenValue = $("#security_csrf input:first").val();
@@ -143,25 +143,26 @@ function displayFollowedQuestions(){
 // the minimun score a match should have in order to be displayed
 var minScore = 0.5;
 
-//displayQuestionList: accepts json list of questions, displays them as list on left side of the page
-//filterType = (search/timeline/followed)
+// displayQuestionList: accepts json list of questions, displays them as list on
+// left side of the page
+// filterType = (search/timeline/followed)
 function displayQuestionList(questionList, filterType){
   cleanQuestionList();
 
-  //determine container to display questions
+  // determine container to display questions
   var containerId = '#questionList_' + filterType;
 
-  //create ul
+  // create ul
   $(containerId).append('<ul id="questionSearchResults"></ul>');
 
-  //question data is not always consistent...need to parse data case by case
+  // question data is not always consistent...need to parse data case by case
   if (filterType == 'search'){
-    //fill search results
+    // fill search results
     for (i = 0; i < questionList.length; i++){
       if (questionList[i].score >= minScore){
         var li = $('<li>',{
           id: questionList[i].id,
-          text: questionList[i].fields.content,
+          text: questionList[i].fields.content
         }).appendTo($("#questionSearchResults"));
 
         li.click({'questionId': questionList[i].id}, function(event){
@@ -170,11 +171,11 @@ function displayQuestionList(questionList, filterType){
       }
     }
   } else if (filterType == 'followed'){
-    //fill search results
+    // fill search results
     for (i = 0; i < questionList.length; i++){
       var li = $('<li>',{
         id: questionList[i].id,
-        text: questionList[i].content,
+        text: questionList[i].content
       }).appendTo($("#questionSearchResults"));
 
       li.click({'questionId': questionList[i].id}, function(event){
@@ -187,7 +188,7 @@ function displayQuestionList(questionList, filterType){
 function formatQuestion(question) {
 	span = document.createElement("span");
 	p = document.createElement("p");
-	p.id = question.id
+	p.id = question.id;
 	p.textContent = question.content;
 	span.appendChild(p);
 	return p;
@@ -252,7 +253,7 @@ function setManageFollowButton(questionId){
 
 function manageFollowQuestion(){
 	csrf = $("#security_csrf input:first").val();
-	questionId=$("#questionDetail").attr("data-questionId")
+	questionId=$("#questionDetail").attr("data-questionId");
 	data="questionId=" + questionId + '&csrfmiddlewaretoken=' 
 			+ csrf+"&action="+$("#manageFollow").attr('action');
 	$.ajax({
@@ -272,7 +273,7 @@ function manageFollowQuestion(){
 	    setManageFollowButton(questionId);
 
 
-      //if followed tab is selected
+      // if followed tab is selected
       if ( $('#followedTab li').attr('className').indexOf('selected') != -1){
         displayFollowedQuestions();
       }
@@ -282,7 +283,7 @@ function manageFollowQuestion(){
 
 function userIsFollowingQuestion(questionId){
 	if(user_session.isOpen){
-		length=user_session.followedQuestions.length
+		length=user_session.followedQuestions.length;
 	for (i=0;i<length;i++){
 		if(questionId == user_session.followedQuestions[i])
 			{return true;}
@@ -309,7 +310,7 @@ function viewAnswers(answers){
     // rating buttons
     var plusButton = $('<input>',{
       type: "button",
-      value: "+",
+      value: "+"
     }).appendTo(li);
 
     plusButton.click({'answerId': answers[i].id}, function(e){
@@ -318,7 +319,7 @@ function viewAnswers(answers){
 
     var minusButton = $('<input>',{
       type: "button",
-      value: "-",
+      value: "-"
     }).appendTo(li);
 
     minusButton.click({'answerId': answers[i].id}, function(e){
@@ -407,7 +408,7 @@ function displayMessageCallback(data, textStatus, containerId) {
 }
 
 function displayMessagePop(messageContent){
-	$(".popup  .message #message").remove()
+	$(".popup  .message #message").remove();
 	$("<h3>", {
 		text : messageContent,
 		id : "message",
@@ -434,7 +435,7 @@ function removeMessage(containerId) {
  */
 
 function loadTimeline(){
-	 $("#questionList_timeline #timelineList").remove()
+	 $("#questionList_timeline #timelineList").remove();
 	 $.ajax({
 		    url: '/timeline/',
 		    type: "GET",
@@ -451,7 +452,7 @@ function displayTimeline(data){
 	$("#questionList_timeline").append('<ul id="timelineList"></ul>');
 	for(i=0;i<timeline.length;i++){
 	id=timeline[i]._id.replace(".","");
-	questionId=timeline[i].question
+	questionId=timeline[i].question;
 	console.log("#questionList_timeline #"+timeline[i]._id);
 	 var li = $('<li>',{
 	      text: timeline[i].user + " post an answer on" + timeline[i].questionTitle+"  "+timeline[i].eventDate,
@@ -518,7 +519,7 @@ $(document).ready(function() {
     dynamicArrows: false,
     dynamicTabs: false,
     firstPanelToLoad: 1,
-    autoHeight: false,
+    autoHeight: false
   });
   
   $('ul.tabs').find('li').click(function(){
@@ -526,7 +527,7 @@ $(document).ready(function() {
       $(this).attr("class","radiusT selected");
   });
 
-  //tabs onclick
+  // tabs onclick
   $('#searchTab').click(function(){
     searchQuestions();
   });
@@ -543,12 +544,12 @@ function loadSession(){
 		success: function(data){
 			user_session=eval(data);
 		}	
-	})
+	});
 }
 
 function init() {
   $("#timelineLink").click(function () {
-	  loadTimeline();})	
+	  loadTimeline();})	;
 	
   $('#searchBar').keyup(function(event) {
 		searchQuestions();
