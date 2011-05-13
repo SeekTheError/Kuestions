@@ -1,0 +1,26 @@
+/*Effects*/
+.shadow{
+	box-shadow: 0 3px 4px rgba(0, 0, 0, .5);
+	-moz-box-shadow: 0 3px 4px rgba(0, 0, 0, .5);
+	-webkit-box-shadow: 0 3px 4px rgba(0, 0, 0, .5);
+}
+.radius{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.radiusTL{
+  -webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+	border-radius: 5px 0 0 0;
+}
+.radiusT{
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+}
+.radiusR{
+	-webkit-border-radius: 0px 5px 5px 0px;
+	-moz-border-radius: 0px 5px 5px 0px;
+	border-radius: 0px 5px 5px 0px;
+}

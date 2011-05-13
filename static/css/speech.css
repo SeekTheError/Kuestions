@@ -1,0 +1,101 @@
+.speech_wrapper{
+  display:inline-block;
+  padding:0 4px;
+  border: 1px solid white;
+  position: relative;
+}
+.speech_wrapper:hover{
+  background-image:url(../image/v_tab_bg2.jpg);
+}
+
+.speech_wrapper .profile.question img{
+  width:50px;
+}
+
+.speech_wrapper .profile{
+  width:50px;
+  padding:5px;
+  float:left;
+}
+
+.speech{
+  float:left;
+  width:400px;
+  padding:5px 0px;
+  font-size:10pt;
+}
+
+.speech .info,.speech .question,.speech .best_answer{
+  width:100%;
+  display:inline-block;
+}
+.speech .info{
+  padding:0 5px;
+}
+
+.speech .question{
+  position:relative;
+  left:-2px;
+}
+
+
+
+.speech .question .bubble{
+  width:7px;
+  margin:5px 0px;
+  float:left;
+  background-image:url(../image/tip.gif);
+  background-repeat:no-repeat;
+  height:16px;
+  position:relative;
+  top:7px;
+  left:1px;
+}
+.speech .question .question_text{
+    
+    border: 1px solid #c9c2c1;
+    background-color: #fff;
+    padding:5px;
+    margin:5px 0px;
+    float:left;
+    max-width:380px;
+}
+
+
+.best_answer .profile,.best_answer .profile img,
+.answer .profile,.answer .profile img{
+  width:40px;
+}
+.best_answer .speech{
+  width:350px;
+}
+.best_answer .speech .question .question_text{
+  width:330px;
+}
+.speech .actions{
+  position: absolute;
+  top:10px;
+  right:0px;
+}
+
+.speech .actions .follow{
+  float:right;
+  padding:0px 7px;
+}
+
+.answer .rate_wrapper{
+  width: 50px;
+  min-height: 30px;
+  text-align: center;
+}
+.answer .rate_wrapper img{
+  width: 20px;
+}
+.answer .rate_wrapper .rate_info{
+  font-weight: bold;
+  font-size: 15px;
+  margin: 3px 5px;
+  padding: 4px 0;
+  border:1px solid #C9C2C1;
+  width: 38px;
+}
