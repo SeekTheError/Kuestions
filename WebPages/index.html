@@ -167,22 +167,26 @@
 	<div class="post_form">
 	
 		<h1>Post a new question</h1>
-		<h2>#1 Enter your question</h2>
-		<p>First, Input your question and Press Enter</p>
-		<input type="text" id="postQuestionBar" class="i.postBar" size=60
-			onchange="loadQuestionTags(value);" />
+
+		<h2>#1 Enter a question</h2>
+		<p>What do you want to know?</p>
+		<input type="text" id="questionTitleInput" class="i.postBar" size=60 onchange="loadQuestionTags(value);" />
+
+    <hr />
+    <h2>#2 Enter question description</h2>
+    <p>(optional) If you would like to add a description to your question, please input it here<p>
+    <input type="text" id="questionDescriptionInput" class="i.postBar" size=60 onchange="loadQuestionTags(value);" />
 
 	</div>
 	<hr />
-	<h2>#2 Tag it</h2>
-	<p class="justified">To increase your chance to receive an answer quickly, we
-		automatically added some tags that could match. However, you can edit this list, or Add tags manually</p>
+	<h2>#3 Tag it</h2>
+	<p class="justified">To increase your chances of receiving an answer quickly, we
+		automatically added some tags that could match. However, you can edit this list, or add tags manually</p>
 	<div id='tagsZone' class="tagsZone"></div>
 	
-	<input type="text" id="tagBar" class="i.postBar" size=20
-		onchange="addTag(value);"/>
+	<input type="text" id="tagBar" class="i.postBar" size=20 onchange="addTag(value);"/>
 	<hr/>
-	<h2>#3 Post It</h2>
+	<h2>#4 Post It</h2>
 	<p>Once your fully satisfied, you can post your question</p>
 	<table><tr><td><input type="button" value="Post your Question"
 		onclick="postQuestion();" /></td><td><span class="message" id="postMessageContainer"></span></td></tr></table>

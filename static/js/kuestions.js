@@ -56,22 +56,27 @@ function appendTag(data) {
 
 function postQuestion() {	
 	// retrieve question
-	question = $(".popup #postQuestionBar").val();
-	question= replaceAll(question,"  +"," ");
-	if(question == "" | question ==" "){
+	title = $(".popup #questionTitleInput").val();
+	title= replaceAll(title,"  +"," ");
+	if(title == "" | title ==" "){
 		displayMessagePop("A question needs words");
-	    return;
-	    }
-	console.log('posting:' +question);
+	  return;
+  }
+  description = $(".popup #questionDescriptionInput").val();
+  description = replaceAll(description, "  +", " ");
+
 	// retrieve tags
 	tags=[];
 	arr=$(".popup #tagsZone .tag");
 	i=0;
 	$.each(arr,function (){tags[i]=$(this).text();i++; });
 	console.log(tags);
+
+  // retrieve csrf token
 	tokenValue = $("#security_csrf input:first").val();
-	
-	data= "question=" + question + "&csrfmiddlewaretoken="+tokenValue;
+
+  // concatenate data
+	data= "title=" + title + "&description=" + description + "&csrfmiddlewaretoken="+tokenValue;
 	if( tags.length > 0)
 		data=data+"&tags="+tags;
 	
@@ -80,13 +85,12 @@ function postQuestion() {
 		url : "/question/post/",
 		data : data,
 		success : function(data, textStatus, jhxqr) {
-			questionCallBack(data, jhxqr);
-			// displayMessageCallbackPop(data, jhxqr, "postMessageContainer");
+			postQuestionCallback(data, jhxqr);
 		}
 	});
 }
 
-function questionCallBack(data, textStatus){
+function postQuestionCallback(data, textStatus){
 	$.facebox.close();
 	displayMessage(textStatus.getResponseHeader("message"),"messageContainer");
 }
@@ -112,7 +116,7 @@ function searchQuestions(search) {
 
 	if (search != "") {
 		search=enhanceSearch(search);
-    var url = '/api/_fti/_design/question/by_content';
+    var url = '/api/_fti/_design/question/by_title';
     $.ajax({
       url : url,
       data : 'q=' + search,
@@ -164,7 +168,7 @@ function displayQuestionList(questionList, filterType){
       if (questionList[i].score >= minScore){
         var li = $('<li>',{
           id: questionList[i].id,
-          text: questionList[i].fields.content
+          text: questionList[i].fields.title,
         }).appendTo($("#questionSearchResults"));
 
         li.click({'questionId': questionList[i].id}, function(event){
@@ -218,7 +222,7 @@ function viewQuestion(questionId){
       // embed current question ID into #questionDetail
       $("#questionDetail").attr("data-questionId", data.id);
       // set question Title
-      $("#questionTitle").text(data.content);
+      $("#questionTitle").text(data.title);
       // display asker
       $("#questionAsker").attr("href","/user/"+ data.asker);
       $("#questionAsker").text(data.asker);
@@ -275,8 +279,9 @@ function manageFollowQuestion(){
 	    setManageFollowButton(questionId);
 
 
-      // if followed tab is selected
-      if ( $('#followedTab li').attr('className').indexOf('selected') != -1){
+      //if followed tab is selected
+      if ( $('#followedTab li').attr('className').indexOf('selected') != -1 ){
+        //refresh followed list in question view
         displayFollowedQuestions();
       }
 	  }
@@ -574,8 +579,9 @@ function init() {
 	// from the profile page, a new search redirect to the main page
 	$('#searchBarProfile').keyup(function(event) {
 		 if (event.keyCode == '13') {
-		search = document.getElementById("searchBarProfile").value;
-	    document.location.href = '/?search='+search; }
+      search = document.getElementById("searchBarProfile").value;
+	    document.location.href = '/?search='+search; 
+     }
 	});
 	$('#message').click(function() {
 		removeMessage('messageContainer');
