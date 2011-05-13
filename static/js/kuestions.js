@@ -97,6 +97,8 @@ function enhanceSearch(search) {
 	if (search.substr(-1) !== " ") {
 		search += '*';
 	}
+	//search= replaceAll(search,' +',' ');
+    console.log(search);
 	return search;
 }
 
@@ -141,7 +143,7 @@ function displayFollowedQuestions(){
 
 
 // the minimun score a match should have in order to be displayed
-var minScore = 0.5;
+var minScore = 0.3;
 
 // displayQuestionList: accepts json list of questions, displays them as list on
 // left side of the page
@@ -455,12 +457,24 @@ function displayTimeline(data){
 	questionId=timeline[i].question;
 	console.log("#questionList_timeline #"+timeline[i]._id);
 	 var li = $('<li>',{
-	      text: timeline[i].user + " post an answer on" + timeline[i].questionTitle+"  "+timeline[i].eventDate,
 	      id: id
 	    }).appendTo($("#timelineList"));
 	  $("#questionList_timeline #"+id).click(function(){
 	   viewQuestion(questionId);
 	  });
+	  date= new Date()
+	  date.setTime(Date.parse(timeline[i].eventDate));
+	  date= date.getMonth()+"/"+date.getDay()+" "+date.getHours()+":"+date.getMinutes();
+	  var p= $('<span>',{
+		  text: date +" " +timeline[i].questionTitle+" "
+	  }).appendTo($("#timelineList #"+id));
+	  var a= $('<a>',{
+		  href:'/user/'+timeline[i].user,
+		  text :timeline[i].user 
+	  }).appendTo($("#timelineList #"+id));;
+	  var a= $('<span>',{
+		  text :'  post an answer'
+	  }).appendTo($("#timelineList #"+id));;
 	    
 	}
 }
