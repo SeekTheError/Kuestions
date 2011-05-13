@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from model.entities import Question,Rating,TimeLineEvent
 from django.utils.encoding import smart_unicode
 from security.userauth import checkSession, getCurrentUser
+from couchdbinterface.dblayer import getDb
 import json
 from hashlib import sha1
 
@@ -12,21 +13,32 @@ credentials = creds[0] + ':' + creds[1]
 
 
 def post(request) :
-  questionContent = smart_unicode(request.POST["question"], encoding='utf-8', strings_only=False, errors='strict')
+  #get current user
   context = checkSession(request)
   user = getCurrentUser(context)
-  if questionContent != "" and user: 
-    q = Question(asker=user.login, content=questionContent)
+
+  #get question data
+  questionTitle = smart_unicode(request.POST["title"], encoding='utf-8', strings_only=False, errors='strict')
+  questionDescription = smart_unicode(request.POST["description"], encoding='utf-8', strings_only=False, errors='strict')
+
+  if not user:
+    message = 'you must be logged in first!'
+  elif questionTitle == "":
+    message = 'a question needs words!'
+  else:
+    #create question
+    q = Question(asker=user.login, title=questionTitle, description=questionDescription)
     if request.POST.__contains__("tags") :
       tags=smart_unicode(request.POST["tags"], encoding='utf-8', strings_only=False, errors='strict')
       topics=tags.split(',')
       q.topics=topics
-    print q
-    q.create()
-    message = 'question successfully posted'
-  else :
-    message = 'a question needs words!'
-  #remove the displayed question 
+    try:
+      q.create()
+    except Exception as e:
+      message = e
+    else:
+      message = 'question successfully posted'
+
   response = HttpResponse();
   response["message"] = message;
   return response;
@@ -34,8 +46,7 @@ def post(request) :
 def viewQuestion(request):
   #obtain question by ID
   questionId = request.GET["questionId"]
-  q = Question(id=questionId)
-  q = q.findById()
+  q = Question.load(getDb(), questionId)
 
   #unwrap answer dictionaries so that we can serialize into json
   answerList = []
@@ -44,7 +55,7 @@ def viewQuestion(request):
 
   response = json.dumps({
     'id': q.id,
-    'content': q.content,
+    'title': q.title,
     'asker': q.asker,
     'views': q.views,
     'answers': answerList,

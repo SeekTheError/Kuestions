@@ -24,7 +24,6 @@ def getDb() : return db
 def getServer() : return server
 
 
-#SERVER_URL='http://rem:azertyuiop@localhost:5984/'
 SERVER_URL='http://localhost:5984/'
 def loadDatabase (server,dbname=DB_NAME) :
   '''
@@ -87,15 +86,4 @@ def view(viewName,keyValue=None) :
 
 def getDocument(id):
   return db.get(id)
-
-    
-  
-
-    
-
-
-
-  
- 
-    
 
