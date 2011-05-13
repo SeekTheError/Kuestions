@@ -23,6 +23,10 @@ def post(request) :
       q.topics=topics
     print q
     q.create()
+    q=q.findById()
+    user=user.findByLogin()
+    user.followedQuestions.append(q.id);
+    user.update()
     message = 'question successfully posted'
   else :
     message = 'a question needs words!'
