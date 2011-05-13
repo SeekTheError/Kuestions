@@ -36,7 +36,11 @@ def viewQuestion(request):
   questionId = request.GET["questionId"]
   q = Question(id=questionId)
   q = q.findById()
-
+  if q.views is None :
+    q.views = 0
+  q.views+=1
+  q.update()
+  
   #unwrap answer dictionaries so that we can serialize into json
   answerList = []
   for answer in q.answers:

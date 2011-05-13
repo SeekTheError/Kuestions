@@ -24,18 +24,22 @@ def gate(request) :
   url= '/'+request.path.replace(KUESTIONS_API_GET_URL,couchVar.DB_NAME)
   
   print url
-  params=None
+  params='?'
   if request.GET.__contains__('key') :
     param= smart_unicode(request.GET['key'], encoding='utf-8', strings_only=False, errors='strict')
-    params='?key='+quote(param.encode('UTF8'))
+    params='key='+quote(param.encode('UTF8'))
   if request.GET.__contains__('q') :
     param=smart_unicode(request.GET['q'], encoding='utf-8', strings_only=False, errors='strict')
-    params='?q='+quote(param.encode('UTF8'))
+    params='q='+quote(param.encode('UTF8'))
+  if request.GET.__contains__('descending') :
+    if params != '?' :
+      params+='&'
+    params+='&descending=true'
     
   import urllib2
   if params :
     url=unicode(url+params)
-  print url
+  print 'security/api redirect to: '+url
   f=urllib2.urlopen("http://localhost:5984"+url)
   data=''
   for line in f.readlines():
