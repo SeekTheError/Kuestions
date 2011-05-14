@@ -45,7 +45,7 @@ class Question(Document):
     if len(view) == 0:
       return None
     elif len(view) == 1:
-      for u in view : return Question.load(getDb(), u.id)
+      for q in view : return Question.load(getDb(), q.id)
     else:
       print 'ERROR: more than one question for this ID'
       raise IntegrityConstraintException

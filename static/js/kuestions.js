@@ -340,7 +340,7 @@ function postAnswer(answerText){
   
   // check if answer is empty
   if (answer == ""){
-	displayMessage("an answer needs word","answerMessageContainer"); 
+	displayMessage("an answer needs words","answerMessageContainer"); 
     return;
   }
 

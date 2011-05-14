@@ -2,7 +2,6 @@ from django.http import HttpResponse
 from model.entities import Question,Rating,TimeLineEvent
 from django.utils.encoding import smart_unicode
 from security.userauth import checkSession, getCurrentUser
-from couchdbinterface.dblayer import getDb
 import json
 from hashlib import sha1
 
@@ -100,7 +99,7 @@ def postAnswer(request):
   t=TimeLineEvent()
   t.user=user.login
   t.action="POST"
-  t.questionTitle=Question(id=questionId).findById().content
+  t.questionTitle=Question(id=questionId).findById().title
   t.answer=answerId
   t.question=questionId
   t.create()
