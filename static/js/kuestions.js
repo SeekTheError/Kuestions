@@ -153,14 +153,33 @@ var minScore = 0.3;
 // left side of the page
 // filterType = (search/timeline/followed)
 function displayQuestionList(questionList, filterType){
-  cleanQuestionList();
+  cleanQuestionList('search');
 
   // determine container to display questions
   var containerId = '#questionList_' + filterType;
+  
+  // generate styled question list
+  for (var i = 0; i < questionList.length; i++){
+    //create html
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img src="/kuestions/media/image/profile.png"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
 
-  // create ul
-  $(containerId).append('<ul id="questionSearchResults"></ul>');
+    //fill in data:
+    question = questionList[i];
 
+    //TODO:dynamic post date
+    //asker and post date
+    $(containerId + ' #askerAndPostDate' + i).html('<b>'+question.fields.asker+'</b> posted 3 days ago');
+    
+    //question title
+    $(containerId + ' #questionTitle' + i).text(question.fields.title);
+
+    //click handler for question detail view
+    $('#questionList'+i).click( {'questionId': questionList[i].id}, function(event){
+      viewQuestion(event.data.questionId);
+    });
+  }
+
+  /*
   // question data is not always consistent...need to parse data case by case
   if (filterType == 'search'){
     // fill search results
@@ -189,6 +208,7 @@ function displayQuestionList(questionList, filterType){
       });
     }
   }
+  */
 }
 
 function formatQuestion(question) {
@@ -200,8 +220,9 @@ function formatQuestion(question) {
 	return p;
 }
 
-function cleanQuestionList(){
-  $("#questionSearchResults").remove();
+function cleanQuestionList(listType){
+  var containerId = '#questionList_' + listType;
+  $(containerId).empty();
 }
 
 /** ********View Question*********** */
@@ -210,6 +231,20 @@ function cleanQuestionList(){
 // views a question when you click one
 // creates a 'question page' on the right side of the page
 function viewQuestion(questionId){
+  $.ajax({
+    url: '/api/'+questionId,
+    dataType: "json",
+    success: function(data){
+      //populate question detail display
+      //TODO: question asker photo
+      $('.question_title').html(data.title);
+      $('.questionAsker').text(data.asker);
+      $('.detail_contents').text(data.description);
+
+      viewAnswers(data.answers);
+    }
+  });
+  /*
   removeMessage("answerMessageContainer");
   $.ajax({
     url: '/question/view/',
@@ -231,6 +266,7 @@ function viewQuestion(questionId){
       viewAnswers(data.answers);
 	$("#answerInput").val("");}
   });
+  */
 }
 
 function hideQuestionDetail(){
@@ -305,6 +341,29 @@ function userIsFollowingQuestion(questionId){
 
 // takes list of answers as input and displays them on #answerList
 function viewAnswers(answers){
+  //clear existing answer list
+  $('.answer').each(function(){
+    console.log( $(this));
+    if ( $(this).attr('id') != 'answer_template' ){
+      $(this).remove();
+    }
+  });
+
+  //add answer list
+  for (var i = 0; i < answers.length; i++){
+    var answer = $('#answer_template').clone();
+
+    answer.attr('id', 'answer'+i);
+    answer.show();
+    
+    answer.find('.rate_info').text(answers[i].score);
+    answer.find('.question_text').text(answers[i].content);
+    answer.find('.info').text(answers[i].poster);
+
+    $('.answers_wrapper').append(answer);
+  }
+
+  /*
   // clear existing answer list
   $("#answerList").empty();
   // populate answer list
@@ -333,6 +392,7 @@ function viewAnswers(answers){
       decAnswerScore(e.data.answerId);
     });
   }
+  */
 }
 
 function postAnswer(answerText){
@@ -567,8 +627,10 @@ function loadSession(){
 }
 
 function init() {
+  $('#answer_template').hide();
   $("#timelineLink").click(function () {
-	  loadTimeline();})	;
+	  loadTimeline();
+  });
 	
   $('#searchBar').keyup(function(event) {
 		searchQuestions();
