@@ -160,4 +160,12 @@ def pictureUpload(request):
         user.picture=path
         user.update()
   
-  return HttpResponseRedirect('/user/') 
+  return HttpResponseRedirect('/user/')
+  
+  
+def userPicture(request, login):
+  user=User(login=login)
+  user=user.findByLogin()
+  if not user:
+    return HttpResponse('No User',mimetype="image/jpg")  
+  return HttpResponseRedirect('/kuestions/media/'+user.picture)

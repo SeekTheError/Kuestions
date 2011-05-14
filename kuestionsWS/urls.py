@@ -34,5 +34,8 @@ urlpatterns = patterns('',
     #For static media files
     (r'^kuestions/media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_MEDIA_ROOT}),
-   
+        
+        
+    #For serving user proifle picture
+    (r'^user/picture/(?P<login>\w+)/+$','controller.profilecontroller.userPicture'),
 )
