@@ -31,7 +31,7 @@ a:hover {
   overflow-x: hidden;
   overflow-y: hidden;
   border-bottom: 1px solid black;
-  z-index: 100000;
+  z-index: 1;
 }
 
 

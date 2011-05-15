@@ -34,7 +34,7 @@
 #facebox .content {
   display:table;
   width: 370px;
-  padding: 10px;
+  padding: 0px;
   background: #fff;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -50,13 +50,12 @@
 
 #facebox .close{
   position:absolute;
-  top:5px;
+  top:4px;
   right:5px;
   padding:2px;
-  background:#fff;
 }
 #facebox .close img{
-  opacity:0.3;
+  opacity:0.9;
 }
 #facebox .close:hover img{
   opacity:1.0;
@@ -90,4 +89,89 @@
 .facebox_overlayBG {
   background-color: #000;
   z-index: 99;
+}
+
+
+
+#facebox .content .dialog_header{
+  background-color: #004c4c;
+  color:white;
+  font-size: 18px;
+  font-weight: bold;
+  padding:5px 10px;
+  text-shadow: 1px 1px 0 #343434;
+  max-height: 20px;
+}
+
+#facebox .content .dialog_footer{
+  background-color: #ededed;
+  color:#ababab; font-size: 14px;
+  padding:5px 10px;
+  text-align: center;
+}
+
+#facebox .content .dialog_footer b{text-shadow: 1px 1px 0 #fff;
+font-size: 16px;
+font-weight: bold;
+color:#ababab;margin-right: 10px;}
+
+#facebox .content .dialog_main{
+  display: inline-block;
+  background-color: #fff;
+}
+#facebox .content .dialog_left{ 
+  float:left; width:380px;
+  padding:10px 10px;
+  font-size: 16px;
+}
+  
+#facebox .content .dialog_left .welcome b{
+  text-shadow: 1px 1px 0 #fff;
+  font-size: 30px;
+  font-weight: bold;
+  display: block;
+}
+
+#facebox .content .dialog_right{ 
+  float:left; width:380px;
+  padding:10px 10px;
+}
+
+#facebox .content .dialog_right .input_item{
+  background-color: #181818;
+  color: white;
+  height: 25px;
+  vertical-align: middle;
+  padding: 10px;
+  margin: 5px;
+  font-size: 14px;
+  -webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+  
+}
+#facebox .content .dialog_right .input_item b{
+  margin: 0px 10px 0px 0px;
+  line-height: 25px;
+}
+
+#facebox .content .dialog_right .input_item input{
+  float:right;
+  width:240px;
+  height: 20px;
+  border:none;
+    -webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 2px 10px;
+	font-size: 12px;
+}
+
+#facebox .content .dialog_right .submit{
+  text-align: right;
+  padding: 2px 5px;
+  
+}
+#facebox .content .dialog_right .submit .button{
+  font-size: 14px;
 }
