@@ -133,7 +133,7 @@ def rateAnswer(request):
   r=Rating(_id=sha1(user.id+answerId).hexdigest())  
   if r.findById() :
     response=HttpResponse(getAnswersJson(questionId))
-    response['message']='You have already rate this answer'
+    response['message']='You have already rated this answer'
     return response
   
   

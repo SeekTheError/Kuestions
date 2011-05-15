@@ -235,6 +235,9 @@ function viewQuestion(questionId){
     url: '/api/'+questionId,
     dataType: "json",
     success: function(data){
+      //embed question id into question display div
+      $('.question_display').attr('data-questionId', data._id);
+
       //populate question detail display
       //TODO: question asker photo
       $('.question_title').html(data.title);
@@ -245,26 +248,9 @@ function viewQuestion(questionId){
     }
   });
   /*
-  removeMessage("answerMessageContainer");
-  $.ajax({
-    url: '/question/view/',
-    type: "GET",
-    data: "questionId=" + questionId ,
-    dataType: "json",
-    success: function(data) { // data is question json data
-      // unhide question detail
-      $("#questionDetail").removeClass("hidden");
-      // embed current question ID into #questionDetail
-      $("#questionDetail").attr("data-questionId", data.id);
-      // set question Title
-      $("#questionTitle").text(data.title);
-      // display asker
-      $("#questionAsker").attr("href","/user/"+ data.asker);
-      $("#questionAsker").text(data.asker);
       // display follow or unfollow on the button, and set it action
       setManageFollowButton(questionId);
-      viewAnswers(data.answers);
-	$("#answerInput").val("");}
+	    $("#answerInput").val("");}
   });
   */
 }
@@ -343,7 +329,6 @@ function userIsFollowingQuestion(questionId){
 function viewAnswers(answers){
   //clear existing answer list
   $('.answer').each(function(){
-    console.log( $(this));
     if ( $(this).attr('id') != 'answer_template' ){
       $(this).remove();
     }
@@ -352,47 +337,21 @@ function viewAnswers(answers){
   //add answer list
   for (var i = 0; i < answers.length; i++){
     var answer = $('#answer_template').clone();
-
-    answer.attr('id', 'answer'+i);
     answer.show();
+    answer.attr('id', 'answer'+i);
     
     answer.find('.rate_info').text(answers[i].score);
     answer.find('.question_text').text(answers[i].content);
     answer.find('.info').text(answers[i].poster);
+    answer.find('.rate_up').click({'answerId': answers[i].id}, function(e){
+      incAnswerScore(e.data.answerId);
+    });
+    answer.find('.rate_down').click({'answerId': answers[i].id}, function(e){
+      decAnswerScore(e.data.answerId);
+    });
 
     $('.answers_wrapper').append(answer);
   }
-
-  /*
-  // clear existing answer list
-  $("#answerList").empty();
-  // populate answer list
-  for (var i = 0; i < answers.length; i++){
-    var li = $('<li>',{
-      text: answers[i].content + ": " + answers[i].score,
-      id: answers[i].id
-    }).appendTo($("#answerList"));
-
-    // rating buttons
-    var plusButton = $('<input>',{
-      type: "button",
-      value: "+"
-    }).appendTo(li);
-
-    plusButton.click({'answerId': answers[i].id}, function(e){
-      incAnswerScore(e.data.answerId);
-    });
-
-    var minusButton = $('<input>',{
-      type: "button",
-      value: "-"
-    }).appendTo(li);
-
-    minusButton.click({'answerId': answers[i].id}, function(e){
-      decAnswerScore(e.data.answerId);
-    });
-  }
-  */
 }
 
 function postAnswer(answerText){
@@ -410,7 +369,7 @@ function postAnswer(answerText){
     url: '/question/postAnswer/',
     type: "POST",
     dataType: "JSON",
-    data: "answer=" + answer + '&questionId=' + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    data: "answer=" + answer + '&questionId=' + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     success: function(data){
       if (data.error){
         displayMessage(data.errorMessage,'answerMessageContainer');
@@ -430,7 +389,7 @@ function incAnswerScore(answerId){
   $.ajax({
     url: '/question/rateAnswer/',
     type: "POST",
-    data: "type=increment" + "&answerId=" + answerId + "&questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    data: "type=increment" + "&answerId=" + answerId + "&questionId=" + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     dataType: "json",
     success: function(data, textStatus, jqxhr){    
       displayMessage(jqxhr.getResponseHeader('message'),"answerMessageContainer");
@@ -445,7 +404,7 @@ function decAnswerScore(answerId){
   $.ajax({
     url: '/question/rateAnswer/',
     type: "POST",
-    data: "type=decrement" + "&answerId=" + answerId + "&questionId=" + $("#questionDetail").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    data: "type=decrement" + "&answerId=" + answerId + "&questionId=" + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     dataType: "json",
     success: function(data, textStatus, jqXHR){
       displayMessage(jqXHR.getResponseHeader('message'),"answerMessageContainer");
