@@ -75,10 +75,11 @@ def session(request):
     sessionId=request.COOKIES[userauth.COOKIE_KEY]
     user=User(sessionId=sessionId)
     user=user.findBySessionId()
-    userW={"login":user.login,
-           "followedQuestions":user.followedQuestions,
-           "isOpen":True         
-           }
+    userW={
+      "login":user.login,
+      "followedQuestions":user.followedQuestions,
+      "isOpen":True         
+    }
     return HttpResponse(json.dumps(userW))
   else :
     return HttpResponse(json.dumps({"isOpen":False}))

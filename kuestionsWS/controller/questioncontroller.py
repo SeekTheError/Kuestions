@@ -222,7 +222,9 @@ def displayFollowedQuestions(request):
     q = q.findById()
     questionList.append({
       'id': q.id,
-      'content': q.content,
+      'title': q.title,
+      'asker': q.asker,
+      'postDate': q.postDate.isoformat(),
     })
 
   return HttpResponse(json.dumps(questionList))

@@ -153,7 +153,7 @@ var minScore = 0.3;
 // left side of the page
 // filterType = (search/timeline/followed)
 function displayQuestionList(questionList, filterType){
-  cleanQuestionList('search');
+  cleanQuestionList(filterType);
 
   // determine container to display questions
   var containerId = '#questionList_' + filterType;
@@ -164,51 +164,35 @@ function displayQuestionList(questionList, filterType){
     $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img src="/kuestions/media/image/profile.png"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
 
     //fill in data:
-    question = questionList[i];
+    questionId = "";
+    title = "";
+    asker = "";
+    postDate = "";
+    //access data differently based on filter
+    if (filterType == 'search'){
+      questionId = questionList[i].id;
+      title = questionList[i].fields.title;
+      asker = questionList[i].fields.asker;
+      postDate = questionList[i].fields.postDate;
+    } else if (filterType == 'followed'){
+      questionId = questionList[i].id;
+      title = questionList[i].title;
+      asker = questionList[i].asker;
+      postDate = questionList[i].postDate;
+    }
 
-    //TODO:dynamic post date
+    //TODO: post date message ex: 'posted 3 days ago'
     //asker and post date
-    $(containerId + ' #askerAndPostDate' + i).html('<b>'+question.fields.asker+'</b> posted 3 days ago');
+    $(containerId + ' #askerAndPostDate' + i).html('<b>'+asker+'</b> posted on ' + postDate);
     
     //question title
-    $(containerId + ' #questionTitle' + i).text(question.fields.title);
+    $(containerId + ' #questionTitle' + i).text(title);
 
     //click handler for question detail view
-    $('#questionList'+i).click( {'questionId': questionList[i].id}, function(event){
+    $('#questionList'+i).click( {'questionId': questionId}, function(event){
       viewQuestion(event.data.questionId);
     });
   }
-
-  /*
-  // question data is not always consistent...need to parse data case by case
-  if (filterType == 'search'){
-    // fill search results
-    for (i = 0; i < questionList.length; i++){
-      if (questionList[i].score >= minScore){
-        var li = $('<li>',{
-          id: questionList[i].id,
-          text: questionList[i].fields.title,
-        }).appendTo($("#questionSearchResults"));
-
-        li.click({'questionId': questionList[i].id}, function(event){
-          viewQuestion(event.data.questionId);
-        });
-      }
-    }
-  } else if (filterType == 'followed'){
-    // fill search results
-    for (i = 0; i < questionList.length; i++){
-      var li = $('<li>',{
-        id: questionList[i].id,
-        text: questionList[i].content
-      }).appendTo($("#questionSearchResults"));
-
-      li.click({'questionId': questionList[i].id}, function(event){
-        viewQuestion(event.data.questionId);
-      });
-    }
-  }
-  */
 }
 
 function formatQuestion(question) {
@@ -221,8 +205,7 @@ function formatQuestion(question) {
 }
 
 function cleanQuestionList(listType){
-  var containerId = '#questionList_' + listType;
-  $(containerId).empty();
+  $('#questionList_'+listType).empty();
 }
 
 /** ********View Question*********** */
@@ -237,6 +220,7 @@ function viewQuestion(questionId){
     success: function(data){
       //embed question id into question display div
       $('.question_display').attr('data-questionId', data._id);
+      $('.question_display').show();
 
       //populate question detail display
       //TODO: question asker photo
@@ -244,15 +228,12 @@ function viewQuestion(questionId){
       $('.questionAsker').text(data.asker);
       $('.detail_contents').text(data.description);
 
+      setManageFollowButton(data._id);
+
       viewAnswers(data.answers);
+      $("#answerInput").val("");
     }
   });
-  /*
-      // display follow or unfollow on the button, and set it action
-      setManageFollowButton(questionId);
-	    $("#answerInput").val("");}
-  });
-  */
 }
 
 function hideQuestionDetail(){
@@ -281,7 +262,7 @@ function setManageFollowButton(questionId){
 
 function manageFollowQuestion(){
 	csrf = $("#security_csrf input:first").val();
-	questionId=$("#questionDetail").attr("data-questionId");
+	questionId=$(".question_display").attr("data-questionId");
 	data="questionId=" + questionId + '&csrfmiddlewaretoken=' 
 			+ csrf+"&action="+$("#manageFollow").attr('action');
 	$.ajax({
@@ -301,11 +282,13 @@ function manageFollowQuestion(){
 	    setManageFollowButton(questionId);
 
 
+      /* TODO: implement followed tab refresh
       //if followed tab is selected
       if ( $('#followedTab li').attr('className').indexOf('selected') != -1 ){
         //refresh followed list in question view
         displayFollowedQuestions();
       }
+      */
 	  }
 	});
 }
@@ -586,6 +569,7 @@ function loadSession(){
 }
 
 function init() {
+  $('.question_display').hide();
   $('#answer_template').hide();
   $("#timelineLink").click(function () {
 	  loadTimeline();
@@ -604,6 +588,7 @@ function init() {
 	    document.location.href = '/?search='+search; 
      }
 	});
+	$("#searchBar").focus();
 	$('#message').click(function() {
 		removeMessage('messageContainer');
 	});
@@ -611,5 +596,4 @@ function init() {
    	 $("#manageFollow").attr('disabled','disabled'); 
  	     manageFollowQuestion();
     });
-	$("#searchBar").focus();
 }
