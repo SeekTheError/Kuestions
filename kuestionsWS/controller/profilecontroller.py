@@ -107,15 +107,15 @@ def addTopic(request):
     user = user.findByLogin()
     
     if request.POST['newTopic']:
-      newTopic = smart_unicode(request.POST["newTopic"], encoding='utf-8', strings_only=False, errors='strict')
-      #newTopic = request.POST['newTopic'].decode('UTF-8')
-      print "add Topic:"+newTopic
-      topics = user.topics
-      if not (newTopic.lower() in (topic.lower() for topic in topics)):
-        
-        user.topics.append(newTopic)
-        user.update()
-        print "result: "+str(user.topics)
+      inputTopicStr=smart_unicode(request.POST["newTopic"], encoding='utf-8', strings_only=False, errors='strict')
+      inputArray=inputTopicStr.split(' ');
+      for newTopic in inputArray:
+        print "add Topic:"+newTopic
+        topics = user.topics
+        if not (newTopic.lower() in (topic.lower() for topic in topics)):
+          user.topics.append(newTopic)
+          user.update()
+          print "result: "+str(user.topics)
   return HttpResponseRedirect('/user/')
 
 def deleteTopic(request):

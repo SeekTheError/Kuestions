@@ -118,11 +118,13 @@ color:#ababab;margin-right: 10px;}
 #facebox .content .dialog_main{
   display: inline-block;
   background-color: #fff;
+  width:100%;
+}
+#facebox .content .dialog_wrapper{
+  float:left; width:50%;
 }
 #facebox .content .dialog_left{ 
-  float:left; width:380px;
-  padding:10px 10px;
-  font-size: 16px;
+  padding:10px;
 }
   
 #facebox .content .dialog_left .welcome b{
@@ -133,8 +135,7 @@ color:#ababab;margin-right: 10px;}
 }
 
 #facebox .content .dialog_right{ 
-  float:left; width:380px;
-  padding:10px 10px;
+  padding:10px;
 }
 
 #facebox .content .dialog_right .input_item{
@@ -174,4 +175,15 @@ color:#ababab;margin-right: 10px;}
 }
 #facebox .content .dialog_right .submit .button{
   font-size: 14px;
+}
+
+
+.dialog_main .picture_uploader{
+  padding:10px;
+}
+.dialog_main .picture_uploader h2{
+  margin:0px;
+}
+.dialog_main .picture_uploader form{
+  padding:10px;
 }

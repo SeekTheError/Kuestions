@@ -78,7 +78,7 @@ $(document).ready(function() {
 					</form>
 
 					<span class="register_link"> Don't have an account yet? <a
-						href="#register_dialog" rel="facebox" onClick="$('#facebox .content').css('width','800px'); return false;">Register to Kuestions</a>
+						href="#register_dialog" rel="facebox" onClick="openFacebox(800);">Register to Kuestions</a>
 					</span>
 			</div>
 			{% endif %}
@@ -293,31 +293,35 @@ $(document).ready(function() {
 <div class="dialog_header">Register</div>
 
 <div class="dialog_main">
-  <div class="dialog_left">
-    <div class="welcome">
-      <b>Welcome To Kuestions</b>
-      Kuestions is...
+  <div class="dialog_wrapper">
+    <div class="dialog_left">
+      <div class="welcome">
+        <b>Welcome To Kuestions</b>
+        Kuestions is...
+      </div>
     </div>
   </div>
-
-  <div class="dialog_right">
-    <form action="/register/" method="post">
-		  {% csrf_token %}
-  	  <h2>Please input those information in order to create
+  
+  <div class="dialog_wrapper">
+    <div class="dialog_right">
+      <form action="/register/" method="post">
+		    {% csrf_token %}
+  	   <h2>Please input those information in order to create
 						a new account.</h2>
-		  <div class="input_item">
-		    <b>Username</b><input type="text" name="registerLogin">
-		  </div>
-		  <div class="input_item">
-		    <b>Password</b><input type="password" name="registerPassword">
-		  </div>
-		  <div class="input_item">
-		    <b>Email</b><input type="text" name="registerEmail">
-		  </div>
-		  <div class="submit">
-		    <button type="submit"class="button orange radius">Register</button>
-		  </div>
-    </form>
+		   <div class="input_item">
+		     <b>Username</b><input type="text" name="registerLogin">
+		   </div>
+		   <div class="input_item">
+		     <b>Password</b><input type="password" name="registerPassword">
+		    </div>
+		    <div class="input_item">
+		      <b>Email</b><input type="text" name="registerEmail">
+		    </div>
+		    <div class="submit">
+		      <button type="submit"class="button orange radius">Register</button>
+		    </div>
+      </form>
+    </div>
   </div>
 </div>
 

@@ -619,3 +619,16 @@ function init() {
     $(this).slideToggle("fast");
 	});
 }
+
+
+
+function openFacebox(size){
+  $('#facebox .content').css('width',size+'px'); return false;
+}
+
+
+function uploadImage(){
+  alert('1');
+  
+  return false;
+}
