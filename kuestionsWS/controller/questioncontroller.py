@@ -48,7 +48,7 @@ def post(request) :
   
 def viewQuestion(request):
   #obtain question by ID
-  questionId = request.GET["questionId"]
+  questionId = request.POST["questionId"]
   q = Question(id=questionId)
   q = q.findById()
   if q.views is None :
@@ -64,6 +64,7 @@ def viewQuestion(request):
   response = json.dumps({
     'id': q.id,
     'title': q.title,
+    'description': q.description,
     'asker': q.asker,
     'views': q.views,
     'answers': answerList,

@@ -3,12 +3,8 @@ from model.entities import Question,Rating,TimeLineEvent
 from security.userauth import checkSession, getCurrentUser
 import json
 
-
-
-
-
-
 def get(request):
+  print 'get'
   context = checkSession(request)
   user = getCurrentUser(context)
   if user is None:

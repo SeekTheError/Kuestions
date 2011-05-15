@@ -116,7 +116,7 @@ function searchQuestions(search) {
 
 	if (search != "") {
 		search=enhanceSearch(search);
-    var url = '/api/_fti/_design/question/by_title';
+    var url = '/api/_fti/_design/question/by_title?';
     $.ajax({
       url : url,
       data : 'q=' + search,
@@ -140,7 +140,26 @@ function displayFollowedQuestions(){
     url: '/question/display/followed/',
     dataType: "JSON",
     success: function(data){
-      displayQuestionList(data, 'followed');
+      if (data.length > 0 ){
+        displayQuestionList(data, 'followed');
+      } else{
+        $('#questionList_followed').text('no followed questions...yet');
+      }
+    }
+  });
+}
+
+function displayPopularQuestions(){
+  if(!user_session.isOpen){
+    console.log('need to log in first');
+    return;
+  }
+
+  $.ajax({
+    url: '/api/_design/question/_view/popular?descending=true',
+    dataType: "JSON",
+    success: function(data){
+      displayQuestionList(data.rows, 'popular');
     }
   });
 }
@@ -164,21 +183,27 @@ function displayQuestionList(questionList, filterType){
     $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img src="/kuestions/media/image/profile.png"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
 
     //fill in data:
+    question = questionList[i];
     questionId = "";
     title = "";
     asker = "";
     postDate = "";
     //access data differently based on filter
     if (filterType == 'search'){
-      questionId = questionList[i].id;
-      title = questionList[i].fields.title;
-      asker = questionList[i].fields.asker;
-      postDate = questionList[i].fields.postDate;
+      questionId = question.id;
+      title = question.fields.title;
+      asker = question.fields.asker;
+      postDate = question.fields.postDate;
     } else if (filterType == 'followed'){
-      questionId = questionList[i].id;
-      title = questionList[i].title;
-      asker = questionList[i].asker;
-      postDate = questionList[i].postDate;
+      questionId = question.id;
+      title = question.title;
+      asker = question.asker;
+      postDate = question.postDate;
+    } else if (filterType == 'popular'){
+      questionId = question.id;
+      title = question.value.title;
+      asker = question.value.asker;
+      postDate = question.value.postDate;
     }
 
     //TODO: post date message ex: 'posted 3 days ago'
@@ -195,13 +220,47 @@ function displayQuestionList(questionList, filterType){
   }
 }
 
-function formatQuestion(question) {
-	span = document.createElement("span");
-	p = document.createElement("p");
-	p.id = question.id;
-	p.textContent = question.content;
-	span.appendChild(p);
-	return p;
+function loadTimeline(){
+	 $("#questionList_timeline #timelineList").remove();
+	 $.ajax({
+		    url: '/timeline/',
+		    type: "GET",
+		    dataType: "json",
+		    success: function(data){
+		      displayTimeline(data);   
+		    }});
+	
+}
+
+function displayTimeline(data){
+	timeline=eval(data);
+	console.log(timeline);
+	$("#questionList_timeline").append('<ul id="timelineList"></ul>');
+	for(i=0;i<timeline.length;i++){
+	id=timeline[i]._id.replace(".","");
+	questionId=timeline[i].question;
+	console.log("#questionList_timeline #"+timeline[i]._id);
+	 var li = $('<li>',{
+	      id: id
+	    }).appendTo($("#timelineList"));
+	  $("#questionList_timeline #"+id).click(function(){
+	   viewQuestion(questionId);
+	  });
+	  date= new Date()
+	  date.setTime(Date.parse(timeline[i].eventDate));
+	  date= date.getMonth()+"/"+date.getDay()+" "+date.getHours()+":"+date.getMinutes();
+	  var p= $('<span>',{
+		  text: date +" " +timeline[i].questionTitle+" "
+	  }).appendTo($("#timelineList #"+id));
+	  var a= $('<a>',{
+		  href:'/user/'+timeline[i].user,
+		  text :timeline[i].user 
+	  }).appendTo($("#timelineList #"+id));;
+	  var a= $('<span>',{
+		  text :'  post an answer'
+	  }).appendTo($("#timelineList #"+id));;
+	    
+	}
 }
 
 function cleanQuestionList(listType){
@@ -214,12 +273,15 @@ function cleanQuestionList(listType){
 // views a question when you click one
 // creates a 'question page' on the right side of the page
 function viewQuestion(questionId){
+	csrf = $("#security_csrf input:first").val();
   $.ajax({
-    url: '/api/'+questionId,
+    url: '/question/view/',
+    type: 'POST',
+    data: 'questionId='+questionId + '&csrfmiddlewaretoken='+csrf,
     dataType: "json",
     success: function(data){
       //embed question id into question display div
-      $('.question_display').attr('data-questionId', data._id);
+      $('.question_display').attr('data-questionId', data.id);
       $('.question_display').show();
 
       //populate question detail display
@@ -282,11 +344,12 @@ function manageFollowQuestion(){
 	    setManageFollowButton(questionId);
 
 
-      /* TODO: implement followed tab refresh
+      /*
       //if followed tab is selected
-      if ( $('#followedTab li').attr('className').indexOf('selected') != -1 ){
+      if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
         //refresh followed list in question view
         displayFollowedQuestions();
+        console.log('refreshed');
       }
       */
 	  }
@@ -437,54 +500,7 @@ function removeMessage(containerId) {
 	$("#" + containerId ).empty();
 	}
 
-/*
- * use to display a search comming from the profile page
- * 
- * 
- */
 
-function loadTimeline(){
-	 $("#questionList_timeline #timelineList").remove();
-	 $.ajax({
-		    url: '/timeline/',
-		    type: "GET",
-		    dataType: "json",
-		    success: function(data){
-		      displayTimeline(data);   
-		    }});
-	
-}
-
-function displayTimeline(data){
-	timeline=eval(data);
-	console.log(timeline);
-	$("#questionList_timeline").append('<ul id="timelineList"></ul>');
-	for(i=0;i<timeline.length;i++){
-	id=timeline[i]._id.replace(".","");
-	questionId=timeline[i].question;
-	console.log("#questionList_timeline #"+timeline[i]._id);
-	 var li = $('<li>',{
-	      id: id
-	    }).appendTo($("#timelineList"));
-	  $("#questionList_timeline #"+id).click(function(){
-	   viewQuestion(questionId);
-	  });
-	  date= new Date()
-	  date.setTime(Date.parse(timeline[i].eventDate));
-	  date= date.getMonth()+"/"+date.getDay()+" "+date.getHours()+":"+date.getMinutes();
-	  var p= $('<span>',{
-		  text: date +" " +timeline[i].questionTitle+" "
-	  }).appendTo($("#timelineList #"+id));
-	  var a= $('<a>',{
-		  href:'/user/'+timeline[i].user,
-		  text :timeline[i].user 
-	  }).appendTo($("#timelineList #"+id));;
-	  var a= $('<span>',{
-		  text :'  post an answer'
-	  }).appendTo($("#timelineList #"+id));;
-	    
-	}
-}
 
 function getUrlVars()
 {
@@ -555,6 +571,12 @@ $(document).ready(function() {
   $('#followedTab').click(function(){
     displayFollowedQuestions();
   });
+  $('#popularTab').click(function(){
+    displayPopularQuestions();
+  });
+  $("#timelineLink").click(function () {
+	  loadTimeline();
+  });
 });
 
 function loadSession(){
@@ -571,9 +593,6 @@ function loadSession(){
 function init() {
   $('.question_display').hide();
   $('#answer_template').hide();
-  $("#timelineLink").click(function () {
-	  loadTimeline();
-  });
 	
   $('#searchBar').keyup(function(event) {
 		searchQuestions();

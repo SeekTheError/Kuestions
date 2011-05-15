@@ -95,6 +95,8 @@ $(document).ready(function() {
 <div class="contents">
 <div class="main">
 
+<div id="messageContainer"></div>
+
 <!--Left Contents Start-->
 <div class="left">
 <div class="left_wrapper">
@@ -135,41 +137,8 @@ $(document).ready(function() {
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
-                  <div class="test list" id="test">
-                    <div class="test list" id="test">
-                      <div class="speech_wrapper">
-                        <div class="profile question"><img src="{{MEDIA_URL}}/image/profile.png" /></div>
-                        <div class="speech">
-                          <div class="info">
-                            <span><b>ujlikes</b> asked 3 days ago</span>
-                          </div>
-                          <div class="question">
-                            <p class="bubble"></p>
-                            <p class="question_text">
-                              I wanna know about KAIST!!!
-                            </p>
-                          </div>
-                          
-                          <div class="best_answer">
-                            <div class="profile"><img src="{{MEDIA_URL}}/image/profile2.png" /></div>
-                            <div class="speech">
-                              <div class="info"><b>Google</b> answered 3 days ago</div>
-                              <div class="question">
-                                <p class="bubble"></p>
-                                <p class="question_text">
-                                  KAIST was established by the Korean government in 1971 as the nation's first research oriented science and engineering institution. The QS-The Times World University Rankings in the year of 2009 placed KAIST 69th overall and 21st in specialties technology and information technology in the world.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="actions">
-                            <span class="follow"><a href="#"><img src="{{MEDIA_URL}}/image/icon_star_off.png" title="Unfollow"/></a></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div><!-- .list -->
-                    
-
+                  <div class="popular list" id="questionList_popular">
+                    popular questions
                   </div>
                 </div><!-- .panel-wrapper -->
               </div><!--- .panel -->
