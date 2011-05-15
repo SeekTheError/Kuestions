@@ -78,7 +78,7 @@ function editResume(){
 				  <a href='/user/'><li>Profile</li></a>
 					<a href='/security/out'> <li>Sign Out</li></a>
 				</ul>
-				<div class="profile"><img class="radius" src="{{ MEDIA_URL }}/{{ currentUser.picture }}"/></div>
+				<div class="profile"><img class="radius" src="/user/picture/{{ user.login }}"/></div>
 		  </div>
 		  {% else %}
 		  <div class="signin_box">
