@@ -685,7 +685,7 @@ $(document).ready(function() {
   vars=getUrlVars();
 	if(vars["search"]){
 		search=vars["search"];
-		$('#searchBar').attr('value',unescape(search));
+		$('#searchBar').attr('value',decodeURIComponent(search));
 		if(vars["topic"] && vars["topic"] == '1'){
 		  searchQuestionsHasTopic(vars["search"]);
 		}
@@ -773,7 +773,13 @@ function init() {
     $(this).slideToggle("fast");
 	});
 	
-	setInterval(maintainHeightEqual, 1000);
+	
+	var size=$(window).height()-140;
+	$(".right").css('max-height',size+'px');
+	$(window).resize(function(){
+	 var size=$(window).height()-140;
+	 $(".right").css('max-height',size+'px');
+	});
 }
 
 
@@ -857,13 +863,3 @@ function humane_date(date_str){
 
 	return date_str;
 };
-
-
-function maintainHeightEqual(){
-  var lHeight=$(".contents .left").height();
-  var rHeight=$(".contents .right").height();
-  var max=lHeight;
-  if(rHeight > lHeight){
-    max=rHeight;
-  }
-}
