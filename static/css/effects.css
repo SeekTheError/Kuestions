@@ -24,3 +24,28 @@
 	-moz-border-radius: 0px 5px 5px 0px;
 	border-radius: 0px 5px 5px 0px;
 }
+
+
+/* Scroll bar */
+
+.right::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    padding: 0px;
+    padding-right: 10px;
+    -webkit-border-radius: 1ex
+}
+
+.right::-webkit-scrollbar-thumb {
+    background-color: rgba(053,057,071,0.3);
+    padding: 8px;
+    width: 6px;
+    height: 6px;
+    -webkit-border-radius: 1ex;
+}
+
+.right::-webkit-scrollbar-thumb:vertical{
+    height: 3px;
+    width: 3px;
+    margin: 3px;
+}

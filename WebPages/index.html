@@ -49,7 +49,7 @@ $(document).ready(function() {
       </div>
       {% if sessionIsOpen %}
       <div class="ask_wrapper">
-        <a href="#question_dialog" rel=facebox>Ask Question!</a>
+        <a href="#question_dialog2" onClick="openFacebox(800);" rel=facebox>Ask Question!</a>
       </div>
       {% endif %}
     </div>
@@ -200,7 +200,7 @@ $(document).ready(function() {
 
       <div id="answerMessageContainer"></div>
       
-      <div id="answer_template" class="answer">
+      <div id="answer_template" class="answer" style="display:none;">
         <div class="profile">
           <a class="userLink"><img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/></a>
           <div class="rate_wrapper">
@@ -285,35 +285,45 @@ $(document).ready(function() {
 <!--For Modal Dialogs-->
 <!--Ask Question Dialog-->
 {% if sessionIsOpen %}
-<div id="question_dialog" style="display: none">
-	<div class="post_form">
-	
-		<h1>Post a new question</h1>
+<!--Register Dialog-->
+<div class="dialog" id="question_dialog2" style="display: none">
+<div class="dialog_header">Ask Question!</div>
 
-		<h2>#1 Enter a question</h2>
-		<p>What do you want to know?</p>
-		<input type="text" id="questionTitleInput" class="i.postBar" size=60 onchange="loadQuestionTags(value);" />
+<div class="dialog_main">
+  <div class="dialog_wrapper">
+    <div class="dialog_left">
+      <div class="post_form">
+		    <h2>#1 Enter a question</h2>
+		    <p>What do you want to know?</p>
+		    <input type="text" id="questionTitleInput" class="i.postBar textInput" onchange="loadQuestionTags(value);" />
 
-    <hr />
-    <h2>#2 Enter question description</h2>
-    <p>(optional) If you would like to add a description to your question, please input it here<p>
-    <input type="text" id="questionDescriptionInput" class="i.postBar" size=60 onchange="loadQuestionTags(value);" />
-
-	</div>
-	<hr />
-	<h2>#3 Tag it</h2>
-	<p class="justified">To increase your chances of receiving an answer quickly, we
-		automatically added some tags that could match. However, you can edit this list, or add tags manually</p>
-	<div id='tagsZone' class="tagsZone"></div>
-	
-	<input type="text" id="tagBar" class="i.postBar" size=20 onchange="addTag(value);"/>
-	<hr/>
-	<h2>#4 Post It</h2>
-	<p>Once your fully satisfied, you can post your question</p>
-	<table><tr><td><input type="button" value="Post your Question"
-		onclick="postQuestion();" /></td><td><span class="message" id="postMessageContainer"></span></td></tr></table>
-	 
+        <h2>#2 Enter question description</h2>
+        <p>(optional) If you would like to add a description to your question, please input it here<p>
+        <input type="text" id="questionDescriptionInput" class="i.postBar textInput" onchange="loadQuestionTags(value);" />
+	    </div>
+    </div>
+  </div>
+  
+  <div class="dialog_wrapper">
+    <div class="dialog_right">
+      <div class="post_form">
+        <h2>#3 Tag it</h2>
+	      <p class="justified">To increase your chances of receiving an answer quickly, we automatically added some tags that could match. However, you can edit this list, or add tags manually</p>
+	      <div id='tagsZone' class="tagsZone"></div>
+	      <input type="text" id="tagBar" class="i.postBar newTopic" size=20 onchange="addTag(value);"/>
+        <div>
+	       <input type="button" value="Post your Question"
+	         onclick="postQuestion();" class="button orange"/>
+	      </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div class="dialog_footer"><b>Kuestions?!</b></div>
+
+</div>
+
 {% endif %}
 <!--Register Dialog-->
 <div class="dialog" id="register_dialog" style="display: none">
