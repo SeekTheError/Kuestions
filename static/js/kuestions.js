@@ -105,7 +105,6 @@ function enhanceSearch(search) {
 		search += '*';
 	}
 	//search= replaceAll(search,' +',' ');
-    console.log(search);
 	return search;
 }
 
@@ -241,13 +240,10 @@ function displayUserQuestions(userLogin){
 // left side of the page
 // filterType = (search/timeline/followed/popular/recommended/user)
 function displayQuestionList(questionList, filterType){
-  console.log('questionlist');
-  console.log(questionList);
   cleanQuestionList();
 
   // determine container to display questions
   var containerId = '#questionList_' + filterType;
-  console.log(questionList);
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
     //create html
@@ -681,7 +677,13 @@ $(document).ready(function() {
 	// for loading dialog
 	$(".ld_line").fadeOut(1000);
 	// for modal dialog
-	$('a[rel*=facebox]').facebox();	
+  $('#askQuestionButton').click(function(){
+    $.facebox({div: '#question_dialog'});
+    $('.popup #questionTitleInput').val( $('#searchBar').val() );
+    loadQuestionTags( $('.popup #questionTitleInput').val() );
+  });
+
+
 	// Display a search comming from the profile page
   vars=getUrlVars();
 	if(vars["search"]){
@@ -727,9 +729,6 @@ $(document).ready(function() {
 	  console.log("recommended");
 	  displayRecommendedQuestions();
   });
-  
-  // for modal dialog
-	$('a[rel*=facebox]').facebox();
   
   if(vars["show"]){
 	  if(vars["show"] == 'ask'){
