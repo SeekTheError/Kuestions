@@ -361,6 +361,7 @@ function viewQuestion(questionId){
         $('.detail_topics').hide();
       }else{
         $('.detail_topics').show();
+        $('.detail_topics .topic ul').text(" ");
         for (var i = 0; i < data.topics.length; i++){
           topic=data.topics[i];
           topicHTML='<li class="topic_item False"><a href="/?search='+topic+'"><b>'+topic+'</b></a></li>';
