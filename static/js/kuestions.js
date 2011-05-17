@@ -765,7 +765,13 @@ function init() {
     $(this).slideToggle("fast");
 	});
 	
-	setInterval(maintainHeightEqual, 1000);
+	
+	var size=$(window).height()-140;
+	$(".right").css('max-height',size+'px');
+	$(window).resize(function(){
+	 var size=$(window).height()-140;
+	$(".right").css('max-height',size+'px');
+	});
 }
 
 
@@ -849,13 +855,3 @@ function humane_date(date_str){
 
 	return date_str;
 };
-
-
-function maintainHeightEqual(){
-  var lHeight=$(".contents .left").height();
-  var rHeight=$(".contents .right").height();
-  var max=lHeight;
-  if(rHeight > lHeight){
-    max=rHeight;
-  }
-}
