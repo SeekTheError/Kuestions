@@ -180,7 +180,7 @@ function displayQuestionList(questionList, filterType){
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
     //create html
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img src="/kuestions/media/image/profile.png"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
 
     //fill in data:
     question = questionList[i];
@@ -209,6 +209,9 @@ function displayQuestionList(questionList, filterType){
     //TODO: post date message ex: 'posted 3 days ago'
     //asker and post date
     $(containerId + ' #askerAndPostDate' + i).html('<b>'+asker+'</b> posted on ' + postDate);
+
+    //edit question profile img
+    $('#questionProfileImg' + i).attr('src', '/user/picture/' + asker);
     
     //question title
     $(containerId + ' #questionTitle' + i).text(title);
