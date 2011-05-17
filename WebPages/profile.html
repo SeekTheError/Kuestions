@@ -134,7 +134,7 @@ function editResume(){
   <div class="right_area">
   <div class="resume_box">
 	  {% if user %}
-	  <h3>Resume</h3>
+	  <h3 class="resume_title">Resume</h3>
 	  {% if isAdmin %}<a href="#" onClick="editResume(); return false;">edit</a>{% endif %}
 	  <div class="resume">{% if user.resume %}{{user.resume|safe}}{% endif %}</div>
 			{% if isAdmin %}

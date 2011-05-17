@@ -9,7 +9,7 @@ class User(Document) :
   login=TextField()
   password=TextField()
   email=TextField()
-  resume=TextField()
+  resume=TextField(default='')
   activationCode=TextField()
   sessionId=TextField()
   sessionExpire=DateTimeField()

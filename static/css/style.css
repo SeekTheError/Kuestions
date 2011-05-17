@@ -403,6 +403,7 @@ form.delete{display: inline;}
 
 
 
+
 .profile_wrapper .profileImg{
   width:120px;
 }
@@ -432,3 +433,10 @@ form.delete{display: inline;}
   text-shadow: 1px 1px 0 #efefef;
 }
 .profile_wrapper h2{padding:0 0 10px 0px;}
+h3.resume_title{
+  display: inline;
+}
+
+form.newResume{
+  margin-bottom:15px;
+}
