@@ -31,7 +31,7 @@ a:hover {
   overflow-x: hidden;
   overflow-y: hidden;
   border-bottom: 1px solid black;
-  z-index: 100000;
+  z-index: 1;
 }
 
 
@@ -328,7 +328,10 @@ border-width: 1px 0 0;
 .profile_wrapper{
 border-bottom: 1px solid #c6e4d8;
 min-height: 120px;
-padding-bottom: 10px;
+width: 460px;
+margin-bottom: 10px;
+padding: 10px 0 10px 10px;
+display: inline-block;
 }
 
 
@@ -353,12 +356,6 @@ h3.pop_message{
 
 .tag {padding: 4px;font-size: 12px;border: medium;}
 
-.box {
-	width: 440px;
-	margin-bottom: 10px;
-	border: 1px dashed black;
-	padding: 10px;
-}
 
 .resume {
 	padding: 8px;
@@ -369,7 +366,21 @@ h3.pop_message{
 	margin-right: 10px;
 }
 
-.topic ul, .topic li{margin:10px;}
+.topic ul, .topic li{margin:0px; list-style: none;}
+.topic ul{padding:5px 0 0 0;height:20px;width:320px;}
+.topic li{display: inline; margin-right: 5px;
+  background-color: #347259;
+}
+
+.topic li.topic_item{ -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;  border: 1px solid white; background: #C6E4D8; padding: 1px 10px 2px 5px; position: relative; margin-top:5px;margin-bottom:5px; float:left;}
+.topic li.topic_item.False{ padding-right:5px;}
+.topic li.topic_item .deleteButton{border:none; padding:0px;}
+.topic li.topic_item .deleteButton { position: absolute; right: 4px; top: 4px; display: block; width: 7px; height: 7px; font-size: 1px; background: url('../image/close.gif'); }
+.topic li.topic_item .deleteButton:hover { background-position: 7px; }
+.topic li.topic_item:hover{border: 1px solid #347259; cursor: pointer;}
+.topic li.topic_item b{margin:0 5px 0 0; text-shadow: 1px 1px #efefef;}
+.topic li.topic_item.False b{margin:0 0 0 0;}
+
 form.delete{display: inline;}
 
 .hidden {display: none;}
@@ -386,3 +397,35 @@ form.delete{display: inline;}
 .old_stuff ul{
   margin: 0px 0 0 40px ;
 }
+
+
+
+.profile_wrapper .profileImg{
+  width:120px;
+}
+.profile_wrapper .picture_box,.profile_wrapper .right_area{float:left; display: inline-block;}
+.profile_wrapper .picture_box{
+  width:120px;
+  position: relative;
+}
+.profile_wrapper .picture_box .picture_uploader{
+  position: absolute;
+  bottom:2px;
+  color: white;
+  width: 120px;
+  text-align: center;
+  background-color:#347259;
+  opacity: 0.75;
+}
+.profile_wrapper .picture_box .picture_uploader a,.profile_wrapper .picture_box .picture_uploader a h3{color:white; text-shadow: none;}
+
+.profile_wrapper .right_area{
+  padding:0px 10px 10px 10px;
+  max-width: 320px;
+}
+
+.profile_wrapper h2,.profile_wrapper h3{margin:0;
+  color: #004C4C;
+  text-shadow: 1px 1px 0 #efefef;
+}
+.profile_wrapper h2{padding:0 0 10px 0px;}

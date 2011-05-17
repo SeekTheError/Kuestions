@@ -399,10 +399,10 @@ function viewAnswers(answers){
     var answer = $('#answer_template').clone();
     answer.show();
     answer.attr('id', 'answer'+i);
-    
+    answer.find('.profile .picture').attr('src',"/user/picture/"+answers[i].poster);
     answer.find('.rate_info').text(answers[i].score);
     answer.find('.question_text').text(answers[i].content);
-    answer.find('.info').text(answers[i].poster);
+    answer.find('.info b').text(answers[i].poster);
     answer.find('.rate_up').click({'answerId': answers[i].id}, function(e){
       incAnswerScore(e.data.answerId);
     });
@@ -486,7 +486,7 @@ function displayMessage(messageContent, containerId) {
 	$("#" + containerId + " .message").click(function() {
 		removeMessage(containerId);
 	});
-	$("#message").removeClass("#hidden").show("fast");
+	$("#message").removeClass("#hidden").slideToggle("fast");
 }
 
 function displayMessageCallback(data, textStatus, containerId) {
@@ -503,7 +503,7 @@ function displayMessagePop(messageContent){
 			$(".popup  .message #message").remove();
 		}
 	}).appendTo($(".popup .message"));
-	$('.popup .message #message').removeClass("#hidden").show('fast');
+	$('.popup .message #message').removeClass("#hidden").slideToggle('fast');
 }
 
 function displayMessageCallbackPop(data, textStatus, containerId) {
@@ -629,4 +629,20 @@ function init() {
    	 $("#manageFollow").attr('disabled','disabled'); 
  	     manageFollowQuestion();
     });
+  $('#message').click(function(){
+    $(this).slideToggle("fast");
+	});
+}
+
+
+
+function openFacebox(size){
+  $('#facebox .content').css('width',size+'px'); return false;
+}
+
+
+function uploadImage(){
+  alert('1');
+  
+  return false;
 }

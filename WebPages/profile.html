@@ -36,7 +36,7 @@ tinyMCE.init({
   theme_advanced_buttons3 : "",
   theme_advanced_buttons2 : "",
   content_css : "{{ MEDIA_URL }}/css/tiny_mce.css",
-  width : "328",
+  width : "320",
   height: "140"
 });
 
@@ -118,52 +118,44 @@ function editResume(){
 <div class="left_wrapper">
 
 <!--Profile Contents Start-->
-<div class="profile_wrapper">
+<div class="profile_wrapper box">
 
 <h2>{{ user.login }}'s Profile</h2>
-  <div class="box">
-    <img src="{{ MEDIA_URL }}/{{ user.picture }}" style="width:40px;"/>
-      {% if isAdmin %}
-			<div class="picture_uploader">
-			 <form method="POST" action="/user/picture/upload" enctype="multipart/form-data"> 
-          {% csrf_token %} 
-          {{ form }} 
-          <input type="submit" /> 
-        </form>
-      </div>
-      {% endif %}
+  <div class="picture_box">
+    <img src="{{ MEDIA_URL }}/{{ user.picture }}" class="profileImg"/>
+    {% if isAdmin %}
+		<div class="picture_uploader">
+		  <a href="#picture_dialog" rel="facebox" onClick="openFacebox(600);"><h3>Change Profile</h3></a>
+    </div>
+    {% endif %}
   </div>
-
-
-        <div class="box">
-				{% if user %}
-				<h3>Resume</h3>
-				{% if isAdmin %}<a href="#" onClick="editResume(); return false;">edit</a>{% endif %}
-				
-				<div class="resume">{% if user.resume %}{{user.resume|safe}}{% endif %}</div>
-				{% if isAdmin %}
-				<form action='/user/update/resume' method='post' class="newResume" style="display:none;">
-					{% csrf_token %}
-					<textarea name="newResume" cols="50" rows="15"> 
-        			{{user.resume|escape }}
-        			</textarea>
-        			<input type="submit" value="update" />
-        			<input type="button" value="cancel" onClick="editResume(); return false;"/>
-				</form>
-				{% endif %}
-				</div>
-				<div class="topic box">
-				<h3>Topic</h3>
-				<div class="topic">
-					<ul>
-						{% for topic in user.topics %}
-							<li class="topic_item">
-								{{ topic }}
-								{% if isAdmin %}
-								<form action='/user/update/deleteTopic' method='post' class="delete">
+  <div class="right_area">
+  <div class="resume_box">
+	  {% if user %}
+	  <h3>Resume</h3>
+	  {% if isAdmin %}<a href="#" onClick="editResume(); return false;">edit</a>{% endif %}
+	  <div class="resume">{% if user.resume %}{{user.resume|safe}}{% endif %}</div>
+			{% if isAdmin %}
+			<form action='/user/update/resume' method='post' class="newResume" style="display:none;">
+		  	{% csrf_token %}
+				<textarea name="newResume" cols="50" rows="15"> {{user.resume|escape }}</textarea>
+        <input type="submit" value="update" />
+        <input type="button" value="cancel" onClick="editResume(); return false;"/>
+		  </form>
+		  {% endif %}
+		</div>
+		<div class="topic_box">
+			<h3>Topic</h3>
+			<div class="topic">
+			 <ul>
+			   {% for topic in user.topics %}
+				 <li class="topic_item {{ isAdmin }}">
+				   <b>{{ topic }}</b>
+				   {% if isAdmin %}
+				   <form action='/user/update/deleteTopic' method='post' class="delete">
 									{% csrf_token %}
 									<input type="hidden" name="deleteTopic" value="{{ topic }}" />
-									<input type="submit" value="delete" />
+									<input type="submit" class="deleteButton" value=""/>
 								</form>
 								{% endif %}
 							</li>
@@ -172,14 +164,13 @@ function editResume(){
 					{% if isAdmin %}
 					<form action='/user/update/addTopic' method='post' class="newTopic">
 						{% csrf_token %}
-						<input type="text" name="newTopic" size=30 />
-        				<input type="submit" value="add topic" />
+						<input type="text" name="newTopic" style="width:310px" />
 					</form>
 					{% endif %}
 				</div>
 				{% endif %}
+    </div>
   </div>
-  
   
   
 </div>
@@ -349,44 +340,53 @@ function editResume(){
 <!--For Modal Dialogs-->
 
 <!--Register Dialog-->
-<div id="register_dialog" style="display: none">
-	<form action="/register/" method="post">
-		{% csrf_token %}
-		<table id="register" class="register_form">
-			<tr>
-				<td><h2>Please input those information in order to create
-						a new account</h2>
-					</h2></td>
-			</tr>
-			<tr>
-				<td>Username</td>
-			</tr>
-			<tr>
-				<td><input type="text" class="inputtext" name="registerLogin">
-				</td>
-			</tr>
-			<tr>
-				<td>Password</td>
-			</tr>
-			<tr>
-				<td><input type="password" class="inputtext"
-					name="registerPassword">
-				</td>
-			</tr>
-			<tr>
-				<td>Email</td>
-			</tr>
-			<tr>
-				<td><input type="text" class="inputtext" name="registerEmail">
-				</td>
-			</tr>
-			<tr>
-				<td><button type="submit" class="register button">Register</button>
-				</td>
-			</tr>
-		</table>
-	</form>
+<div class="dialog" id="register_dialog" style="display: none">
+<div class="dialog_header">Register</div>
+
+<div class="dialog_main">
+  <div class="dialog_left">
+    <div class="welcome">
+      <b>Welcome To Kuestions</b>
+      Kuestions is...
+    </div>
+  </div>
+
+  <div class="dialog_right">
+    <form action="/register/" method="post">
+		  {% csrf_token %}
+  	  <h2>Please input those information in order to create
+						a new account.</h2>
+		  <div class="input_item">
+		    <b>Username</b><input type="text" name="registerLogin">
+		  </div>
+		  <div class="input_item">
+		    <b>Password</b><input type="password" name="registerPassword">
+		  </div>
+		  <div class="input_item">
+		    <b>Email</b><input type="text" name="registerEmail">
+		  </div>
+		  <div class="submit">
+		    <button type="submit"class="button orange radius">Register</button>
+		  </div>
+    </form>
+  </div>
 </div>
+
+{% if isAdmin %}
+<div class="dialog" id="picture_dialog" style="display: none">
+<div class="dialog_header">Upload Profile Picture</div>
+
+<div class="dialog_main">  
+			<div class="picture_uploader">
+			  <h2>Upload Your Picture</h2>
+			  <form id="pictureForm" method="POST" action="/user/picture/upload" enctype="multipart/form-data"> 
+          {% csrf_token %} 
+          {{ form }} 
+          <input id="upload" type="submit" value="Upload Image"/> 
+        </form>
+      </div>
+</div>
+{% endif %}
 
 <!-- Extra contents, needeed to post a question via javascript-->
 <div id="security_csrf">{% csrf_token %}</div>

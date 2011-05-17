@@ -28,7 +28,8 @@ $(document).ready(function() {
   });
   
   // for modal dialog
-	$('a[rel*=facebox]').facebox();	
+	$('a[rel*=facebox]').facebox();
+		
 });
 
 </script>
@@ -77,7 +78,7 @@ $(document).ready(function() {
 					</form>
 
 					<span class="register_link"> Don't have an account yet? <a
-						href="#register_dialog" rel="facebox">Register to Kuestions</a>
+						href="#register_dialog" rel="facebox" onClick="openFacebox(800);">Register to Kuestions</a>
 					</span>
 			</div>
 			{% endif %}
@@ -100,7 +101,7 @@ $(document).ready(function() {
 <!--Left Contents Start-->
 <div class="left">
 <div class="left_wrapper">
-{%if message %}
+            {%if message %}
 						<h3 id="message" class="message">{{ message }}</h3>
 						{% endif %}
 
@@ -176,7 +177,7 @@ $(document).ready(function() {
     </div>
     
     <div class="question_detail">
-      <p><a href="#">Add a Description</a></p>
+      <!--<p><a href="#">Add a Description</a></p>-->
       <p class="detail_contents"></p>
     </div>
 
@@ -195,7 +196,7 @@ $(document).ready(function() {
       
       <div id="answer_template" class="answer">
         <div class="profile">
-          <img src="{{MEDIA_URL}}/image/profile2.png" />
+          <img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/>
           <div class="rate_wrapper">
             <div class="rate_info">3</div>
             <div class="rate_panel">
@@ -205,7 +206,7 @@ $(document).ready(function() {
           </div>
         </div>
         <div class="speech">
-          <div class="info"><b>Google</b> answered 3 days ago</div>
+          <div class="info"><b>Google</b> answered</div>
           <div class="question">
             <p class="bubble"></p>
             <p class="question_text">
@@ -288,45 +289,45 @@ $(document).ready(function() {
 </div>
 {% endif %}
 <!--Register Dialog-->
-<div id="register_dialog" style="display: none">
-	<form action="/register/" method="post">
-		{% csrf_token %}
-		<table id="register" class="register_form">
-			<tr>
-				<td><h2>Please input those information in order to create
-						a new account</h2>
-					</h2></td>
-			</tr>
-			<tr>
-				<td>Username</td>
-			</tr>
-			<tr>
-				<td><input type="text" class="inputtext" name="registerLogin">
-				</td>
-			</tr>
-			<tr>
-				<td>Password</td>
-			</tr>
-			<tr>
-				<td><input type="password" class="inputtext"
-					name="registerPassword">
-				</td>
-			</tr>
-			<tr>
-				<td>Email</td>
-			</tr>
-			<tr>
-				<td><input type="text" class="inputtext" name="registerEmail">
-				</td>
-			</tr>
-			<tr>
-				<td><button type="submit" class="register button">Register</button>
-				</td>
-			</tr>
-		</table>
-	</form>
+<div class="dialog" id="register_dialog" style="display: none">
+<div class="dialog_header">Register</div>
+
+<div class="dialog_main">
+  <div class="dialog_wrapper">
+    <div class="dialog_left">
+      <div class="welcome">
+        <b>Welcome To Kuestions</b>
+        Kuestions is...
+      </div>
+    </div>
+  </div>
+  
+  <div class="dialog_wrapper">
+    <div class="dialog_right">
+      <form action="/register/" method="post">
+		    {% csrf_token %}
+  	   <h2>Please input those information in order to create
+						a new account.</h2>
+		   <div class="input_item">
+		     <b>Username</b><input type="text" name="registerLogin">
+		   </div>
+		   <div class="input_item">
+		     <b>Password</b><input type="password" name="registerPassword">
+		    </div>
+		    <div class="input_item">
+		      <b>Email</b><input type="text" name="registerEmail">
+		    </div>
+		    <div class="submit">
+		      <button type="submit"class="button orange radius">Register</button>
+		    </div>
+      </form>
+    </div>
+  </div>
 </div>
 
+<div class="dialog_footer"><b>Kuestions?!</b></div>
+
+</div>
 
 <!-- Extra contents, needeed to post a question via javascript-->
 <div id="security_csrf">{% csrf_token %}</div>
