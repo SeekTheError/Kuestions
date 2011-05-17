@@ -363,6 +363,7 @@ var currentQuestionId;
 var lastAnswerCount;
 var initialAnswerCount;
 function viewQuestion(questionId){
+	removeMessage("answerMessageContainer");
 	$(".newAnswerAlert").text("");
 	currentQuestionId=questionId;
 	answerCount=-1;
