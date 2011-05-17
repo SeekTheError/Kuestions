@@ -167,14 +167,14 @@ $(document).ready(function() {
     
     <div class="question_info">
       <div class="profile">
-        <img src="{{MEDIA_URL}}/image/profile.png" />
+        <img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" />
       </div>
       <div class="question_contents">
         <div class="info"><a class="questionAsker"></a></div>
         <div class="question_title"></div>
       </div>
       <div class="actions">
-      <span class="follow"><a href="#"><img src="{{MEDIA_URL}}/image/icon_star_off.png" title="Unfollow"/></a></span>
+      <span class="follow"><img id="followButton" src="{{MEDIA_URL}}/image/icon_star_off.png" title="follow"/></span>
     </div>
     </div>
     
@@ -182,9 +182,6 @@ $(document).ready(function() {
       <!--<p><a href="#">Add a Description</a></p>-->
       <p class="detail_contents"></p>
     </div>
-
-    <button id="manageFollow" class="manageFollow">Follow</button>
-
   </div>
   
   <div class="answer_wrapper">

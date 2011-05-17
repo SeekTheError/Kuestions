@@ -165,12 +165,9 @@ function displayPopularQuestions(){
 }
 
 
-// the minimun score a match should have in order to be displayed
-var minScore = 0.3;
-
 // displayQuestionList: accepts json list of questions, displays them as list on
 // left side of the page
-// filterType = (search/timeline/followed)
+// filterType = (search/timeline/followed/popular/recommended)
 function displayQuestionList(questionList, filterType){
   cleanQuestionList();
 
@@ -180,7 +177,7 @@ function displayQuestionList(questionList, filterType){
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
     //create html
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
 
     //fill in data:
     question = questionList[i];
@@ -219,6 +216,14 @@ function displayQuestionList(questionList, filterType){
     //click handler for question detail view
     $('#questionList'+i).click( {'questionId': questionId}, function(event){
       viewQuestion(event.data.questionId);
+    });
+
+    //set up follow button
+    setManageFollowButton(questionId, $('#followButton' + i));
+    $('#followButton' + i).unbind('click');
+    $('#followButton' + i).click({'questionId': questionId},function(event){
+      event.stopPropagation();
+      manageFollowQuestion( event.data.questionId, $(this) );
     });
   }
 }
@@ -291,13 +296,17 @@ function viewQuestion(questionId){
       $('.question_display').show();
 
       //populate question detail display
-      //TODO: question asker photo
+      $('#question_profile_img').attr('src', '/user/picture/' + data.asker);
       $('.question_title').html(data.title);
       $('.questionAsker').text(data.asker);
       $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
 
-      setManageFollowButton(data.id);
+      setManageFollowButton(data.id, $('#followButton'));
+      $('#followButton').unbind('click');
+      $("#followButton").click({'questionId': data.id},function(event){
+          manageFollowQuestion(event.data.questionId, $('#followButton'));
+      });
 
       viewAnswers(data.answers);
       $("#answerInput").val("");
@@ -309,31 +318,25 @@ function hideQuestionDetail(){
   $("#questionDetail").addClass("hidden");
 }
 
-function setManageFollowButton(questionId){
+function setManageFollowButton(questionId, button){
 	if(user_session.isOpen ){
-	  $("#manageFollow").removeAttr('disabled');
-  	$("#manageFollow").removeClass("hidden");
     if(userIsFollowingQuestion(questionId)){
-     console.log('user is following');
-      $("#manageFollow").text('Unfollow');
-      $("#manageFollow").attr('action','un');
+      button.attr('src', '/kuestions/media/image/icon_star_on.png');
+      button.attr('action','un');
     } 
     else {
-  	  console.log('user is NOT following');
-  	  $("#manageFollow").text('Follow');
-  	  $("#manageFollow").attr('action','fo');
+      button.attr('src', '/kuestions/media/image/icon_star_off.png');
+  	  button.attr('action','fo');
   	}
-  }
-  else {
-    $("#manageFollow").addClass("hidden");
   }
 }
 
-function manageFollowQuestion(){
+//parameters:
+//button = img element (follow button) to manage
+function manageFollowQuestion(questionId, button){
 	csrf = $("#security_csrf input:first").val();
-	questionId=$(".question_display").attr("data-questionId");
 	data="questionId=" + questionId + '&csrfmiddlewaretoken=' 
-			+ csrf+"&action="+$("#manageFollow").attr('action');
+			+ csrf+"&action="+button.attr('action');
 	$.ajax({
 	  url: '/question/manageFollowQuestion/',
 	  type: "POST",
@@ -341,7 +344,6 @@ function manageFollowQuestion(){
 	  dataType: "json",
 	  success: function(data){
 	    response=eval(data);
-	    console.log(response);
 	    if(response.followed){
 		    user_session.followedQuestions.push(questionId);
 	    }
@@ -355,13 +357,13 @@ function manageFollowQuestion(){
           }
         }
 
-        if (index > 0){
+        if (index >= 0){
           user_session.followedQuestions.splice(index,1);
         } else{
           console.log('error: requested questionId not found in user_session.followedQuestions');
         }
 	    }
-	    setManageFollowButton(questionId);
+	    setManageFollowButton(questionId, button);
 
 
       //if followed tab is selected
@@ -629,10 +631,6 @@ function init() {
 	$('#message').click(function() {
 		removeMessage('messageContainer');
 	});
-	$("#manageFollow").click(function(){
-   	 $("#manageFollow").attr('disabled','disabled'); 
- 	     manageFollowQuestion();
-    });
   $('#message').click(function(){
     $(this).slideToggle("fast");
 	});
