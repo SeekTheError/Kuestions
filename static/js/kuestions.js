@@ -416,16 +416,16 @@ function runAnswerDaemon(){
       data: 'questionId='+$('.question_display').attr('data-questionId')+"&auto",
       dataType: "json",
       success: function(data){
-        question=eval(data);
-        if(lastAnswerCount<question.answers.length){
-          diff=question.answers.length-initialAnswerCount;
+        answers = data.answers;
+        if(lastAnswerCount < answers.length){
+          diff = answers.length-lastAnswerCount;
           if(diff==1){
-          $(".newAnswerAlert").text(diff+ " new answer");
+            $(".newAnswerAlert").text(diff+ " new answer");
           }
           else{
             $(".newAnswerAlert").text(diff+ " new answers");	
           }
-          lastAnswerCount=question.answers.length;
+          lastAnswerCount=answers.length;
           
         }
      }
@@ -832,7 +832,7 @@ function init() {
 $('.newAnswerAlert').click(
 	function () {
 		$('.newAnswerAlert').text("");
-		viewQuestion(currentQuestionId);
+		viewQuestion($('.question_display').attr('data-questionId'));
 	}	  
   );
 }
