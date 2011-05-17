@@ -249,7 +249,7 @@ function displayTimeline(data){
 	  $("#questionList_timeline #"+id).click(function(){
 	   viewQuestion(questionId);
 	  });
-	  date= new Date()
+	  date= new Date();
 	  date.setTime(Date.parse(timeline[i].eventDate));
 	  date= date.getMonth()+"/"+date.getDay()+" "+date.getHours()+":"+date.getMinutes();
 	  var p= $('<span>',{
