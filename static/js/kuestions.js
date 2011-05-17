@@ -85,6 +85,7 @@ function postQuestion() {
 		url : "/question/post/",
 		data : data,
 		success : function(data, textStatus, jhxqr) {
+			
 			postQuestionCallback(data, jhxqr);
 		}
 	});
@@ -357,12 +358,18 @@ function cleanQuestionList(){
 
 // views a question when you click one
 // creates a 'question page' on the right side of the page
+var currentQuestionId;
+var lastAnswerCount;
+var initialAnswerCount;
 function viewQuestion(questionId){
+	$(".newAnswerAlert").text("");
+	currentQuestionId=questionId;
+	answerCount=-1;
 	csrf = $("#security_csrf input:first").val();
   $.ajax({
     url: '/question/view/',
-    type: 'POST',
-    data: 'questionId='+questionId + '&csrfmiddlewaretoken='+csrf,
+    type: 'GET',
+    data: 'questionId='+questionId,
     dataType: "json",
     success: function(data){
       console.log(data);
@@ -378,7 +385,7 @@ function viewQuestion(questionId){
       $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
 
-      //set follow button
+         //set follow button
       setFollowButton(data.id, $('#followButton'));
       if(data.topics.length == 0){
         $('.detail_topics').hide();
@@ -391,13 +398,44 @@ function viewQuestion(questionId){
           $('.detail_topics .topic ul').append(topicHTML);
         }
       }
-
-      //display answers
-      viewAnswers(data.answers);
+      
+      initialAnswerCount=viewAnswers(data.answers);
+      lastAnswerCount=initialAnswerCount;
+      console.log(initialAnswerCount);
+      checkForNewAnswerDaemon(questionId);
       $("#answerInput").val("");
     }
   });
 }
+
+function checkForNewAnswerDaemon(questionId){
+	if(currentQuestionId==questionId){
+		console.log("check for new answers");
+		$.ajax({
+		    url: '/question/view/',
+		    type: 'GET',
+		    data: 'questionId='+questionId+"&auto",
+		    dataType: "json",
+		    success: function(data){
+		    	question=eval(data);
+		    	if(lastAnswerCount<question.answers.length){
+		    		diff=question.answers.length-initialAnswerCount;
+		    		if(diff==1){
+		    		$(".newAnswerAlert").text(diff+ " new answer");
+		    		}
+		    		else{
+		    			$(".newAnswerAlert").text(diff+ " new answers");	
+		    		}
+		    		lastAnswerCount=question.answers.length;
+		    		
+		    	}
+		    }});	
+	setTimeout("checkForNewAnswerDaemon(questionId,answerCount)",2000);
+	}
+	
+}
+
+
 
 function hideQuestionDetail(){
   $("#questionDetail").addClass("hidden");
@@ -533,10 +571,13 @@ function viewAnswers(answers){
 
     $('.answers_wrapper').append(answer);
   }
+  return answers.length;
 }
 
 function postAnswer(answerText){
   var answer = $("#answerInput").val();
+  lastAnswerCount=lastAnswerCount+1;
+  initialAnswerCount=initialAnswerCount+1;
   
   // check if answer is empty
   if (answer == ""){
@@ -780,6 +821,13 @@ function init() {
 	 var size=$(window).height()-140;
 	 $(".right").css('max-height',size+'px');
 	});
+
+$('.newAnswerAlert').click(
+	function () {
+		$('.newAnswerAlert').text("");
+		viewQuestion(questionId);
+	}	  
+  );
 }
 
 

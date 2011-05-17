@@ -49,12 +49,14 @@ def post(request) :
   
 def viewQuestion(request):
   #obtain question by ID
-  questionId = request.POST["questionId"]
+  questionId = request.GET["questionId"]
   q = Question(id=questionId)
   q = q.findById()
   if q.views is None :
     q.views = 0
-  q.views+=1
+  # no increment when the query come from the ajax system  
+  if request.GET.__contains__("auto")  :
+    q.views+=1
   q.update()
   
   #unwrap answer dictionaries so that we can serialize into json

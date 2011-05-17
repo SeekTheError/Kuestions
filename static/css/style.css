@@ -499,3 +499,9 @@ form.newResume{
 .dummy{
   color:#fff;
 }
+
+.newAnswerAlert {
+  font-size: 12pt;
+  background-color: orange;
+}
+
