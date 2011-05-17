@@ -608,9 +608,10 @@ function displayMessage(messageContent, containerId) {
 	message.className = "message hidden";
 	message.textContent = messageContent;
 	content.appendChild(message);
-	$("#" + containerId + " .message").click(function() {
-		removeMessage(containerId);
-	});
+  $('body').click({'containerId': containerId}, function(event){
+    removeMessage(event.data.containerId);
+    $(this).unbind('click');
+  });
 	$("#message").removeClass("#hidden").slideToggle("fast");
 }
 
