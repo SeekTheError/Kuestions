@@ -227,7 +227,7 @@ function displayQuestionList(questionList, filterType){
   for (var i = 0; i < questionList.length; i++){
     //create html
 	  
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a class="userLink'+i+'"><img id="questionProfileImg' + i +'"></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
 
     //fill in data:
     question = questionList[i];
@@ -260,10 +260,11 @@ function displayQuestionList(questionList, filterType){
     postDate = humane_date(postDate);
     //TODO: post date message ex: 'posted 3 days ago'
     //asker and post date
-    $(containerId + ' #askerAndPostDate' + i).html('<b>'+asker+'</b> posted ' + postDate);
+    $(containerId + ' #askerAndPostDate' + i).html('<a href="/user/'+asker+'"><b>'+asker+'</b></a> posted ' + postDate);
 
     //edit question profile img
     $('#questionProfileImg' + i).attr('src', '/user/picture/' + asker);
+    $('#userLink' + i).attr('href', '/user/' + asker);
     
     //question title
     $(containerId + ' #questionTitle' + i).text(title);
@@ -355,6 +356,7 @@ function viewQuestion(questionId){
 
       //populate question detail display
       $('#question_profile_img').attr('src', '/user/picture/' + data.asker);
+      $('.question_info .profile a').attr('href','/user/'+data.asker);
       $('.question_title').html(data.title);
       $('.questionAsker').text(data.asker);
       $('.questionAsker').attr('href','/user/'+data.asker);
