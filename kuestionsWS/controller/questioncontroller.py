@@ -44,6 +44,7 @@ def post(request) :
   #remove the displayed question 
   response = HttpResponse();
   response["message"] = message;
+  response["questionId"] = q.id;
   return response;
   
 def viewQuestion(request):

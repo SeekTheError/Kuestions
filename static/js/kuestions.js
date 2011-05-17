@@ -90,9 +90,12 @@ function postQuestion() {
 	});
 }
 
-function postQuestionCallback(data, textStatus){
+function postQuestionCallback(data, jhxqr){
 	$.facebox.close();
-	displayMessage(textStatus.getResponseHeader("message"),"messageContainer");
+	displayMessage(jhxqr.getResponseHeader("message"),"messageContainer");
+
+  //add question to followed list
+  user_session.followedQuestions.push( jhxqr.getResponseHeader("questionId"));
 }
 
 /** *********Display Questions (Search/timeline/followed)*********** */
@@ -486,6 +489,11 @@ function viewAnswers(answers){
     if ( $(this).attr('id') != 'answer_template' ){
       $(this).remove();
     }
+  });
+
+  //sort answers by rank
+  answers = answers.sort(function(answer1, answer2){
+    return answer2.score - answer1.score;
   });
 
   //add answer list
