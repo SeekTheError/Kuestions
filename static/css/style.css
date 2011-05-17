@@ -182,7 +182,6 @@ padding: 0 5px 1px 5px;
 .right_wrapper{
   border-left: none;
   min-height: 600px;
-  max-height: 800px;
   width: 569px;
   padding:0px 0px;
 }
@@ -439,4 +438,45 @@ h3.resume_title{
 
 form.newResume{
   margin-bottom:15px;
+}
+
+
+
+#answerForm .answer_wrapper{padding:10px;}
+.answer_profile,.answer_form{
+  float:left;
+}
+.answer_profile{width:50px; text-align: center;  min-height: 20px;
+}
+.answer_profile img{
+  width:40px;
+  min-height: 20px;
+}
+.answer_form_wrapper{display: inline-block;}
+.answer_form_wrapper p{float:left;}
+.answer_form #answerInput{
+  width:400px;
+  height:50px;
+  padding:5px;
+  font-size: 14px;
+  border: 1px solid #C9C2C1;
+  resize: none;
+}
+.answer_form{margin-top:5px;}
+.answer_form #answerButton{
+  border: 1px solid #cacaca;
+  width:73px;
+  height: 60px;
+  margin-top: 1px;
+  margin-left:5px;
+  padding:1px 0;
+  background-color: #fff;
+}
+.answer_form #answerButton:hover{
+  background-color: #FAFAFA;
+}
+.answer_form_wrapper .info{
+  padding:0px 5px;
+  font-size: 14px;
+  line-height: 20px;
 }

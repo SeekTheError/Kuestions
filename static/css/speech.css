@@ -40,7 +40,7 @@
 
 
 
-.speech .question .bubble{
+.speech .question .bubble,.answer_form .bubble{
   width:7px;
   margin:5px 0px;
   float:left;
@@ -75,7 +75,7 @@
 }
 .speech .actions{
   position: absolute;
-  bottom:7px;
+  bottom:5px;
   right:0px;
 }
 
