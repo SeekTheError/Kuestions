@@ -78,6 +78,7 @@ def session(request):
     userW={
       "login":user.login,
       "followedQuestions":user.followedQuestions,
+      "topics":user.topics,
       "isOpen":True         
     }
     return HttpResponse(json.dumps(userW))

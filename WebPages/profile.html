@@ -26,6 +26,8 @@ $(document).ready(function() {
   
   // for modal dialog
 	$('a[rel*=facebox]').facebox();	
+
+  displayUserQuestions("{{user.login}}");
 });
 tinyMCE.init({
   mode : "textareas",
@@ -179,47 +181,22 @@ function editResume(){
 <!--Profile Contents END-->
 
 
+<!-- question list START -->
+
 <div class="panel">
   <div class="panel-wrapper">
-    <div class="test list" id="test">
-      <div class="speech_wrapper">
-        <div class="profile question"><img src="{{MEDIA_URL}}/image/profile.png" /></div>
-        <div class="speech">
-          <div class="info">
-            <span><b>ujlikes</b> asked 3 days ago</span>
-          </div>
-          <div class="question">
-            <p class="bubble"></p>
-            <p class="question_text">
-              I wanna know about KAIST!!!
-            </p>
-          </div>
-          
-          <div class="best_answer">
-            <div class="profile"><img src="{{MEDIA_URL}}/image/profile2.png" /></div>
-            <div class="speech">
-              <div class="info"><b>Google</b> answered 3 days ago</div>
-              <div class="question">
-                <p class="bubble"></p>
-                <p class="question_text">
-                  KAIST was established by the Korean government in 1971 as the nation's first research oriented science and engineering institution. The QS-The Times World University Rankings in the year of 2009 placed KAIST 69th overall and 21st in specialties technology and information technology in the world.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="actions">
-            <span class="follow"><a href="#"><img src="{{MEDIA_URL}}/image/icon_star_off.png" title="Unfollow"/></a></span>
-          </div>
-        </div>
-      </div>
+    <div class="userQuestions list" id="questionList_user">
+
     </div>
   </div>
 </div>
+<!-- question list END -->
 
 
 </div>
 </div>
 <!--Left Contents END-->
+
 <!--Right Contents Start-->
 <div class="right">
 <div class="right_wrapper">
@@ -227,91 +204,90 @@ function editResume(){
 
 <div class="question_display">
   <div class="question_wrapper">
+    
     <div class="question_info">
       <div class="profile">
-        <img src="{{MEDIA_URL}}/image/profile.png" />
+        <img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" />
       </div>
       <div class="question_contents">
-        <div class="info"><b>ujlikes</b> asked 3 days ago</div>
-        <div class="question_title">I wanna know about #KAIST!!!</div>
+        <div class="info"><a class="questionAsker"></a></div>
+        <div class="question_title"></div>
       </div>
       <div class="actions">
-      <span class="follow"><a href="#"><img src="{{MEDIA_URL}}/image/icon_star_off.png" title="Unfollow"/></a></span>
+      <span class="follow"><img id="followButton" src="{{MEDIA_URL}}/image/icon_star_off.png" title="follow"/></span>
     </div>
     </div>
     
     <div class="question_detail">
-      <p><a href="#">Add a Description</a></p>
-      <p class="detail_contents">1 2 3 4 를 알고 싶습니다!</p>
+      <!--<p><a href="#">Add a Description</a></p>-->
+      <p class="detail_contents"></p>
     </div>
   </div>
   
   <div class="answer_wrapper">
-    <!--For Best Answer-->
-    <div class="best_answer_wrapper">
-      <fieldset class="in-reply-to-border">
-        <legend class="in-reply-to-text">&nbsp;Best Answer ↓</legend>
-      </fieldset>
-      
-      
-      <div class="answer">
-      <div class="profile">
-        <img src="{{MEDIA_URL}}/image/profile2.png" />
-        <div class="rate_wrapper">
-          <div class="rate_info">3</div>
-          <div class="rate_panel">
-            <a href="#"><img src="{{MEDIA_URL}}/image/icon_thumbs_up.png" /></a>
-            <a href="#"><img src="{{MEDIA_URL}}/image/icon_thumbs_down.png" /></a>
-          </div>
-        </div>
-      </div>
-      <div class="speech">
-        <div class="info"><b>Google</b> answered 3 days ago</div>
-        <div class="question">
-          <p class="bubble"></p>
-          <p class="question_text">
-          KAIST was established by the Korean government in 1971 as the nation's first research oriented science and engineering institution. The QS-The Times World University Rankings in the year of 2009 placed KAIST 69th overall and 21st in specialties technology and information technology in the world.
-          </p>
-        </div>
-      </div>
-    </div>
-      
-    </div>
-    
     <!--For Answers-->
     <div class="answers_wrapper">
       <fieldset class="in-reply-to-border">
         <legend class="in-reply-to-text">&nbsp;Answers ↓</legend>
       </fieldset>
+
+      <div id="answerMessageContainer"></div>
       
-      <div class="answer">
-      <div class="profile">
-        <img src="{{MEDIA_URL}}/image/profile2.png" />
-        <div class="rate_wrapper">
-          <div class="rate_info">3</div>
-          <div class="rate_panel">
-            <a href="#"><img src="{{MEDIA_URL}}/image/icon_thumbs_up.png" /></a>
-            <a href="#"><img src="{{MEDIA_URL}}/image/icon_thumbs_down.png" /></a>
+      <div id="answer_template" class="answer">
+        <div class="profile">
+          <img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/>
+          <div class="rate_wrapper">
+            <div class="rate_info">3</div>
+            <div class="rate_panel">
+              <a class="rate_up" href="#"><img src="{{MEDIA_URL}}/image/icon_thumbs_up.png" /></a>
+              <a class="rate_down" href="#"><img src="{{MEDIA_URL}}/image/icon_thumbs_down.png" /></a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="speech">
-        <div class="info"><b>Google</b> answered 3 days ago</div>
-        <div class="question">
-          <p class="bubble"></p>
-          <p class="question_text">
-          KAIST was established by the Korean government in 1971 as the nation's first research oriented science and engineering institution. The QS-The Times World University Rankings in the year of 2009 placed KAIST 69th overall and 21st in specialties technology and information technology in the world.
-          </p>
+        <div class="speech">
+          <div class="info"><b>Google</b> answered</div>
+          <div class="question">
+            <p class="bubble"></p>
+            <p class="question_text">
+            KAIST was established by the Korean government in 1971
+            </p>
+          </div>
         </div>
-      </div>
       
+      </div><!-- end .answer -->
+    </div><!-- end .answers_wrapper --> 
+    
+    {% if sessionIsOpen %}
+    <div id="answerForm">
+      <fieldset class="in-reply-to-border">
+        <legend class="in-reply-to-text">&nbsp;Your Answer ?</legend>
+      </fieldset>
+		  <div class="answer_wrapper">
+		    <div class="answer_profile">
+		      <img src="/user/picture/{{ user.login }}" />
+		    </div>
+		    <div class="answer_form_wrapper">
+		      <div class="info"><b>{{ user.login }}</b></div>
+		      <div class="answer_form">
+		        <p class="bubble"></p>
+		        <p>
+		          <textarea id="answerInput" name="newResume i.postBar" placeholder="Type your Answer"></textarea>
+		        </p>
+		        <p style="display:block;">
+		          <input id="answerButton" type="button" value="POST" onClick="postAnswer(); return false;" />
+		        </p>
+		      </div>
+        </div>
+		  </div>
     </div>
 
+    {% endif %}
     
     
-    </div>
+    
+  </div><!-- end .answer_wrapper -->
+    
   </div>
-  
 </div>
 
 

@@ -148,6 +148,44 @@ function displayFollowedQuestions(){
     }
   });
 }
+function displayRecommendedQuestions(){
+	  if(!user_session.isOpen){
+	    console.log('need to log in first');
+	    return;
+	  }
+	  if(user_session.topics.length==0){
+		  console.log("user has no topics");
+		  return;
+	  }
+	  
+	  topicsParam='';
+	  for (i in user_session.topics){
+		  topicsParam+=user_session.topics[i]+'+';
+	  }
+	  url='/api/_fti/_design/question/by_topics?&q='+topicsParam;
+	  $.ajax({
+	    url: url,
+	    dataType: "JSON",
+	    success: function(data){
+	      if (data.rows.length > 0 ){
+	    	  questions=data.rows;
+	    	  console.log("question size: "+questions.length);
+	    	  for (i=0;i<questions.length;i++){
+	    		 console.log("i="+i);
+	    		 question=questions[i];
+	    		 console.log(i+"  "+user_session.login+" "+question.fields.asker);
+	    	  if(question.fields.asker==user_session.login){
+	    		  questions.pop(question);
+	    		  i--;
+	    		  }
+	    	  }
+	        displayQuestionList(questions, 'recommended');
+	      } else{
+	        $('#questionList_followed').text('no recommendation available yet... Did you edit your profile?');
+	      }
+	    }
+	  });
+	}
 
 function displayPopularQuestions(){
   if(!user_session.isOpen){
@@ -164,20 +202,36 @@ function displayPopularQuestions(){
   });
 }
 
+//display questions that are asked by a particular user
+function displayUserQuestions(userLogin){
+  console.log(userLogin);
+  $.ajax({
+    url: '/api/_design/question/_view/asker?key="'+ userLogin +'"&limit=15&descending=true',
+    dataType: "JSON",
+    success: function(data){
+      displayQuestionList(data.rows, 'user');
+    }
+  });
+}
 
 // displayQuestionList: accepts json list of questions, displays them as list on
 // left side of the page
-// filterType = (search/timeline/followed/popular/recommended)
+// filterType = (search/timeline/followed/popular/recommended/user)
 function displayQuestionList(questionList, filterType){
   cleanQuestionList(filterType);
 
   // determine container to display questions
   var containerId = '#questionList_' + filterType;
-  
+  console.log(questionList);
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
     //create html
+<<<<<<< HEAD
     $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'_'+filterType+'"><img id="questionProfileImg' + i +'_'+filterType+'"></a></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'_'+filterType+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'_'+filterType+'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
+=======
+	  
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
+>>>>>>> 434e88539ae3cd35e3ca790845bfb9bddba054b0
 
     //fill in data:
     question = questionList[i];
@@ -186,7 +240,7 @@ function displayQuestionList(questionList, filterType){
     asker = "";
     postDate = "";
     //access data differently based on filter
-    if (filterType == 'search'){
+    if (filterType == 'search' || filterType == 'recommended'){
       questionId = question.id;
       title = question.fields.title;
       asker = question.fields.asker;
@@ -197,6 +251,11 @@ function displayQuestionList(questionList, filterType){
       asker = question.asker;
       postDate = question.postDate;
     } else if (filterType == 'popular'){
+      questionId = question.id;
+      title = question.value.title;
+      asker = question.value.asker;
+      postDate = question.value.postDate;
+    } else if (filterType == 'user'){
       questionId = question.id;
       title = question.value.title;
       asker = question.value.asker;
@@ -214,7 +273,11 @@ function displayQuestionList(questionList, filterType){
     $(containerId + ' #questionTitle' + i +'_'+filterType).text(title);
 
     //click handler for question detail view
+<<<<<<< HEAD
     $('#questionList'+i+'_'+filterType).click( {'questionId': questionId}, function(event){
+=======
+    $('#questionList'+i).click( {'questionId': questionId }, function(event){
+>>>>>>> 434e88539ae3cd35e3ca790845bfb9bddba054b0
       viewQuestion(event.data.questionId);
     });
 
@@ -254,7 +317,7 @@ function displayTimeline(data){
 	  $("#questionList_timeline #"+id).click(function(){
 	   viewQuestion(questionId);
 	  });
-	  date= new Date()
+	  date= new Date();
 	  date.setTime(Date.parse(timeline[i].eventDate));
 	  date= date.getMonth()+"/"+date.getDay()+" "+date.getHours()+":"+date.getMinutes();
 	  var p= $('<span>',{
@@ -271,11 +334,21 @@ function displayTimeline(data){
 	}
 }
 
+<<<<<<< HEAD
 function cleanQuestionList(filterType){
   $('#questionList_'+filterType).html('<div class="dummy">dummy</div>' );
   //$('#questionList_timeline').html('<div class="dummy">timeline</div>' );
   //$('#questionList_followed').html('<div class="dummy">followed</div>');
   //$('#questionList_popular').html('<div class="dummy">popular</div>');
+=======
+function cleanQuestionList(){
+  $('#questionList_search').html('search' );
+  $('#questionList_timeline').html('timeline' );
+  $('#questionList_followed').html('followed');
+  $('#questionList_popular').html('popular');
+  $('#questionList_user').html('user');
+  $('#questionList_recommended').html('recommended');
+>>>>>>> 434e88539ae3cd35e3ca790845bfb9bddba054b0
 }
 
 /** ********View Question*********** */
@@ -345,9 +418,11 @@ function manageFollowQuestion(questionId, button){
 	  dataType: "json",
 	  success: function(data){
 	    response=eval(data);
+      //if question is followed
 	    if(response.followed){
 		    user_session.followedQuestions.push(questionId);
 	    }
+      //if question is not followed
 	    else {
         //find the questionId and remove it
         var index = -1;
@@ -357,15 +432,15 @@ function manageFollowQuestion(questionId, button){
             break;
           }
         }
-
         if (index >= 0){
           user_session.followedQuestions.splice(index,1);
         } else{
           console.log('error: requested questionId not found in user_session.followedQuestions');
         }
 	    }
-	    setManageFollowButton(questionId, button);
 
+      //change the button appropriately
+	    setManageFollowButton(questionId, button);
 
       //if followed tab is selected
       if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
@@ -589,15 +664,23 @@ $(document).ready(function() {
   // tabs onclick
   $('#searchTab').click(function(){
     searchQuestions();
+    $('.question_display').hide();
   });
   $('#followedTab').click(function(){
     displayFollowedQuestions();
+    $('.question_display').hide();
   });
   $('#popularTab').click(function(){
     displayPopularQuestions();
+    $('.question_display').hide();
   });
   $("#timelineLink").click(function () {
 	  loadTimeline();
+    $('.question_display').hide();
+  });
+  $("#recommendedTab").click(function () {
+	  console.log("recommended");
+	  displayRecommendedQuestions();
   });
 });
 
