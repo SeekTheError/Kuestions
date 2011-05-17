@@ -14,6 +14,7 @@
 	src="{{ MEDIA_URL }}/js/jquery.coda-slider-2.0.js"></script>
 <script type="text/javascript"
 	src="{{ MEDIA_URL }}/js/facebox/facebox.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}/js/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}/js/kuestions.js"></script>
 
 
@@ -31,6 +32,7 @@ $(document).ready(function() {
 	$('a[rel*=facebox]').facebox();
 		
 });
+
 
 </script>
 
@@ -216,14 +218,35 @@ $(document).ready(function() {
       
       </div><!-- end .answer -->
     </div><!-- end .answers_wrapper --> 
-
+    
+    {% if sessionIsOpen %}
     <div id="answerForm">
-      <span>Your Answer?</span> <input id="answerInput" type="text"
-        class="i.postBar" size=60 /> <input id="answerButton"
-        type="button" value="post" onClick="postAnswer()" />
+      <fieldset class="in-reply-to-border">
+        <legend class="in-reply-to-text">&nbsp;Your Answer ?</legend>
+      </fieldset>
+		  <div class="answer_wrapper">
+		    <div class="answer_profile">
+		      <img src="/user/picture/{{ user.login }}" />
+		    </div>
+		    <div class="answer_form_wrapper">
+		      <div class="info"><b>{{ user.login }}</b></div>
+		      <div class="answer_form">
+		        <p class="bubble"></p>
+		        <p>
+		          <textarea id="answerInput" name="newResume i.postBar" placeholder="Type your Answer"></textarea>
+		        </p>
+		        <p style="display:block;">
+		          <input id="answerButton" type="button" value="POST" onClick="postAnswer(); return false;" />
+		        </p>
+		      </div>
+        </div>
+		  </div>
     </div>
 
-
+    {% endif %}
+    
+    
+    
   </div><!-- end .answer_wrapper -->
     
   </div>

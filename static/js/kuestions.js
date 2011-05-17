@@ -205,7 +205,7 @@ function displayQuestionList(questionList, filterType){
     postDate = humane_date(postDate);
     //TODO: post date message ex: 'posted 3 days ago'
     //asker and post date
-    $(containerId + ' #askerAndPostDate' + i).html('<b>'+asker+'</b> posted on ' + postDate);
+    $(containerId + ' #askerAndPostDate' + i).html('<b>'+asker+'</b> posted ' + postDate);
 
     //edit question profile img
     $('#questionProfileImg' + i).attr('src', '/user/picture/' + asker);
