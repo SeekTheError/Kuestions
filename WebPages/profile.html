@@ -181,9 +181,9 @@ function editResume(){
 </div>
 <!--Profile Contents END-->
 
-
+<div class="user_questions_wrapper">
 <!-- question list START -->
-
+<h2>{{ user.login }}'s Questions</h2>
 <div class="panel">
   <div class="panel-wrapper">
     <div class="userQuestions list" id="questionList_user">
@@ -192,7 +192,7 @@ function editResume(){
   </div>
 </div>
 <!-- question list END -->
-
+</div>
 
 </div>
 </div>
@@ -220,8 +220,10 @@ function editResume(){
     </div>
     
     <div class="question_detail">
-      <!--<p><a href="#">Add a Description</a></p>-->
+      <p style="color:#999;">Description</p>
       <p class="detail_contents"></p>
+      <p style="color:#999;">Tags</p>
+      <p class="detail_tags"></p>
     </div>
   </div>
   

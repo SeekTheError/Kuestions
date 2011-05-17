@@ -426,11 +426,12 @@ form.delete{display: inline;}
   max-width: 320px;
 }
 
-.profile_wrapper h2,.profile_wrapper h3{margin:0;
+.profile_wrapper h2,.profile_wrapper h3, .user_questions_wrapper h2{margin:0;
   color: #004C4C;
   text-shadow: 1px 1px 0 #efefef;
 }
-.profile_wrapper h2{padding:0 0 10px 0px;}
+.profile_wrapper h2, .user_questions_wrapper h2{padding:0 0 10px 0px;}
+.user_questions_wrapper h2{padding:0 10px;}
 h3.resume_title{
   display: inline;
 }
