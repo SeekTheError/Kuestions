@@ -363,7 +363,7 @@ var currentQuestionId;
 var lastAnswerCount;
 var initialAnswerCount;
 function viewQuestion(questionId){
-	$(".newAnswerAlert").text();
+	$(".newAnswerAlert").text("");
 	currentQuestionId=questionId;
 	answerCount=-1;
 	csrf = $("#security_csrf input:first").val();
