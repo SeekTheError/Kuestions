@@ -164,10 +164,21 @@ function displayPopularQuestions(){
   });
 }
 
+//display questions that are asked by a particular user
+function displayUserQuestions(userLogin){
+  console.log(userLogin);
+  $.ajax({
+    url: '/api/_design/question/_view/asker?key="'+ userLogin +'"&limit=15&descending=true',
+    dataType: "JSON",
+    success: function(data){
+      displayQuestionList(data.rows, 'user');
+    }
+  });
+}
 
 // displayQuestionList: accepts json list of questions, displays them as list on
 // left side of the page
-// filterType = (search/timeline/followed/popular/recommended)
+// filterType = (search/timeline/followed/popular/recommended/user)
 function displayQuestionList(questionList, filterType){
   cleanQuestionList();
 
@@ -197,6 +208,11 @@ function displayQuestionList(questionList, filterType){
       asker = question.asker;
       postDate = question.postDate;
     } else if (filterType == 'popular'){
+      questionId = question.id;
+      title = question.value.title;
+      asker = question.value.asker;
+      postDate = question.value.postDate;
+    } else if (filterType == 'user'){
       questionId = question.id;
       title = question.value.title;
       asker = question.value.asker;
@@ -276,6 +292,7 @@ function cleanQuestionList(){
   $('#questionList_timeline').html('timeline' );
   $('#questionList_followed').html('followed');
   $('#questionList_popular').html('popular');
+  $('#questionList_user').html('user');
 }
 
 /** ********View Question*********** */
