@@ -167,10 +167,18 @@ function displayRecommendedQuestions(){
 	    url: url,
 	    dataType: "JSON",
 	    success: function(data){
-	    	console.log(data.rows);
 	      if (data.rows.length > 0 ){
-	    	  
 	    	  questions=data.rows;
+	    	  console.log("question size: "+questions.length);
+	    	  for (i=0;i<questions.length;i++){
+	    		 console.log("i="+i);
+	    		 question=questions[i];
+	    		 console.log(i+"  "+user_session.login+" "+question.fields.asker);
+	    	  if(question.fields.asker==user_session.login){
+	    		  questions.pop(question);
+	    		  i--;
+	    		  }
+	    	  }
 	        displayQuestionList(questions, 'recommended');
 	      } else{
 	        $('#questionList_followed').text('no recommendation available yet... Did you edit your profile?');
