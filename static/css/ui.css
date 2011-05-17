@@ -122,12 +122,13 @@ color:#ababab;margin-right: 10px;}
 }
 #facebox .content .dialog_wrapper{
   float:left; width:50%;
+  padding: 10px 0;
 }
 #facebox .content .dialog_left{ 
   padding:10px;
 }
   
-#facebox .content .dialog_left .welcome b{
+#facebox .content .dialog_left .welcome b, #facebox .content .dialog_left .dialog_main_title b{
   text-shadow: 1px 1px 0 #fff;
   font-size: 30px;
   font-weight: bold;
@@ -190,26 +191,10 @@ color:#ababab;margin-right: 10px;}
 
 
 
-
-
-.right::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    padding: 0px;
-    padding-right: 10px;
-    -webkit-border-radius: 1ex
+.post_form .textInput{
+  width: 100%;
 }
 
-.right::-webkit-scrollbar-thumb {
-    background-color: rgba(053,057,071,0.3);
-    padding: 8px;
-    width: 6px;
-    height: 6px;
-    -webkit-border-radius: 1ex;
-}
+.dialog_wrapper h2{margin-top: 0px}
 
-.right::-webkit-scrollbar-thumb:vertical{
-    height: 3px;
-    width: 3px;
-    margin: 3px;
-}
+.post_form input.textInput{  border: 1px solid #cacaca; width:100%;}

@@ -113,7 +113,7 @@ def addTopic(request):
         print "add Topic:"+newTopic
         topics = user.topics
         if not (newTopic.lower() in (topic.lower() for topic in topics)):
-          user.topics.append(newTopic)
+          user.topics.append(newTopic.lower())
           user.update()
           print "result: "+str(user.topics)
   return HttpResponseRedirect('/user/')
@@ -167,5 +167,5 @@ def userPicture(request, login):
   user=User(login=login)
   user=user.findByLogin()
   if not user:
-    return HttpResponse('No User',mimetype="image/jpg")  
+    return HttpResponseRedirect('/kuestions/media/profile.png')
   return HttpResponseRedirect('/kuestions/media/'+user.picture)
