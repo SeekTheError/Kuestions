@@ -102,7 +102,7 @@ function enhanceSearch(search) {
 	if (search.substr(-1) !== " ") {
 		search += '*';
 	}
-	//search= replaceAll(search,' +',' ');
+	// search= replaceAll(search,' +',' ');
     console.log(search);
 	return search;
 }
@@ -193,7 +193,8 @@ function displayRecommendedQuestions(){
 	      if (data.rows.length > 0 ){
           questions=data.rows;
 
-          //filter out questions that belong to the current user... we don't want to recommend their own question to them!
+          // filter out questions that belong to the current user... we don't
+			// want to recommend their own question to them!
           var filteredList = [];
           for (i = 0; i < questions.length; i++){
             if (questions[i].fields.asker != user_session.login){
@@ -223,7 +224,7 @@ function displayPopularQuestions(){
   });
 }
 
-//display questions that are asked by a particular user
+// display questions that are asked by a particular user
 function displayUserQuestions(userLogin){
   console.log(userLogin);
   $.ajax({
@@ -248,17 +249,17 @@ function displayQuestionList(questionList, filterType){
   console.log(questionList);
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
-    //create html
+    // create html
 	  
     $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'"><img id="questionProfileImg' + i +'"></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
 
-    //fill in data:
+    // fill in data:
     question = questionList[i];
     questionId = "";
     title = "";
     asker = "";
     postDate = "";
-    //access data differently based on filter
+    // access data differently based on filter
     if (filterType == 'search' || filterType == 'recommended'){
       questionId = question.id;
       title = question.fields.title;
@@ -281,23 +282,23 @@ function displayQuestionList(questionList, filterType){
       postDate = question.value.postDate;
     }
     postDate = humane_date(postDate);
-    //TODO: post date message ex: 'posted 3 days ago'
-    //asker and post date
+    // TODO: post date message ex: 'posted 3 days ago'
+    // asker and post date
     $(containerId + ' #askerAndPostDate' + i).html('<a href="/user/'+asker+'"><b>'+asker+'</b></a> posted ' + postDate);
 
-    //edit question profile img
+    // edit question profile img
     $('#questionProfileImg' + i).attr('src', '/user/picture/' + asker);
     $('#userLink' + i).attr('href', '/user/' + asker);
     
-    //question title
+    // question title
     $(containerId + ' #questionTitle' + i).text(title);
 
-    //click handler for question detail view
+    // click handler for question detail view
     $('#questionList'+i).click( {'questionId': questionId }, function(event){
       viewQuestion(event.data.questionId);
     });
 
-    //set up follow button
+    // set up follow button
     setFollowButton(questionId, $('#followButton' + i));
   }
 }
@@ -363,9 +364,9 @@ var currentQuestionId;
 var lastAnswerCount;
 var initialAnswerCount;
 function viewQuestion(questionId){
+	currentQuestionId=questionId;
 	removeMessage("answerMessageContainer");
 	$(".newAnswerAlert").text("");
-	currentQuestionId=questionId;
 	answerCount=-1;
 	csrf = $("#security_csrf input:first").val();
   $.ajax({
@@ -375,11 +376,11 @@ function viewQuestion(questionId){
     dataType: "json",
     success: function(data){
       console.log(data);
-      //embed question id into question display div
+      // embed question id into question display div
       $('.question_display').attr('data-questionId', data.id);
       $('.question_display').show();
 
-      //populate question detail display
+      // populate question detail display
       $('#question_profile_img').attr('src', '/user/picture/' + data.asker);
       $('.question_info .profile a').attr('href','/user/'+data.asker);
       $('.question_title').html(data.title);
@@ -387,7 +388,7 @@ function viewQuestion(questionId){
       $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
 
-         //set follow button
+         // set follow button
       setFollowButton(data.id, $('#followButton'));
       if(data.topics.length == 0){
         $('.detail_topics').hide();
@@ -404,19 +405,18 @@ function viewQuestion(questionId){
       initialAnswerCount=viewAnswers(data.answers);
       lastAnswerCount=initialAnswerCount;
       console.log(initialAnswerCount);
-      checkForNewAnswerDaemon(questionId);
+      checkForNewAnswerDaemon();
       $("#answerInput").val("");
     }
   });
 }
 
-function checkForNewAnswerDaemon(questionId){
-	if(currentQuestionId==questionId){
+function checkForNewAnswerDaemon(){
 		console.log("check for new answers");
 		$.ajax({
 		    url: '/question/view/',
 		    type: 'GET',
-		    data: 'questionId='+questionId+"&auto",
+		    data: 'questionId='+currentQuestionId+"&auto",
 		    dataType: "json",
 		    success: function(data){
 		    	question=eval(data);
@@ -432,11 +432,9 @@ function checkForNewAnswerDaemon(questionId){
 		    		
 		    	}
 		    }});	
-	setTimeout("checkForNewAnswerDaemon(questionId)",2000);
+	setTimeout("checkForNewAnswerDaemon()",2000);
 	}
-	console.log("no match!");
-	
-}
+
 
 
 
@@ -446,7 +444,7 @@ function hideQuestionDetail(){
 
 function setFollowButton(questionId, button){
 	if(user_session.isOpen ){
-    //change image depending on whether user is following
+    // change image depending on whether user is following
     if(userIsFollowingQuestion(questionId)){
       button.attr('src', '/kuestions/media/image/icon_star_on.png');
       button.attr('action','un');
@@ -456,11 +454,11 @@ function setFollowButton(questionId, button){
   	  button.attr('action','fo');
   	}
 
-    //set button class (used to group all buttons related to one question)
+    // set button class (used to group all buttons related to one question)
     button.removeClass();
     button.addClass('follow' + questionId);
 
-    //set click event
+    // set click event
     button.unbind('click');
     button.click({'questionId': questionId},function(event){
         event.stopPropagation();
@@ -469,8 +467,8 @@ function setFollowButton(questionId, button){
   }
 }
 
-//parameters:
-//button = img element (follow button) to manage
+// parameters:
+// button = img element (follow button) to manage
 function manageFollowQuestion(questionId, button){
 	csrf = $("#security_csrf input:first").val();
 	data="questionId=" + questionId + '&csrfmiddlewaretoken=' 
@@ -482,13 +480,13 @@ function manageFollowQuestion(questionId, button){
 	  dataType: "json",
 	  success: function(data){
 	    response=eval(data);
-      //if question is followed
+      // if question is followed
 	    if(response.followed){
 		    user_session.followedQuestions.push(questionId);
 	    }
-      //if question is not followed
+      // if question is not followed
 	    else {
-        //find the questionId and remove it
+        // find the questionId and remove it
         var index = -1;
         for (var i = 0; i < user_session.followedQuestions.length; i++){
           if (user_session.followedQuestions[i] == questionId){
@@ -502,7 +500,8 @@ function manageFollowQuestion(questionId, button){
           console.log('error: requested questionId not found in user_session.followedQuestions');
         }
 
-        //if currently displayed question is unfollowed while viewing followed tab, hide question display
+        // if currently displayed question is unfollowed while viewing followed
+		// tab, hide question display
         if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1 ) {
           if ( $('.question_display').attr('data-questionId') == questionId ){
             $('.question_display').hide();
@@ -510,15 +509,15 @@ function manageFollowQuestion(questionId, button){
         }
 	    }
 
-      //change buttons appropriately
+      // change buttons appropriately
       $('.follow' + questionId).each(function(){
         questionId = $(this).attr('className').split('follow')[1];
         setFollowButton(questionId, $(this));
       });
 
-      //if followed tab is selected
+      // if followed tab is selected
       if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
-        //refresh followed list in question view
+        // refresh followed list in question view
         displayFollowedQuestions();
         console.log('refreshed');
       }
@@ -543,14 +542,14 @@ function userIsFollowingQuestion(questionId){
 
 // takes list of answers as input and displays them on #answerList
 function viewAnswers(answers){
-  //clear existing answer list
+  // clear existing answer list
   $('.answer').each(function(){
     if ( $(this).attr('id') != 'answer_template' ){
       $(this).remove();
     }
   });
 
-  //add answer list
+  // add answer list
   for (var i = 0; i < answers.length; i++){
     var answer = $('#answer_template').clone();
     answer.show();
@@ -819,7 +818,7 @@ function init() {
 $('.newAnswerAlert').click(
 	function () {
 		$('.newAnswerAlert').text("");
-		viewQuestion(questionId);
+		viewQuestion(currentQuestionId);
 	}	  
   );
 }
@@ -847,9 +846,8 @@ function uploadImage(){
 
 /** ******* 1. Pretty Date *************** */
 /*
- * JavaScript Pretty Date
- * Copyright (c) 2008 John Resig (jquery.com)
- * Licensed under the MIT license.
+ * JavaScript Pretty Date Copyright (c) 2008 John Resig (jquery.com) Licensed
+ * under the MIT license.
  */
 
 // Takes an ISO time and returns a string representing how
