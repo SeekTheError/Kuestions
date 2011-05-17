@@ -310,21 +310,14 @@ function hideQuestionDetail(){
 
 function setManageFollowButton(questionId){
 	if(user_session.isOpen ){
-	  $("#manageFollow").removeAttr('disabled');
-  	$("#manageFollow").removeClass("hidden");
     if(userIsFollowingQuestion(questionId)){
-     console.log('user is following');
-      $("#manageFollow").text('Unfollow');
-      $("#manageFollow").attr('action','un');
+      $('#follow_img').attr('src', '/kuestions/media/image/icon_star_on.png');
+      $('#follow_img').attr('action','un');
     } 
     else {
-  	  console.log('user is NOT following');
-  	  $("#manageFollow").text('Follow');
-  	  $("#manageFollow").attr('action','fo');
+      $('#follow_img').attr('src', '/kuestions/media/image/icon_star_off.png');
+  	  $("#follow_img").attr('action','fo');
   	}
-  }
-  else {
-    $("#manageFollow").addClass("hidden");
   }
 }
 
@@ -332,7 +325,7 @@ function manageFollowQuestion(){
 	csrf = $("#security_csrf input:first").val();
 	questionId=$(".question_display").attr("data-questionId");
 	data="questionId=" + questionId + '&csrfmiddlewaretoken=' 
-			+ csrf+"&action="+$("#manageFollow").attr('action');
+			+ csrf+"&action="+$("#follow_img").attr('action');
 	$.ajax({
 	  url: '/question/manageFollowQuestion/',
 	  type: "POST",
@@ -628,8 +621,7 @@ function init() {
 	$('#message').click(function() {
 		removeMessage('messageContainer');
 	});
-	$("#manageFollow").click(function(){
-   	 $("#manageFollow").attr('disabled','disabled'); 
+	$("#follow_img").click(function(){
  	     manageFollowQuestion();
     });
   $('#message').click(function(){
