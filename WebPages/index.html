@@ -63,7 +63,7 @@ $(document).ready(function() {
 				  <a href='/user/'><li>Profile</li></a>
 					<a href='/security/out'> <li>Sign Out</li></a>
 				</ul>
-				<div class="profile"><img class="radius" src="/user/picture/{{ user.login }}"/></div>
+				<div class="profile"><a href="/user/{{ user.login }}"><img class="radius" src="/user/picture/{{ user.login }}"/></a></div>
 		  </div>
 		  {% else %}
 		  <div class="signin_box">
