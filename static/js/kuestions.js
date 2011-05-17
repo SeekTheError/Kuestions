@@ -401,7 +401,7 @@ function viewQuestion(questionId){
       initialAnswerCount=data.answers.length;
       lastAnswerCount=initialAnswerCount;
       if (!answerDaemon){
-        answerDaemon = checkForNewAnswerDaemon();
+        answerDaemon = runAnswerDaemon();
       }
 
       //clear answer input
@@ -410,7 +410,7 @@ function viewQuestion(questionId){
   });
 }
 
-function checkForNewAnswerDaemon(){
+function runAnswerDaemon(){
   console.log("check for new answers");
   $.ajax({
       url: '/question/view/',
@@ -434,7 +434,7 @@ function checkForNewAnswerDaemon(){
   });	
 
   //keep running answer daemon once it's started
-  return setTimeout("checkForNewAnswerDaemon()",2000);
+  return setTimeout("runAnswerDaemon()",2000);
 }
 
 function hideQuestionDetail(){
@@ -774,6 +774,8 @@ $(document).ready(function() {
   if(vars["show"]){
 	  if(vars["show"] == 'ask'){
 	    $(".ask_wrapper a").click();
+      var left=parseInt($("#facebox").css('left'));
+      $("#facebox").css('left',(left-215)+'px');
 	  }
 	}
 });
