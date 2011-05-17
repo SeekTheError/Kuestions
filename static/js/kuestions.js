@@ -211,11 +211,6 @@ function displayRecommendedQuestions(){
 	}
 
 function displayPopularQuestions(){
-  if(!user_session.isOpen){
-    console.log('need to log in first');
-    return;
-  }
-
   $.ajax({
     url: '/api/_design/question/_view/popular?descending=true&limit=15',
     dataType: "JSON",
