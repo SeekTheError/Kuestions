@@ -122,35 +122,35 @@ $(document).ready(function() {
        	      <div class="panel">
            	    <div class="panel-wrapper">
                   <div class="question list" id="questionList_search">
-                    search
+                    <div class="dummy">search</div>
                   </div><!-- .question list -->
             	  </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
                   <div class="timeline list" id="questionList_timeline">
-                    timeline
+                    <div class="dummy">timeline</div>
                   </div>
                 </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
                   <div class="followed list" id="questionList_followed">
-                    followed
+                    <div class="dummy">followed</div>
                   </div>
                 </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
                   <div class="popular list" id="questionList_popular">
-                    popular questions
+                    <div class="dummy">popular questions</div>
                   </div>
                 </div><!-- .panel-wrapper -->
               </div><!--- .panel -->
 
               <div class="panel">
                 <div class="panel-wrapper">
-                  Recommended
+                  <div class="dummy">Recommended</div>
                 </div>
               </div>
             </div><!-- .coda-slider -->
@@ -169,7 +169,9 @@ $(document).ready(function() {
     
     <div class="question_info">
       <div class="profile">
-        <img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" />
+        <a>
+          <img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" />
+        </a>
       </div>
       <div class="question_contents">
         <div class="info"><a class="questionAsker"></a></div>
@@ -181,8 +183,12 @@ $(document).ready(function() {
     </div>
     
     <div class="question_detail">
+      <p style="color:#999;">Description</p>
       <!--<p><a href="#">Add a Description</a></p>-->
       <p class="detail_contents"></p>
+      <p style="color:#999;">Tags</p>
+      <!--<p><a href="#">Add a Description</a></p>-->
+      <p class="detail_tags"></p>
     </div>
   </div>
   
@@ -197,7 +203,7 @@ $(document).ready(function() {
       
       <div id="answer_template" class="answer">
         <div class="profile">
-          <img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/>
+          <a id="userLink"><img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/></a>
           <div class="rate_wrapper">
             <div class="rate_info">3</div>
             <div class="rate_panel">

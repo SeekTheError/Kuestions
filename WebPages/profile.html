@@ -152,16 +152,16 @@ function editResume(){
 			 <ul>
 			   {% for topic in user.topics %}
 				 <li class="topic_item {{ isAdmin }}">
-				   <b>{{ topic }}</b>
+				   <a href="/?search={{ topic }}"><b>{{ topic }}</b></a>
 				   {% if isAdmin %}
 				   <form action='/user/update/deleteTopic' method='post' class="delete">
 									{% csrf_token %}
 									<input type="hidden" name="deleteTopic" value="{{ topic }}" />
 									<input type="submit" class="deleteButton" value=""/>
-								</form>
-								{% endif %}
-							</li>
-						{% endfor %}
+								</form>							
+				   {% endif %}
+				   </li>
+				   {% endfor %}
 					</ul>
 					{% if isAdmin %}
 					<form action='/user/update/addTopic' method='post' class="newTopic">
