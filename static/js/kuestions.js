@@ -343,6 +343,7 @@ function viewQuestion(questionId){
     data: 'questionId='+questionId + '&csrfmiddlewaretoken='+csrf,
     dataType: "json",
     success: function(data){
+      console.log(data);
       //embed question id into question display div
       $('.question_display').attr('data-questionId', data.id);
       $('.question_display').show();
@@ -356,6 +357,16 @@ function viewQuestion(questionId){
 
       //set follow button
       setFollowButton(data.id, $('#followButton'));
+      if(data.topics.length == 0){
+        $('.detail_topics').hide();
+      }else{
+        $('.detail_topics').show();
+        for (var i = 0; i < data.topics.length; i++){
+          topic=data.topics[i];
+          topicHTML='<li class="topic_item False"><a href="/?search='+topic+'"><b>'+topic+'</b></a></li>';
+          $('.detail_topics .topic ul').append(topicHTML);
+        }
+      }
 
       //display answers
       viewAnswers(data.answers);

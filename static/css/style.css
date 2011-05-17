@@ -273,7 +273,7 @@ ul#timelineList li:hover {background-color: #ebebeb;}
 .question_detail{
   display: inline-block;
   width: 485px;
-  padding: 5px 10px 15px 70px;
+  padding: 5px 10px 5px 0px;
 
 }
 .question_detail .detail_contents{
@@ -381,6 +381,9 @@ h3.pop_message{
 .topic li.topic_item:hover{border: 1px solid #347259; cursor: pointer;}
 .topic li.topic_item b{margin:0 5px 0 0; text-shadow: 1px 1px #efefef;}
 .topic li.topic_item.False b{margin:0 0 0 0;}
+
+.topic li.topic_item:hover a{text-decoration: none;}
+.detail_topics .topic ul{padding:0; width:399px;display: block;margin-bottom: 0px;}
 
 form.delete{display: inline;}
 
