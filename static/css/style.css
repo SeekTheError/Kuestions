@@ -64,6 +64,9 @@ padding: 0 5px 1px 5px;
   background-repeat: no-repeat;
   background-position: 10px 5px;
 }
+.top_contents .search.False{
+  width:350px;
+}
 
 .top_contents .search input{
   background: none;
