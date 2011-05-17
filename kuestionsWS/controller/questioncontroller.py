@@ -68,6 +68,7 @@ def viewQuestion(request):
     'asker': q.asker,
     'views': q.views,
     'answers': answerList,
+    'topics' : q.topics
   })
   return HttpResponse(response)
 

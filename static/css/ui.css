@@ -187,3 +187,29 @@ color:#ababab;margin-right: 10px;}
 .dialog_main .picture_uploader form{
   padding:10px;
 }
+
+
+
+
+
+.right::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    padding: 0px;
+    padding-right: 10px;
+    -webkit-border-radius: 1ex
+}
+
+.right::-webkit-scrollbar-thumb {
+    background-color: rgba(053,057,071,0.3);
+    padding: 8px;
+    width: 6px;
+    height: 6px;
+    -webkit-border-radius: 1ex;
+}
+
+.right::-webkit-scrollbar-thumb:vertical{
+    height: 3px;
+    width: 3px;
+    margin: 3px;
+}

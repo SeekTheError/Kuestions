@@ -27,10 +27,7 @@ $(document).ready(function() {
       $('ul.tabs li').attr("class","");
       $(this).attr("class","selected");
   });
-  
-  // for modal dialog
-	$('a[rel*=facebox]').facebox();
-		
+  	
 });
 
 
@@ -122,28 +119,28 @@ $(document).ready(function() {
        	      <div class="panel">
            	    <div class="panel-wrapper">
                   <div class="question list" id="questionList_search">
-                    search
+                    <div class="dummy">dummy</div>
                   </div><!-- .question list -->
             	  </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
                   <div class="timeline list" id="questionList_timeline">
-                    timeline
+                    <div class="dummy">dummy</div>
                   </div>
                 </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
                   <div class="followed list" id="questionList_followed">
-                    followed
+                    <div class="dummy">dummy</div>
                   </div>
                 </div>
               </div>
               <div class="panel">
              	  <div class="panel-wrapper">
                   <div class="popular list" id="questionList_popular">
-                    popular questions
+                    <div class="dummy">dummy</div>
                   </div>
                 </div><!-- .panel-wrapper -->
               </div><!--- .panel -->
@@ -151,7 +148,7 @@ $(document).ready(function() {
               <div class="panel">
                 <div class="panel-wrapper">
                 <div class="recommended list" id="questionList_recommended">
-                  Recommended
+                  <div class="dummy">dummy</div>
                   </div>
                 </div>
               </div>
@@ -171,12 +168,22 @@ $(document).ready(function() {
     
     <div class="question_info">
       <div class="profile">
-        <img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" />
+        <a><img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" /></a>
       </div>
       <div class="question_contents">
         <div class="info"><a class="questionAsker"></a></div>
         <div class="question_title"></div>
+        <div class="question_detail">
+          <p style="color:#999;">Description</p>
+          <p class="detail_contents"></p>
+        </div>
+        <div class="detail_topics">
+          <p style="color:#999;">Tags</p>
+          <div class="topic"><ul></ul></div>
+        </div>
       </div>
+      
+      
       <div class="actions">
       <span class="follow"><img id="followButton" src="{{MEDIA_URL}}/image/icon_star_off.png" title="follow"/></span>
     </div>
@@ -190,6 +197,7 @@ $(document).ready(function() {
 
     </div>
     <div class="newAnswerAlert radius"></div>
+
   </div>
   
   <div class="answer_wrapper">
@@ -203,7 +211,7 @@ $(document).ready(function() {
       
       <div id="answer_template" class="answer">
         <div class="profile">
-          <img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/>
+          <a class="userLink"><img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/></a>
           <div class="rate_wrapper">
             <div class="rate_info">3</div>
             <div class="rate_panel">

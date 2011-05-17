@@ -23,11 +23,14 @@
 
 <script type="text/javascript" >
 $(document).ready(function() {
-  
-  // for modal dialog
-	$('a[rel*=facebox]').facebox();	
 
   displayUserQuestions("{{user.login}}");
+  
+  $('#searchBar').keyup(function(event) {
+		document.location.href='/?search='+$('#searchBar').val();
+	});
+  
+  
 });
 tinyMCE.init({
   mode : "textareas",
@@ -70,7 +73,7 @@ function editResume(){
       </div>
       {% if sessionIsOpen %}
       <div class="ask_wrapper">
-        <a href="#question_dialog" rel=facebox>Ask Question!</a>
+        <a href="/?show=ask">Ask Question!</a>
       </div>
       {% endif %}
     </div>
@@ -83,7 +86,7 @@ function editResume(){
 				  <a href='/user/'><li>Profile</li></a>
 					<a href='/security/out'> <li>Sign Out</li></a>
 				</ul>
-				<div class="profile"><img class="radius" src="/user/picture/{{ user.login }}"/></div>
+				<div class="profile"><a href="/user/{{ user.login }}"><img class="radius" src="/user/picture/{{ user.login }}"/></a></div>
 		  </div>
 		  {% else %}
 		  <div class="signin_box">
@@ -155,7 +158,7 @@ function editResume(){
 			 <ul>
 			   {% for topic in user.topics %}
 				 <li class="topic_item {{ isAdmin }}">
-				   <a href="/?search={{ topic }}"><b>{{ topic }}</b></a>
+				   <a href="/?search={{ topic }}&topic=1"><b>{{ topic }}</b></a>
 				   {% if isAdmin %}
 				   <form action='/user/update/deleteTopic' method='post' class="delete">
 									{% csrf_token %}
@@ -181,9 +184,9 @@ function editResume(){
 </div>
 <!--Profile Contents END-->
 
-
+<div class="user_questions_wrapper">
 <!-- question list START -->
-
+<h2>{{ user.login }}'s Questions</h2>
 <div class="panel">
   <div class="panel-wrapper">
     <div class="userQuestions list" id="questionList_user">
@@ -192,7 +195,7 @@ function editResume(){
   </div>
 </div>
 <!-- question list END -->
-
+</div>
 
 </div>
 </div>
@@ -208,21 +211,25 @@ function editResume(){
     
     <div class="question_info">
       <div class="profile">
-        <img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" />
+        <a><img id="question_profile_img" src="{{MEDIA_URL}}/image/profile.png" /></a>
       </div>
       <div class="question_contents">
         <div class="info"><a class="questionAsker"></a></div>
         <div class="question_title"></div>
+        <div class="question_detail">
+          <p style="color:#999;">Description</p>
+          <p class="detail_contents"></p>
+        </div>
+        <div class="detail_topics">
+          <p style="color:#999;">Tags</p>
+          <div class="topic"><ul></ul></div>
+        </div>
       </div>
       <div class="actions">
       <span class="follow"><img id="followButton" src="{{MEDIA_URL}}/image/icon_star_off.png" title="follow"/></span>
     </div>
     </div>
     
-    <div class="question_detail">
-      <!--<p><a href="#">Add a Description</a></p>-->
-      <p class="detail_contents"></p>
-    </div>
   </div>
   
   <div class="answer_wrapper">
@@ -236,7 +243,7 @@ function editResume(){
       
       <div id="answer_template" class="answer">
         <div class="profile">
-          <img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/>
+          <a class="userLink"><img src="{{MEDIA_URL}}/image/profile2.png" class="picture"/></a>
           <div class="rate_wrapper">
             <div class="rate_info">3</div>
             <div class="rate_panel">
