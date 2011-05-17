@@ -360,10 +360,15 @@ function viewQuestion(questionId){
       $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
       
-      for (var i = 0; i < data.topics.length; i++){
-        topic=data.topics[i];
-        topicHTML='<li class="topic_item False"><a href="/?search='+topic+'"><b>'+topic+'</b></a></li>';
-        $('.detail_topics .topic ul').append(topicHTML);
+      if(data.topics.length == 0){
+        $('.detail_topics').hide();
+      }else{
+        $('.detail_topics').show();
+        for (var i = 0; i < data.topics.length; i++){
+          topic=data.topics[i];
+          topicHTML='<li class="topic_item False"><a href="/?search='+topic+'"><b>'+topic+'</b></a></li>';
+          $('.detail_topics .topic ul').append(topicHTML);
+        }
       }
       setManageFollowButton(data.id, $('#followButton'));
       $('#followButton').unbind('click');

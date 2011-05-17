@@ -383,7 +383,7 @@ h3.pop_message{
 .topic li.topic_item.False b{margin:0 0 0 0;}
 
 .topic li.topic_item:hover a{text-decoration: none;}
-.detail_topics .topic ul{padding:0; width:480px;display: block;margin-bottom: 0px;}
+.detail_topics .topic ul{padding:0; width:399px;display: block;margin-bottom: 0px;}
 
 form.delete{display: inline;}
 
