@@ -168,18 +168,16 @@ function displayRecommendedQuestions(){
 	    dataType: "JSON",
 	    success: function(data){
 	      if (data.rows.length > 0 ){
-	    	  questions=data.rows;
-	    	  console.log("question size: "+questions.length);
-	    	  for (i=0;i<questions.length;i++){
-	    		 console.log("i="+i);
-	    		 question=questions[i];
-	    		 console.log(i+"  "+user_session.login+" "+question.fields.asker);
-	    	  if(question.fields.asker==user_session.login){
-	    		  questions.pop(question);
-	    		  i--;
-	    		  }
-	    	  }
-	        displayQuestionList(questions, 'recommended');
+          questions=data.rows;
+
+          //filter out questions that belong to the current user... we don't want to recommend their own question to them!
+          var filteredList = [];
+          for (i = 0; i < questions.length; i++){
+            if (questions[i].fields.asker != user_session.login){
+              filteredList.push(questions[i]);
+            }
+          }
+	        displayQuestionList(filteredList, 'recommended');
 	      } else{
 	        $('#questionList_followed').text('no recommendation available yet... Did you edit your profile?');
 	      }
@@ -218,6 +216,8 @@ function displayUserQuestions(userLogin){
 // left side of the page
 // filterType = (search/timeline/followed/popular/recommended/user)
 function displayQuestionList(questionList, filterType){
+  console.log('questionlist');
+  console.log(questionList);
   cleanQuestionList();
 
   // determine container to display questions
@@ -301,8 +301,8 @@ function displayTimeline(data){
 	 var li = $('<li>',{
 	      id: id
 	    }).appendTo($("#timelineList"));
-	  $("#questionList_timeline #"+id).click(function(){
-	   viewQuestion(questionId);
+	  $("#questionList_timeline #"+id).click({'questionId': questionId},function(event){
+	   viewQuestion(event.data.questionId);
 	  });
 	  date= new Date();
 	  date.setTime(Date.parse(timeline[i].eventDate));
@@ -673,19 +673,15 @@ $(document).ready(function() {
   // tabs onclick
   $('#searchTab').click(function(){
     searchQuestions();
-    $('.question_display').hide();
   });
   $('#followedTab').click(function(){
     displayFollowedQuestions();
-    $('.question_display').hide();
   });
   $('#popularTab').click(function(){
     displayPopularQuestions();
-    $('.question_display').hide();
   });
   $("#timelineLink").click(function () {
 	  loadTimeline();
-    $('.question_display').hide();
   });
   $("#recommendedTab").click(function () {
 	  console.log("recommended");
