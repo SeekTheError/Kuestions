@@ -322,12 +322,12 @@ function displayTimeline(data){
 }
 
 function cleanQuestionList(){
-  $('#questionList_search').html('search' );
-  $('#questionList_timeline').html('timeline' );
-  $('#questionList_followed').html('followed');
-  $('#questionList_popular').html('popular');
-  $('#questionList_user').html('user');
-  $('#questionList_recommended').html('recommended');
+  $('#questionList_search').html('<div class="dummy">search</div>' );
+  $('#questionList_timeline').html('<div class="dummy">timeline</div>' );
+  $('#questionList_followed').html('<div class="dummy">followed</div>');
+  $('#questionList_popular').html('<div class="dummy">popular</div>');
+  $('#questionList_user').html('<div class="dummy">user</div>');
+  $('#questionList_recommended').html('<div class="dummy">recommended</div>');
 }
 
 /** ********View Question*********** */
@@ -716,6 +716,8 @@ function init() {
   $('#message').click(function(){
     $(this).slideToggle("fast");
 	});
+	
+	setInterval(maintainHeightEqual, 1000);
 }
 
 
@@ -799,3 +801,13 @@ function humane_date(date_str){
 
 	return date_str;
 };
+
+
+function maintainHeightEqual(){
+  var lHeight=$(".contents .left").height();
+  var rHeight=$(".contents .right").height();
+  var max=lHeight;
+  if(rHeight > lHeight){
+    max=rHeight;
+  }
+}

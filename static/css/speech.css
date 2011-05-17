@@ -85,7 +85,7 @@
 }
 .speech .actions .follow img{width:20px;}
 .answer .rate_wrapper{
-  width: 50px;
+  width: 57px;
   min-height: 30px;
   text-align: center;
 }
@@ -95,7 +95,7 @@
 .answer .rate_wrapper .rate_info{
   font-weight: bold;
   font-size: 15px;
-  margin: 3px 5px;
+  margin: 3px 8px;
   padding: 4px 0;
   border:1px solid #C9C2C1;
   width: 38px;

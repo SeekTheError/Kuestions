@@ -32,6 +32,7 @@ $(document).ready(function() {
 tinyMCE.init({
   mode : "textareas",
   theme : "advanced",
+  editor_selector : "mceEditor",
   theme_advanced_toolbar_location : "top",
   theme_advanced_toolbar_align : "left",
   theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,undo,redo,|,bullist,numlist",
@@ -142,7 +143,7 @@ function editResume(){
 			{% if isAdmin %}
 			<form action='/user/update/resume' method='post' class="newResume" style="display:none;">
 		  	{% csrf_token %}
-				<textarea name="newResume" cols="50" rows="15"> {{user.resume|escape }}</textarea>
+				<textarea name="newResume" class="mceEditor" cols="50" rows="15"> {{user.resume|escape }}</textarea>
         <input type="submit" value="update" />
         <input type="button" value="cancel" onClick="editResume(); return false;"/>
 		  </form>
@@ -154,16 +155,16 @@ function editResume(){
 			 <ul>
 			   {% for topic in user.topics %}
 				 <li class="topic_item {{ isAdmin }}">
-				   <b>{{ topic }}</b>
+				   <a href="/?search={{ topic }}"><b>{{ topic }}</b></a>
 				   {% if isAdmin %}
 				   <form action='/user/update/deleteTopic' method='post' class="delete">
 									{% csrf_token %}
 									<input type="hidden" name="deleteTopic" value="{{ topic }}" />
 									<input type="submit" class="deleteButton" value=""/>
-								</form>
-								{% endif %}
-							</li>
-						{% endfor %}
+								</form>							
+				   {% endif %}
+				   </li>
+				   {% endfor %}
 					</ul>
 					{% if isAdmin %}
 					<form action='/user/update/addTopic' method='post' class="newTopic">
@@ -180,9 +181,9 @@ function editResume(){
 </div>
 <!--Profile Contents END-->
 
-
+<div class="user_questions_wrapper">
 <!-- question list START -->
-
+<h2>{{ user.login }}'s Questions</h2>
 <div class="panel">
   <div class="panel-wrapper">
     <div class="userQuestions list" id="questionList_user">
@@ -191,7 +192,7 @@ function editResume(){
   </div>
 </div>
 <!-- question list END -->
-
+</div>
 
 </div>
 </div>
@@ -219,8 +220,10 @@ function editResume(){
     </div>
     
     <div class="question_detail">
-      <!--<p><a href="#">Add a Description</a></p>-->
+      <p style="color:#999;">Description</p>
       <p class="detail_contents"></p>
+      <p style="color:#999;">Tags</p>
+      <p class="detail_tags"></p>
     </div>
   </div>
   
