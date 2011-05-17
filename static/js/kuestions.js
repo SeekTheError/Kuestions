@@ -190,18 +190,16 @@ function displayRecommendedQuestions(){
 	    dataType: "JSON",
 	    success: function(data){
 	      if (data.rows.length > 0 ){
-	    	  questions=data.rows;
-	    	  console.log("question size: "+questions.length);
-	    	  for (i=0;i<questions.length;i++){
-	    		 console.log("i="+i);
-	    		 question=questions[i];
-	    		 console.log(i+"  "+user_session.login+" "+question.fields.asker);
-	    	  if(question.fields.asker==user_session.login){
-	    		  questions.pop(question);
-	    		  i--;
-	    		  }
-	    	  }
-	        displayQuestionList(questions, 'recommended');
+          questions=data.rows;
+
+          //filter out questions that belong to the current user... we don't want to recommend their own question to them!
+          var filteredList = [];
+          for (i = 0; i < questions.length; i++){
+            if (questions[i].fields.asker != user_session.login){
+              filteredList.push(questions[i]);
+            }
+          }
+	        displayQuestionList(filteredList, 'recommended');
 	      } else{
 	        $('#questionList_followed').text('no recommendation available yet... Did you edit your profile?');
 	      }
@@ -240,6 +238,8 @@ function displayUserQuestions(userLogin){
 // left side of the page
 // filterType = (search/timeline/followed/popular/recommended/user)
 function displayQuestionList(questionList, filterType){
+  console.log('questionlist');
+  console.log(questionList);
   cleanQuestionList();
 
   // determine container to display questions
@@ -297,12 +297,7 @@ function displayQuestionList(questionList, filterType){
     });
 
     //set up follow button
-    setManageFollowButton(questionId, $('#followButton' + i));
-    $('#followButton' + i).unbind('click');
-    $('#followButton' + i).click({'questionId': questionId},function(event){
-      event.stopPropagation();
-      manageFollowQuestion( event.data.questionId, $(this) );
-    });
+    setFollowButton(questionId, $('#followButton' + i));
   }
 }
 
@@ -329,8 +324,8 @@ function displayTimeline(data){
 	 var li = $('<li>',{
 	      id: id
 	    }).appendTo($("#timelineList"));
-	  $("#questionList_timeline #"+id).click(function(){
-	   viewQuestion(questionId);
+	  $("#questionList_timeline #"+id).click({'questionId': questionId},function(event){
+	   viewQuestion(event.data.questionId);
 	  });
 	  date= new Date();
 	  date.setTime(Date.parse(timeline[i].eventDate));
@@ -354,7 +349,7 @@ function cleanQuestionList(){
   $('#questionList_timeline').html('<div class="dummy">timeline</div>' );
   $('#questionList_followed').html('<div class="dummy">followed</div>');
   $('#questionList_popular').html('<div class="dummy">popular</div>');
-  $('#questionList_user').html('');
+  $('#questionList_user').html('<div class="dummy">user</div>');
   $('#questionList_recommended').html('<div class="dummy">recommended</div>');
 }
 
@@ -383,7 +378,9 @@ function viewQuestion(questionId){
       $('.questionAsker').text(data.asker);
       $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
-      
+
+      //set follow button
+      setFollowButton(data.id, $('#followButton'));
       if(data.topics.length == 0){
         $('.detail_topics').hide();
       }else{
@@ -395,12 +392,8 @@ function viewQuestion(questionId){
           $('.detail_topics .topic ul').append(topicHTML);
         }
       }
-      setManageFollowButton(data.id, $('#followButton'));
-      $('#followButton').unbind('click');
-      $("#followButton").click({'questionId': data.id},function(event){
-          manageFollowQuestion(event.data.questionId, $('#followButton'));
-      });
 
+      //display answers
       viewAnswers(data.answers);
       $("#answerInput").val("");
     }
@@ -411,8 +404,9 @@ function hideQuestionDetail(){
   $("#questionDetail").addClass("hidden");
 }
 
-function setManageFollowButton(questionId, button){
+function setFollowButton(questionId, button){
 	if(user_session.isOpen ){
+    //change image depending on whether user is following
     if(userIsFollowingQuestion(questionId)){
       button.attr('src', '/kuestions/media/image/icon_star_on.png');
       button.attr('action','un');
@@ -421,6 +415,17 @@ function setManageFollowButton(questionId, button){
       button.attr('src', '/kuestions/media/image/icon_star_off.png');
   	  button.attr('action','fo');
   	}
+
+    //set button class (used to group all buttons related to one question)
+    button.removeClass();
+    button.addClass('follow' + questionId);
+
+    //set click event
+    button.unbind('click');
+    button.click({'questionId': questionId},function(event){
+        event.stopPropagation();
+        manageFollowQuestion(event.data.questionId, $(this));
+    });
   }
 }
 
@@ -456,10 +461,20 @@ function manageFollowQuestion(questionId, button){
         } else{
           console.log('error: requested questionId not found in user_session.followedQuestions');
         }
+
+        //if currently displayed question is unfollowed while viewing followed tab, hide question display
+        if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1 ) {
+          if ( $('.question_display').attr('data-questionId') == questionId ){
+            $('.question_display').hide();
+          }
+        }
 	    }
 
-      //change the button appropriately
-	    setManageFollowButton(questionId, button);
+      //change buttons appropriately
+      $('.follow' + questionId).each(function(){
+        questionId = $(this).attr('className').split('follow')[1];
+        setFollowButton(questionId, $(this));
+      });
 
       //if followed tab is selected
       if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
@@ -688,19 +703,15 @@ $(document).ready(function() {
   // tabs onclick
   $('#searchTab').click(function(){
     searchQuestions();
-    $('.question_display').hide();
   });
   $('#followedTab').click(function(){
     displayFollowedQuestions();
-    $('.question_display').hide();
   });
   $('#popularTab').click(function(){
     displayPopularQuestions();
-    $('.question_display').hide();
   });
   $("#timelineLink").click(function () {
 	  loadTimeline();
-    $('.question_display').hide();
   });
   $("#recommendedTab").click(function () {
 	  console.log("recommended");
