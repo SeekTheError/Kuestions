@@ -218,7 +218,7 @@ function displayUserQuestions(userLogin){
 // left side of the page
 // filterType = (search/timeline/followed/popular/recommended/user)
 function displayQuestionList(questionList, filterType){
-  cleanQuestionList(filterType);
+  cleanQuestionList();
 
   // determine container to display questions
   var containerId = '#questionList_' + filterType;
@@ -226,12 +226,8 @@ function displayQuestionList(questionList, filterType){
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
     //create html
-<<<<<<< HEAD
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'_'+filterType+'"><img id="questionProfileImg' + i +'_'+filterType+'"></a></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'_'+filterType+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'_'+filterType+'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
-=======
 	  
     $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
->>>>>>> 434e88539ae3cd35e3ca790845bfb9bddba054b0
 
     //fill in data:
     question = questionList[i];
@@ -264,27 +260,23 @@ function displayQuestionList(questionList, filterType){
     postDate = humane_date(postDate);
     //TODO: post date message ex: 'posted 3 days ago'
     //asker and post date
-    $(containerId + ' #askerAndPostDate' + i).html('<a href="/user/'+asker+'"><b>'+asker+'</b></a> posted ' + postDate);
+    $(containerId + ' #askerAndPostDate' + i).html('<b>'+asker+'</b> posted ' + postDate);
 
     //edit question profile img
-    $('#questionProfileImg' + i+'_'+filterType).attr('src', '/user/picture/' + asker);
-    $('#userLink' + i +'_'+filterType).attr('href', '/user/' + asker);
+    $('#questionProfileImg' + i).attr('src', '/user/picture/' + asker);
+    
     //question title
-    $(containerId + ' #questionTitle' + i +'_'+filterType).text(title);
+    $(containerId + ' #questionTitle' + i).text(title);
 
     //click handler for question detail view
-<<<<<<< HEAD
-    $('#questionList'+i+'_'+filterType).click( {'questionId': questionId}, function(event){
-=======
     $('#questionList'+i).click( {'questionId': questionId }, function(event){
->>>>>>> 434e88539ae3cd35e3ca790845bfb9bddba054b0
       viewQuestion(event.data.questionId);
     });
 
     //set up follow button
-    setManageFollowButton(questionId, $('#followButton' + i+'_'+filterType));
-    $('#followButton' + i+'_'+filterType).unbind('click');
-    $('#followButton' + i+'_'+filterType).click({'questionId': questionId},function(event){
+    setManageFollowButton(questionId, $('#followButton' + i));
+    $('#followButton' + i).unbind('click');
+    $('#followButton' + i).click({'questionId': questionId},function(event){
       event.stopPropagation();
       manageFollowQuestion( event.data.questionId, $(this) );
     });
@@ -334,13 +326,6 @@ function displayTimeline(data){
 	}
 }
 
-<<<<<<< HEAD
-function cleanQuestionList(filterType){
-  $('#questionList_'+filterType).html('<div class="dummy">dummy</div>' );
-  //$('#questionList_timeline').html('<div class="dummy">timeline</div>' );
-  //$('#questionList_followed').html('<div class="dummy">followed</div>');
-  //$('#questionList_popular').html('<div class="dummy">popular</div>');
-=======
 function cleanQuestionList(){
   $('#questionList_search').html('search' );
   $('#questionList_timeline').html('timeline' );
@@ -348,7 +333,6 @@ function cleanQuestionList(){
   $('#questionList_popular').html('popular');
   $('#questionList_user').html('user');
   $('#questionList_recommended').html('recommended');
->>>>>>> 434e88539ae3cd35e3ca790845bfb9bddba054b0
 }
 
 /** ********View Question*********** */
@@ -369,7 +353,6 @@ function viewQuestion(questionId){
       $('.question_display').show();
 
       //populate question detail display
-      $('.question_info .profile a').attr('href', '/user/'+data.asker);
       $('#question_profile_img').attr('src', '/user/picture/' + data.asker);
       $('.question_title').html(data.title);
       $('.questionAsker').text(data.asker);
@@ -481,11 +464,10 @@ function viewAnswers(answers){
     var answer = $('#answer_template').clone();
     answer.show();
     answer.attr('id', 'answer'+i);
-    answer.find('#userLink').attr('href','/user/'+answers[i].poster);
     answer.find('.profile .picture').attr('src',"/user/picture/"+answers[i].poster);
     answer.find('.rate_info').text(answers[i].score);
     answer.find('.question_text').text(answers[i].content);
-    answer.find('.info').html('<a href="/user/'+answers[i].poster+'"><b>'+answers[i].poster+"</b></a> answered "+humane_date(answers[i].time));
+    answer.find('.info').html("<b>"+answers[i].poster+"</b> answered "+humane_date(answers[i].time));
     answer.find('.rate_up').click({'answerId': answers[i].id}, function(e){
       incAnswerScore(e.data.answerId);
     });
@@ -789,12 +771,8 @@ function humane_date(date_str){
 	while (format = time_formats[i++]) {
 		if (seconds < format[0]) {
 			if (format.length == 2) {
-			  console.log(format[1]);
 				return format[1] + (i > 1 ? token : ''); // Conditional so we don't return Just Now Ago
 			} else {
-				if(format[1].indexOf("hours") != -1){
-          return Math.round(seconds / format[2]) + ' ' + format[1] + ' ago';
-        }
 				return Math.round(seconds / format[2]) + ' ' + format[1] + (i > 1 ? token : '');
 			}
 		}
@@ -803,10 +781,6 @@ function humane_date(date_str){
 	// overflow for centuries
 	if(seconds > 4730400000)
 		return Math.round(seconds / 4730400000) + ' Centuries' + token;
-  
-  if(date_str.indexOf("hours") != -1){
-    date_str+=' ago';
-  }
-  
+
 	return date_str;
 };
