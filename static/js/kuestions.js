@@ -434,6 +434,7 @@ function checkForNewAnswerDaemon(questionId){
 		    }});	
 	setTimeout("checkForNewAnswerDaemon(questionId,answerCount)",2000);
 	}
+	console.log("no match!");
 	
 }
 
