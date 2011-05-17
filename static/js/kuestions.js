@@ -156,7 +156,7 @@ function displayPopularQuestions(){
   }
 
   $.ajax({
-    url: '/api/_design/question/_view/popular?descending=true',
+    url: '/api/_design/question/_view/popular?descending=true&limit=15',
     dataType: "JSON",
     success: function(data){
       displayQuestionList(data.rows, 'popular');
@@ -172,7 +172,7 @@ var minScore = 0.3;
 // left side of the page
 // filterType = (search/timeline/followed)
 function displayQuestionList(questionList, filterType){
-  cleanQuestionList(filterType);
+  cleanQuestionList();
 
   // determine container to display questions
   var containerId = '#questionList_' + filterType;
@@ -263,8 +263,11 @@ function displayTimeline(data){
 	}
 }
 
-function cleanQuestionList(listType){
-  $('#questionList_'+listType).empty();
+function cleanQuestionList(){
+  $('#questionList_search').html('search' );
+  $('#questionList_timeline').html('timeline' );
+  $('#questionList_followed').html('followed');
+  $('#questionList_popular').html('popular');
 }
 
 /** ********View Question*********** */
@@ -290,7 +293,7 @@ function viewQuestion(questionId){
       $('.questionAsker').text(data.asker);
       $('.detail_contents').text(data.description);
 
-      setManageFollowButton(data._id);
+      setManageFollowButton(data.id);
 
       viewAnswers(data.answers);
       $("#answerInput").val("");
@@ -339,19 +342,30 @@ function manageFollowQuestion(){
 		    user_session.followedQuestions.push(questionId);
 	    }
 	    else {
-	      user_session.followedQuestions.pop(questionId);
+        //find the questionId and remove it
+        var index = -1;
+        for (var i = 0; i < user_session.followedQuestions.length; i++){
+          if (user_session.followedQuestions[i] == questionId){
+            index = i;
+            break;
+          }
+        }
+
+        if (index > 0){
+          user_session.followedQuestions.splice(index,1);
+        } else{
+          console.log('error: requested questionId not found in user_session.followedQuestions');
+        }
 	    }
 	    setManageFollowButton(questionId);
 
 
-      /*
       //if followed tab is selected
       if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
         //refresh followed list in question view
         displayFollowedQuestions();
         console.log('refreshed');
       }
-      */
 	  }
 	});
 }
