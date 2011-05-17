@@ -1,6 +1,6 @@
 .speech_wrapper{
   display:inline-block;
-  padding:0 4px;
+  padding:5px 4px;
   border: 1px solid white;
   position: relative;
 }
@@ -21,7 +21,7 @@
 .speech{
   float:left;
   width:400px;
-  padding:5px 0px;
+  padding:0 0 5px 0;
   font-size:10pt;
 }
 
@@ -74,7 +74,7 @@
 }
 .speech .actions{
   position: absolute;
-  top:10px;
+  bottom:7px;
   right:0px;
 }
 
@@ -82,7 +82,7 @@
   float:right;
   padding:0px 7px;
 }
-
+.speech .actions .follow img{width:20px;}
 .answer .rate_wrapper{
   width: 50px;
   min-height: 30px;

@@ -180,7 +180,7 @@ function displayQuestionList(questionList, filterType){
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
     //create html
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
 
     //fill in data:
     question = questionList[i];
@@ -294,6 +294,7 @@ function viewQuestion(questionId){
       //TODO: question asker photo
       $('.question_title').html(data.title);
       $('.questionAsker').text(data.asker);
+      $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
 
       setManageFollowButton(data.id);
@@ -405,7 +406,7 @@ function viewAnswers(answers){
     answer.find('.profile .picture').attr('src',"/user/picture/"+answers[i].poster);
     answer.find('.rate_info').text(answers[i].score);
     answer.find('.question_text').text(answers[i].content);
-    answer.find('.info b').text(answers[i].poster);
+    answer.find('.info').html("<b>"+answers[i].poster+"</b> answered "+humane_date(answers[i].time));
     answer.find('.rate_up').click({'answerId': answers[i].id}, function(e){
       incAnswerScore(e.data.answerId);
     });
