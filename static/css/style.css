@@ -238,7 +238,6 @@ ul#timelineList li:hover {background-color: #ebebeb;}
 }
 .question_info{
   display: inline-block;
-  border-bottom: 1px solid #cdcdcd;
   background-image:url(../image/v_tab_bg2.jpg);
   padding: 10px;
 }
@@ -273,14 +272,14 @@ ul#timelineList li:hover {background-color: #ebebeb;}
 }
 .question_detail{
   display: inline-block;
-  width: 535px;
-
-  padding: 10px 15px;
+  width: 485px;
+  padding: 5px 10px 15px 70px;
 
 }
 .question_detail .detail_contents{
   font-size:15px; line-height: 20px;
-  color:#343;
+  color:#343343;
+  margin: 5px 0 5px 0;
 }
 .question_info .actions{position: absolute;top:5px;right:0px;}
 
@@ -292,7 +291,7 @@ ul#timelineList li:hover {background-color: #ebebeb;}
 }
 
 .in-reply-to-border {
-padding-left: 36px;
+padding-left: 68px;
 margin-right: 4px;
 color: #999999;
 font-size: 12px;
@@ -310,15 +309,15 @@ border-width: 1px 0 0;
 }
 .best_answer_wrapper .answer,.answers_wrapper .answer{padding: 0 10px; display: inline-block; }
 .best_answer_wrapper .profile, .answers_wrapper .profile{
-  width:50px;
+  width:56px;
   padding:8px 0;
   float:left;
   text-align: center;
 }
 .best_answer_wrapper .answer .speech,
-.answers_wrapper .answer .speech{width:500px; font-size:14px; line-height: 20px;}
+.answers_wrapper .answer .speech{width:490px; font-size:14px; line-height: 20px;}
 .best_answer_wrapper .answer .speech .question .question_text,
-.answers_wrapper .answer .speech .question .question_text{width:480px; max-width: 480px;}
+.answers_wrapper .answer .speech .question .question_text{width:470px; max-width: 480px;}
 
 
 
@@ -446,7 +445,7 @@ form.newResume{
 .answer_profile,.answer_form{
   float:left;
 }
-.answer_profile{width:50px; text-align: center;  min-height: 20px;
+.answer_profile{width:56px; text-align: center;  min-height: 20px;
 }
 .answer_profile img{
   width:40px;
@@ -455,7 +454,7 @@ form.newResume{
 .answer_form_wrapper{display: inline-block;}
 .answer_form_wrapper p{float:left;}
 .answer_form #answerInput{
-  width:400px;
+  width:390px;
   height:50px;
   padding:5px;
   font-size: 14px;
@@ -479,4 +478,17 @@ form.newResume{
   padding:0px 5px;
   font-size: 14px;
   line-height: 20px;
+}
+
+.speech .info {
+  font-size:12px;
+}
+.speech .info b{
+  font-size: 14px;
+  color: #004C4C;
+}
+
+.dummy{
+  font-size: 0px;
+  color:#fff;
 }
