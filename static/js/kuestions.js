@@ -227,7 +227,7 @@ function displayQuestionList(questionList, filterType){
   for (var i = 0; i < questionList.length; i++){
     //create html
 	  
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></span> </div> </div> </div>');
 
     //fill in data:
     question = questionList[i];
@@ -274,12 +274,7 @@ function displayQuestionList(questionList, filterType){
     });
 
     //set up follow button
-    setManageFollowButton(questionId, $('#followButton' + i));
-    $('#followButton' + i).unbind('click');
-    $('#followButton' + i).click({'questionId': questionId},function(event){
-      event.stopPropagation();
-      manageFollowQuestion( event.data.questionId, $(this) );
-    });
+    setFollowButton(questionId, $('#followButton' + i));
   }
 }
 
@@ -359,12 +354,10 @@ function viewQuestion(questionId){
       $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
 
-      setManageFollowButton(data.id, $('#followButton'));
-      $('#followButton').unbind('click');
-      $("#followButton").click({'questionId': data.id},function(event){
-          manageFollowQuestion(event.data.questionId, $('#followButton'));
-      });
+      //set follow button
+      setFollowButton(data.id, $('#followButton'));
 
+      //display answers
       viewAnswers(data.answers);
       $("#answerInput").val("");
     }
@@ -375,8 +368,9 @@ function hideQuestionDetail(){
   $("#questionDetail").addClass("hidden");
 }
 
-function setManageFollowButton(questionId, button){
+function setFollowButton(questionId, button){
 	if(user_session.isOpen ){
+    //change image depending on whether user is following
     if(userIsFollowingQuestion(questionId)){
       button.attr('src', '/kuestions/media/image/icon_star_on.png');
       button.attr('action','un');
@@ -385,6 +379,17 @@ function setManageFollowButton(questionId, button){
       button.attr('src', '/kuestions/media/image/icon_star_off.png');
   	  button.attr('action','fo');
   	}
+
+    //set button class (used to group all buttons related to one question)
+    button.removeClass();
+    button.addClass('follow' + questionId);
+
+    //set click event
+    button.unbind('click');
+    button.click({'questionId': questionId},function(event){
+        event.stopPropagation();
+        manageFollowQuestion(event.data.questionId, $(this));
+    });
   }
 }
 
@@ -420,10 +425,20 @@ function manageFollowQuestion(questionId, button){
         } else{
           console.log('error: requested questionId not found in user_session.followedQuestions');
         }
+
+        //if currently displayed question is unfollowed while viewing followed tab, hide question display
+        if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1 ) {
+          if ( $('.question_display').attr('data-questionId') == questionId ){
+            $('.question_display').hide();
+          }
+        }
 	    }
 
-      //change the button appropriately
-	    setManageFollowButton(questionId, button);
+      //change buttons appropriately
+      $('.follow' + questionId).each(function(){
+        questionId = $(this).attr('className').split('follow')[1];
+        setFollowButton(questionId, $(this));
+      });
 
       //if followed tab is selected
       if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
