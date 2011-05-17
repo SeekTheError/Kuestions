@@ -430,7 +430,7 @@ function checkForNewAnswerDaemon(questionId){
 		    		
 		    	}
 		    }});	
-	setTimeout("checkForNewAnswerDaemon(questionId,answerCount)",2000);
+    setTimeout("checkForNewAnswerDaemon(questionId,answerCount)",2000);
 	}
 	
 }
