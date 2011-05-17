@@ -348,6 +348,7 @@ function viewQuestion(questionId){
     data: 'questionId='+questionId + '&csrfmiddlewaretoken='+csrf,
     dataType: "json",
     success: function(data){
+      console.log(data);
       //embed question id into question display div
       $('.question_display').attr('data-questionId', data.id);
       $('.question_display').show();
@@ -358,7 +359,12 @@ function viewQuestion(questionId){
       $('.questionAsker').text(data.asker);
       $('.questionAsker').attr('href','/user/'+data.asker);
       $('.detail_contents').text(data.description);
-
+      
+      for (var i = 0; i < data.topics.length; i++){
+        topic=data.topics[i];
+        topicHTML='<li class="topic_item False"><a href="/?search='+topic+'"><b>'+topic+'</b></a></li>';
+        $('.detail_topics .topic ul').append(topicHTML);
+      }
       setManageFollowButton(data.id, $('#followButton'));
       $('#followButton').unbind('click');
       $("#followButton").click({'questionId': data.id},function(event){
