@@ -156,7 +156,7 @@ function displayPopularQuestions(){
   }
 
   $.ajax({
-    url: '/api/_design/question/_view/popular?descending=true',
+    url: '/api/_design/question/_view/popular?descending=true&limit=15',
     dataType: "JSON",
     success: function(data){
       displayQuestionList(data.rows, 'popular');
@@ -172,7 +172,7 @@ var minScore = 0.3;
 // left side of the page
 // filterType = (search/timeline/followed)
 function displayQuestionList(questionList, filterType){
-  cleanQuestionList(filterType);
+  cleanQuestionList();
 
   // determine container to display questions
   var containerId = '#questionList_' + filterType;
@@ -180,7 +180,7 @@ function displayQuestionList(questionList, filterType){
   // generate styled question list
   for (var i = 0; i < questionList.length; i++){
     //create html
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img src="/kuestions/media/image/profile.png"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><img id="questionProfileImg' + i +'"></div> <div class="speech"> <div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div> <div class="actions"> <span class="follow"><a href="#"><img src="/kuestions/media/image/icon_star_off.png" title="Unfollow"></a></span> </div> </div> </div>');
 
     //fill in data:
     question = questionList[i];
@@ -209,6 +209,9 @@ function displayQuestionList(questionList, filterType){
     //TODO: post date message ex: 'posted 3 days ago'
     //asker and post date
     $(containerId + ' #askerAndPostDate' + i).html('<b>'+asker+'</b> posted on ' + postDate);
+
+    //edit question profile img
+    $('#questionProfileImg' + i).attr('src', '/user/picture/' + asker);
     
     //question title
     $(containerId + ' #questionTitle' + i).text(title);
@@ -263,8 +266,11 @@ function displayTimeline(data){
 	}
 }
 
-function cleanQuestionList(listType){
-  $('#questionList_'+listType).empty();
+function cleanQuestionList(){
+  $('#questionList_search').html('search' );
+  $('#questionList_timeline').html('timeline' );
+  $('#questionList_followed').html('followed');
+  $('#questionList_popular').html('popular');
 }
 
 /** ********View Question*********** */
@@ -290,7 +296,7 @@ function viewQuestion(questionId){
       $('.questionAsker').text(data.asker);
       $('.detail_contents').text(data.description);
 
-      setManageFollowButton(data._id);
+      setManageFollowButton(data.id);
 
       viewAnswers(data.answers);
       $("#answerInput").val("");
@@ -339,19 +345,30 @@ function manageFollowQuestion(){
 		    user_session.followedQuestions.push(questionId);
 	    }
 	    else {
-	      user_session.followedQuestions.pop(questionId);
+        //find the questionId and remove it
+        var index = -1;
+        for (var i = 0; i < user_session.followedQuestions.length; i++){
+          if (user_session.followedQuestions[i] == questionId){
+            index = i;
+            break;
+          }
+        }
+
+        if (index > 0){
+          user_session.followedQuestions.splice(index,1);
+        } else{
+          console.log('error: requested questionId not found in user_session.followedQuestions');
+        }
 	    }
 	    setManageFollowButton(questionId);
 
 
-      /*
       //if followed tab is selected
       if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
         //refresh followed list in question view
         displayFollowedQuestions();
         console.log('refreshed');
       }
-      */
 	  }
 	});
 }

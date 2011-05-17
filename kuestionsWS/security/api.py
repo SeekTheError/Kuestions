@@ -37,6 +37,9 @@ def gate(request) :
       params+='&'
     params+='&descending=true'
     
+  if request.GET.__contains__('limit'):
+    params += '&limit=' + request.GET['limit']
+
   import urllib2
   if params != '?' :
     url=unicode(url+params)
