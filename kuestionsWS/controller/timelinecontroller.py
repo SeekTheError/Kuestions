@@ -34,8 +34,12 @@ def get(request):
       i+=1
   print "sorted"
   values=[]
+  i=0
   for row in rows :
     values.append(row.value)
+    if i > 20 :
+      break
+    i+=1;
     
 
   return HttpResponse(json.dumps(values))
