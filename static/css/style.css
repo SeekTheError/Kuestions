@@ -6,7 +6,7 @@
 
 /*Basic Component*/
 html,body,a,p,span,div,fieldset,legend{margin:0; padding:0}
-body{font-size:8pt; font-family:"Helvetica Neue", tahoma, verdana, arial, sans-serif;overflow-y: auto;}
+body{font-size:8pt; font-family:"Helvetica Neue", "FreeSans",tahoma, verdana, arial, sans-serif;overflow-y: auto;}
 a {
 	color: #004C4C;
 	text-decoration: none;
@@ -63,6 +63,9 @@ padding: 0 5px 1px 5px;
   background-image: url(../image/search_box.png);
   background-repeat: no-repeat;
   background-position: 10px 5px;
+}
+.top_contents .search.False{
+  width:350px;
 }
 
 .top_contents .search input{

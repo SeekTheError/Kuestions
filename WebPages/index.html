@@ -44,13 +44,15 @@ $(document).ready(function() {
   <div class="top_contents">
     <div class="logo"><a href="/">Kuestions?!</a></div>
 
-    <div class="search">
+    <div class="search {{ sessionIsOpen }}">
       <div class="input_wrapper">
         <input type="text" placeholder="What do you need to Know?" id="searchBar" />
       </div>
+      {% if sessionIsOpen %}
       <div class="ask_wrapper">
         <a href="#question_dialog" rel=facebox>Ask Question!</a>
       </div>
+      {% endif %}
     </div>
 
     <div class="top_right">
