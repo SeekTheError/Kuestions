@@ -390,6 +390,9 @@ function viewQuestion(questionId){
           $('.detail_topics .topic ul').append(topicHTML);
         }
       }
+
+      //view answers
+      viewAnswers(data.answers);
       
       //initialize answer update checker daemon
       $(".newAnswerAlert").text("");
