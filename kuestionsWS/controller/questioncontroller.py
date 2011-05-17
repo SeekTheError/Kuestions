@@ -53,7 +53,9 @@ def viewQuestion(request):
   q = q.findById()
   if q.views is None :
     q.views = 0
-  q.views+=1
+  # no increment when the query come from the ajax system  
+  if request.GET.__contains__("auto")  :
+    q.views+=1
   q.update()
   
   #unwrap answer dictionaries so that we can serialize into json
