@@ -546,6 +546,13 @@ function viewAnswers(answers){
     }
   });
 
+  //if answers list is empty, hide answers header
+  if (answers.length == 0){
+    $('#answers_header').hide();
+  } else{
+    $('#answers_header').show();
+  }
+
   //sort answers by rank
   answers = answers.sort(function(answer1, answer2){
     return answer2.score - answer1.score;
