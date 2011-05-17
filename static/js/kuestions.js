@@ -766,6 +766,8 @@ $(document).ready(function() {
   if(vars["show"]){
 	  if(vars["show"] == 'ask'){
 	    $(".ask_wrapper a").click();
+      var left=parseInt($("#facebox").css('left'));
+      $("#facebox").css('left',(left-215)+'px');
 	  }
 	}
 });
