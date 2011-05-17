@@ -415,7 +415,7 @@ function checkForNewAnswerDaemon(questionId){
 		$.ajax({
 		    url: '/question/view/',
 		    type: 'GET',
-		    data: 'questionId='+questionId,
+		    data: 'questionId='+questionId+"&auto",
 		    dataType: "json",
 		    success: function(data){
 		    	question=eval(data);
