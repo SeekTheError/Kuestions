@@ -40,8 +40,6 @@ def get(request):
     if i > 20 :
       break
     i+=1;
-    
-
   return HttpResponse(json.dumps(values))
     
     

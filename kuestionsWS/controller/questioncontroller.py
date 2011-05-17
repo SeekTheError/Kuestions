@@ -48,7 +48,7 @@ def post(request) :
   
 def viewQuestion(request):
   #obtain question by ID
-  questionId = request.POST["questionId"]
+  questionId = request.GET["questionId"]
   q = Question(id=questionId)
   q = q.findById()
   if q.views is None :
