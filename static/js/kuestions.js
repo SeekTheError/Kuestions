@@ -133,6 +133,28 @@ function searchQuestions(search) {
 	}
 }
 
+function searchQuestionsHasTopic(search) {
+	if(search==null){
+		search = document.getElementById("searchBar").value;
+	}
+
+	if (search != "") {
+		search=enhanceSearch(search);
+    var url = '/api/_fti/_design/question/by_topics?';
+    $.ajax({
+      url : url,
+      data : 'q=' + search,
+      dataType : 'json',
+      success : function(data) {
+        displayQuestionList(data.rows, 'search');
+      }
+    });
+	} else {
+		cleanQuestionList();
+	}
+}
+
+
 function displayFollowedQuestions(){
   if(!user_session.isOpen){
     console.log('need to log in first');
@@ -230,7 +252,7 @@ function displayQuestionList(questionList, filterType){
   for (var i = 0; i < questionList.length; i++){
     //create html
 	  
-    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a class="userLink'+i+'"><img id="questionProfileImg' + i +'"></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
+    $(containerId).append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'"><img id="questionProfileImg' + i +'"></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow"></a></span> </div> </div> </div>');
 
     //fill in data:
     question = questionList[i];
@@ -369,7 +391,7 @@ function viewQuestion(questionId){
         $('.detail_topics .topic ul').text(" ");
         for (var i = 0; i < data.topics.length; i++){
           topic=data.topics[i];
-          topicHTML='<li class="topic_item False"><a href="/?search='+topic+'"><b>'+topic+'</b></a></li>';
+          topicHTML='<li class="topic_item False"><a href="/?search='+topic+'&topic=1"><b>'+topic+'</b></a></li>';
           $('.detail_topics .topic ul').append(topicHTML);
         }
       }
@@ -501,10 +523,11 @@ function viewAnswers(answers){
     var answer = $('#answer_template').clone();
     answer.show();
     answer.attr('id', 'answer'+i);
+    answer.find('.profile .userLink').attr('href',"/user/"+answers[i].poster);
     answer.find('.profile .picture').attr('src',"/user/picture/"+answers[i].poster);
     answer.find('.rate_info').text(answers[i].score);
     answer.find('.question_text').text(answers[i].content);
-    answer.find('.info').html("<b>"+answers[i].poster+"</b> answered "+humane_date(answers[i].time));
+    answer.find('.info').html('<a href="/user/'+answers[i].poster+'"><b>'+answers[i].poster+"</b></a> answered "+humane_date(answers[i].time));
     answer.find('.rate_up').click({'answerId': answers[i].id}, function(e){
       incAnswerScore(e.data.answerId);
     });
@@ -663,11 +686,17 @@ $(document).ready(function() {
 	if(vars["search"]){
 		search=vars["search"];
 		$('#searchBar').attr('value',unescape(search));
-		searchQuestions(vars["search"]);		
-	}
+		if(vars["topic"] && vars["topic"] == '1'){
+		  searchQuestionsHasTopic(vars["search"]);
+		}
+		else{
+		  searchQuestions(vars["search"]);		
+	  }
+  }
 	if(vars["question"]){
 		viewQuestion(vars["question"]);
 	}
+	
   $('#coda-slider-1').codaSlider({
     dynamicArrows: false,
     dynamicTabs: false,
@@ -697,6 +726,15 @@ $(document).ready(function() {
 	  console.log("recommended");
 	  displayRecommendedQuestions();
   });
+  
+  // for modal dialog
+	$('a[rel*=facebox]').facebox();
+  
+  if(vars["show"]){
+	  if(vars["show"] == 'ask'){
+	    $(".ask_wrapper a").click();
+	  }
+	}
 });
 
 function loadSession(){
