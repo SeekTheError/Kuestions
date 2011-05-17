@@ -23,11 +23,14 @@
 
 <script type="text/javascript" >
 $(document).ready(function() {
-  
-  // for modal dialog
-	$('a[rel*=facebox]').facebox();	
 
   displayUserQuestions("{{user.login}}");
+  
+  $('#searchBar').keyup(function(event) {
+		document.location.href='/?search='+$('#searchBar').val();
+	});
+  
+  
 });
 tinyMCE.init({
   mode : "textareas",
@@ -70,7 +73,7 @@ function editResume(){
       </div>
       {% if sessionIsOpen %}
       <div class="ask_wrapper">
-        <a href="#question_dialog" rel=facebox>Ask Question!</a>
+        <a href="/?show=ask">Ask Question!</a>
       </div>
       {% endif %}
     </div>

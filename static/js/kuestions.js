@@ -130,6 +130,28 @@ function searchQuestions(search) {
 	}
 }
 
+function searchQuestionsHasTopic(search) {
+	if(search==null){
+		search = document.getElementById("searchBar").value;
+	}
+
+	if (search != "") {
+		search=enhanceSearch(search);
+    var url = '/api/_fti/_design/question/by_topics?';
+    $.ajax({
+      url : url,
+      data : 'q=' + search,
+      dataType : 'json',
+      success : function(data) {
+        displayQuestionList(data.rows, 'search');
+      }
+    });
+	} else {
+		cleanQuestionList();
+	}
+}
+
+
 function displayFollowedQuestions(){
   if(!user_session.isOpen){
     console.log('need to log in first');
@@ -640,11 +662,17 @@ $(document).ready(function() {
 	if(vars["search"]){
 		search=vars["search"];
 		$('#searchBar').attr('value',unescape(search));
-		searchQuestions(vars["search"]);		
-	}
+		if(vars["topic"] && vars["topic"] == '1'){
+		  searchQuestionsHasTopic(vars["search"]);
+		}
+		else{
+		  searchQuestions(vars["search"]);		
+	  }
+  }
 	if(vars["question"]){
 		viewQuestion(vars["question"]);
 	}
+	
   $('#coda-slider-1').codaSlider({
     dynamicArrows: false,
     dynamicTabs: false,
@@ -678,6 +706,15 @@ $(document).ready(function() {
 	  console.log("recommended");
 	  displayRecommendedQuestions();
   });
+  
+  // for modal dialog
+	$('a[rel*=facebox]').facebox();
+  
+  if(vars["show"]){
+	  if(vars["show"] == 'ask'){
+	    $(".ask_wrapper a").click();
+	  }
+	}
 });
 
 function loadSession(){
