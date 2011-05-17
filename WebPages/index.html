@@ -189,6 +189,15 @@ $(document).ready(function() {
     </div>
     </div>
     
+    <div class="question_detail">
+            <p style="color:#999;">Description</p>
+      <p class="detail_contents"></p>
+      <p style="color:#999;">Tags</p>
+      <p class="detail_tags"></p>
+
+    </div>
+    <div class="newAnswerAlert radius"></div>
+
   </div>
   
   <div class="answer_wrapper">
@@ -223,7 +232,7 @@ $(document).ready(function() {
       
       </div><!-- end .answer -->
     </div><!-- end .answers_wrapper --> 
-    
+    <div class="newAnswerAlert radius"></div>
     {% if sessionIsOpen %}
     <div id="answerForm">
       <fieldset class="in-reply-to-border">
@@ -233,6 +242,7 @@ $(document).ready(function() {
 		    <div class="answer_profile">
 		      <img src="/user/picture/{{ user.login }}" />
 		    </div>
+		    
 		    <div class="answer_form_wrapper">
 		      <div class="info"><b>{{ user.login }}</b></div>
 		      <div class="answer_form">
@@ -253,7 +263,7 @@ $(document).ready(function() {
     
     
   </div><!-- end .answer_wrapper -->
-    
+     
   </div>
 </div>
 

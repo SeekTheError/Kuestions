@@ -500,9 +500,12 @@ form.newResume{
   color:#fff;
 }
 
-
 .newTopic input{
   border: 1px solid #cacaca;
   width:310px;
+
+.newAnswerAlert {
+  font-size: 12pt;
+  background-color: orange;
 }
 
