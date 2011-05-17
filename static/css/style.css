@@ -178,11 +178,10 @@ padding: 0 5px 1px 5px;
   width:559px;
   overflow-x: hidden;
   overflow-y: auto;
-  padding:0 10px 0 0;
+  padding:0;
   position: fixed;
   top:60px;
-  left:583px;
-  
+  margin-left: 471px;
 
 }
 .right_wrapper{
