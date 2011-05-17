@@ -6,6 +6,7 @@
 }
 .speech_wrapper:hover{
   background-image:url(../image/v_tab_bg2.jpg);
+  cursor: pointer;
 }
 
 .speech_wrapper .profile.question img{

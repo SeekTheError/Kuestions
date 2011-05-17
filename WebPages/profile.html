@@ -172,7 +172,7 @@ function editResume(){
 					{% if isAdmin %}
 					<form action='/user/update/addTopic' method='post' class="newTopic">
 						{% csrf_token %}
-						<input type="text" name="newTopic" style="width:310px" />
+						<input type="text" name="newTopic" placeholder="Add Topic" />
 					</form>
 					{% endif %}
 				</div>
@@ -202,7 +202,7 @@ function editResume(){
 <!--Left Contents END-->
 
 <!--Right Contents Start-->
-<div class="right">
+<div class="right" style="margin-left:0px">
 <div class="right_wrapper">
 
 

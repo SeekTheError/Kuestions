@@ -283,7 +283,7 @@ ul#timelineList li:hover {background-color: #ebebeb;}
 .question_detail .detail_contents{
   font-size:15px; line-height: 20px;
   color:#343343;
-  margin: 5px 0 5px 0;
+  margin: 5px 5px 5px 0;
 }
 .question_info .actions{position: absolute;top:5px;right:0px;}
 
@@ -372,7 +372,7 @@ h3.pop_message{
 }
 
 .topic ul, .topic li{margin:0px; list-style: none;}
-.topic ul{padding:5px 0 0 0;height:20px;width:320px;}
+.topic ul{padding:5px 0 0 0;height:20px;width:310px;}
 .topic li{display: inline; margin-right: 5px;
   background-color: #347259;
 }
@@ -499,6 +499,10 @@ form.newResume{
 .dummy{
   color:#fff;
 }
+
+.newTopic input{
+  border: 1px solid #cacaca;
+  width:310px;
 
 .newAnswerAlert {
   font-size: 12pt;
