@@ -354,7 +354,6 @@ function cleanQuestionList(){
 // views a question when you click one
 // creates a 'question page' on the right side of the page
 var lastAnswerCount;
-var initialAnswerCount;
 var answerDaemon;
 function viewQuestion(questionId){
 	csrf = $("#security_csrf input:first").val();
@@ -396,8 +395,7 @@ function viewQuestion(questionId){
       
       //initialize answer update checker daemon
       $(".newAnswerAlert").text("");
-      initialAnswerCount=data.answers.length;
-      lastAnswerCount=initialAnswerCount;
+      lastAnswerCount=data.answers.length;
       if (!answerDaemon){
         answerDaemon = runAnswerDaemon();
       }
@@ -419,14 +417,7 @@ function runAnswerDaemon(){
         answers = data.answers;
         if(lastAnswerCount < answers.length){
           diff = answers.length-lastAnswerCount;
-          if(diff==1){
-            $(".newAnswerAlert").text(diff+ " new answer");
-          }
-          else{
-            $(".newAnswerAlert").text(diff+ " new answers");	
-          }
-          lastAnswerCount=answers.length;
-          
+          (diff == 1) ? $(".newAnswerAlert").text(diff+ " new answer") : $(".newAnswerAlert").text(diff+ " new answers");	
         }
      }
   });	
@@ -581,8 +572,6 @@ function viewAnswers(answers){
 
 function postAnswer(answerText){
   var answer = $("#answerInput").val();
-  lastAnswerCount=lastAnswerCount+1;
-  initialAnswerCount=initialAnswerCount+1;
   
   // check if answer is empty
   if (answer == ""){
@@ -602,6 +591,11 @@ function postAnswer(answerText){
         displayMessage(data.errorMessage,'answerMessageContainer');
         return;
       }
+      
+      //increment answer count
+      lastAnswerCount=lastAnswerCount+1;
+
+      //redisplay answer list
       viewAnswers(data);
     }
   });
@@ -830,10 +824,10 @@ function init() {
 	});
 
 $('.newAnswerAlert').click(
-	function () {
-		$('.newAnswerAlert').text("");
-		viewQuestion($('.question_display').attr('data-questionId'));
-	}	  
+    function () {
+      $('.newAnswerAlert').text("");
+      viewQuestion($('.question_display').attr('data-questionId'));
+    }
   );
 }
 
