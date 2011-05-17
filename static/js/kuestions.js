@@ -344,9 +344,11 @@ function manageFollowQuestion(questionId, button){
 	  dataType: "json",
 	  success: function(data){
 	    response=eval(data);
+      //if question is followed
 	    if(response.followed){
 		    user_session.followedQuestions.push(questionId);
 	    }
+      //if question is not followed
 	    else {
         //find the questionId and remove it
         var index = -1;
@@ -356,15 +358,15 @@ function manageFollowQuestion(questionId, button){
             break;
           }
         }
-
         if (index >= 0){
           user_session.followedQuestions.splice(index,1);
         } else{
           console.log('error: requested questionId not found in user_session.followedQuestions');
         }
 	    }
-	    setManageFollowButton(questionId, button);
 
+      //change the button appropriately
+	    setManageFollowButton(questionId, button);
 
       //if followed tab is selected
       if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1) {
@@ -587,15 +589,19 @@ $(document).ready(function() {
   // tabs onclick
   $('#searchTab').click(function(){
     searchQuestions();
+    $('.question_display').hide();
   });
   $('#followedTab').click(function(){
     displayFollowedQuestions();
+    $('.question_display').hide();
   });
   $('#popularTab').click(function(){
     displayPopularQuestions();
+    $('.question_display').hide();
   });
   $("#timelineLink").click(function () {
 	  loadTimeline();
+    $('.question_display').hide();
   });
 });
 
