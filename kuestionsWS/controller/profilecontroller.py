@@ -167,5 +167,5 @@ def userPicture(request, login):
   user=User(login=login)
   user=user.findByLogin()
   if not user:
-    return HttpResponse('No User',mimetype="image/jpg")  
+    return HttpResponseRedirect('/kuestions/media/profile.png')
   return HttpResponseRedirect('/kuestions/media/'+user.picture)
