@@ -845,61 +845,38 @@ function uploadImage(){
 
 /** ******* 1. Pretty Date *************** */
 /*
- * Javascript Humane Dates
- * Copyright (c) 2008 Dean Landolt (deanlandolt.com)
- * Re-write by Zach Leatherman (zachleat.com)
- * 
- * Adopted from the John Resig's pretty.js
- * at http://ejohn.org/blog/javascript-pretty-date
- * and henrah's proposed modification 
- * at http://ejohn.org/blog/javascript-pretty-date/#comment-297458
- * 
+ * JavaScript Pretty Date
+ * Copyright (c) 2008 John Resig (jquery.com)
  * Licensed under the MIT license.
  */
 
-function humane_date(date_str){
-	var time_formats = [
-		[60, 'just now'],
-		[90, '1 minute'], // 60*1.5
-		[3600, 'minutes', 60], // 60*60, 60
-		[5400, '1 hour'], // 60*60*1.5
-		[86400, 'hours', 3600], // 60*60*24, 60*60
-		[129600, '1 day'], // 60*60*24*1.5
-		[604800, 'days', 86400], // 60*60*24*7, 60*60*24
-		[907200, '1 week'], // 60*60*24*7*1.5
-		[2628000, 'weeks', 604800], // 60*60*24*(365/12), 60*60*24*7
-		[3942000, '1 month'], // 60*60*24*(365/12)*1.5
-		[31536000, 'months', 2628000], // 60*60*24*365, 60*60*24*(365/12)
-		[47304000, '1 year'], // 60*60*24*365*1.5
-		[3153600000, 'years', 31536000], // 60*60*24*365*100, 60*60*24*365
-		[4730400000, '1 century'], // 60*60*24*365*100*1.5
-	];
+// Takes an ISO time and returns a string representing how
+// long ago the date represents.
+function humane_date(time){
+	var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
+		diff = (((new Date()).getTime() - date.getTime()) / 1000),
+		day_diff = Math.floor(diff / 86400);
+			
+	if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+		return;
+			
+	return day_diff == 0 && (
+			diff < 60 && "just now" ||
+			diff < 120 && "1 minute ago" ||
+			diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+			diff < 7200 && "1 hour ago" ||
+			diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+		day_diff == 1 && "Yesterday" ||
+		day_diff < 7 && day_diff + " days ago" ||
+		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+}
 
-	var time = ('' + date_str).replace(/-/g,"/").replace(/[TZ]/g," "),
-		dt = new Date,
-		seconds = ((dt - new Date(time) + (dt.getTimezoneOffset() * 60000)) / 1000),
-		token = ' ago',
-		i = 0,
-		format;
-
-	if (seconds < 0) {
-		seconds = Math.abs(seconds);
-		token = '';
-	}
-
-	while (format = time_formats[i++]) {
-		if (seconds < format[0]) {
-			if (format.length == 2) {
-				return format[1] + (i > 1 ? token : ''); // Conditional so we don't return Just Now Ago
-			} else {
-				return Math.round(seconds / format[2]) + ' ' + format[1] + (i > 1 ? token : '');
-			}
-		}
-	}
-
-	// overflow for centuries
-	if(seconds > 4730400000)
-		return Math.round(seconds / 4730400000) + ' Centuries' + token;
-
-	return date_str;
-};
+// If jQuery is included in the page, adds a jQuery plugin to handle it as well
+if ( typeof jQuery != "undefined" )
+	jQuery.fn.prettyDate = function(){
+		return this.each(function(){
+			var date = humane_date(this.title);
+			if ( date )
+				jQuery(this).text( date );
+		});
+	};

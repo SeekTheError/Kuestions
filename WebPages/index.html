@@ -27,10 +27,16 @@ $(document).ready(function() {
       $('ul.tabs li').attr("class","");
       $(this).attr("class","selected");
   });
-  	
+  
+  
 });
 
 
+
+function test(){
+  //$("#facebox #questionTitleInput").attr('value',$('#searchBar').val());
+  
+}
 </script>
 
 </head>
@@ -49,7 +55,7 @@ $(document).ready(function() {
       </div>
       {% if sessionIsOpen %}
       <div class="ask_wrapper">
-        <a href="#question_dialog2" onClick="openFacebox(800);" rel=facebox>Ask Question!</a>
+        <a href="#question_dialog2" onClick='openFacebox(800);' rel=facebox id="askLink">Ask Question!</a>
       </div>
       {% endif %}
     </div>
@@ -188,14 +194,8 @@ $(document).ready(function() {
       <span class="follow"><img id="followButton" src="{{MEDIA_URL}}/image/icon_star_off.png" title="follow"/></span>
     </div>
     </div>
-    
-    <div class="question_detail">
-            <p style="color:#999;">Description</p>
-      <p class="detail_contents"></p>
-      <p style="color:#999;">Tags</p>
-      <p class="detail_tags"></p>
 
-    </div>
+
     <div class="newAnswerAlert radius"></div>
 
   </div>
