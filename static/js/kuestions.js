@@ -582,7 +582,7 @@ function viewAnswers(answers){
   for (var i = 0; i < answers.length; i++){
     var answer = $('#answer_template').clone();
     answer.show();
-    answer.attr('id', 'answer'+i);
+    answer.attr('id', 'answer'+answers[i].id);
     answer.find('.profile .userLink').attr('href',"/user/"+answers[i].poster);
     answer.find('.profile .picture').attr('src',"/user/picture/"+answers[i].poster);
     answer.find('.rate_info').text(answers[i].score);
@@ -625,7 +625,7 @@ function postAnswer(answerText){
     type: "POST",
     dataType: "JSON",
     data: "answer=" + answer + '&questionId=' + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
-    success: function(data){
+    success: function(data,textStatus, jqxhr){
       if (data.error){
         displayMessage(data.errorMessage,'answerMessageContainer');
         return;
@@ -636,6 +636,10 @@ function postAnswer(answerText){
 
       //redisplay answer list
       viewAnswers(data);
+      //focus on last added element
+      lastId = jqxhr.getResponseHeader('lastAddedId');
+      $('.right').scrollTo( $('#answer'+lastId), 1000 );
+      $('#answer'+lastId).addClass('highlight');
     }
   });
 
@@ -652,8 +656,15 @@ function incAnswerScore(answerId){
     data: "type=increment" + "&answerId=" + answerId + "&questionId=" + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     dataType: "json",
     success: function(data, textStatus, jqxhr){    
-      displayMessage(jqxhr.getResponseHeader('message'),"answerMessageContainer");
+      var errorMessage = jqxhr.getResponseHeader('errorMessage');
+      if (errorMessage != ''){
+        displayMessage( errorMessage, "answerMessageContainer");
+      }
       viewAnswers(data);
+      //focus on edited element
+      lastId = jqxhr.getResponseHeader('editedId');
+      $('.right').scrollTo( $('#answer'+lastId), 1000 );
+      $('#answer'+lastId).addClass('highlight');
     }
   });
 }
@@ -667,8 +678,15 @@ function decAnswerScore(answerId){
     data: "type=decrement" + "&answerId=" + answerId + "&questionId=" + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
     dataType: "json",
     success: function(data, textStatus, jqXHR){
-      displayMessage(jqXHR.getResponseHeader('message'),"answerMessageContainer");
+      var errorMessage = jqXHR.getResponseHeader('errorMessage');
+      if (errorMessage != ''){
+        displayMessage( errorMessage, "answerMessageContainer");
+      }
       viewAnswers(data);     
+      //focus on edited element
+      lastId = jqXHR.getResponseHeader('editedId');
+      $('.right').scrollTo( $('#answer'+lastId), 1000 );
+      $('#answer'+lastId).addClass('highlight');
     }
   });
 }

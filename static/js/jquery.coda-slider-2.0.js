@@ -177,7 +177,6 @@ $.fn.codaSlider = function(settings) {
     //TODO: GENERALIZE THIS CODE
     //trigger for search bar keyup
     $('#searchBar').bind("click keyup", function(){
-      targetPanel;
       if (user_session.isOpen){
         targetPanel = '1';
       } else {

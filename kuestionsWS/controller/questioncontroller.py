@@ -74,17 +74,21 @@ def viewQuestion(request):
   return HttpResponse(response)
 
 def postAnswer(request):
+  context=checkSession(request)
+  user = getCurrentUser(context)
+  if user is None:
+    return HttpResponse(json.dumps({'error':1, 'errorMessage': 'You need to be logged in to post an answer'}))
+
   #obtain question by ID
   questionId = request.POST["questionId"]
   q = Question(id=questionId)
   q = q.findById()
 
   #create answer ID by hashing (userId, questionId) 
-  context=checkSession(request)
-  user = getCurrentUser(context)
-  if user is None:
-    return HttpResponse(json.dumps({'error':1, 'errorMessage': 'You need to be logged in to post an answer'}))
-  answerId = sha1(user.id + questionId).hexdigest()
+  #answerId = sha1(user.id + questionId).hexdigest()
+
+  #FOR TESTING PURPOSES TODO:change to original
+  answerId = sha1(user.id + questionId + request.POST["answer"]).hexdigest();
 
   #check if answer ID already exists
   #this means that this user already posted an answer for this question -> abort post
@@ -117,7 +121,9 @@ def postAnswer(request):
   for answer in q.answers:
     answerList.append(answer.unwrap())
 
-  return HttpResponse(json.dumps(answerList))
+  response = HttpResponse(json.dumps(answerList))
+  response['lastAddedId'] = newAnswer['id']
+  return response
 
 def rateAnswer(request):
   context=checkSession(request)
@@ -126,7 +132,7 @@ def rateAnswer(request):
   
   if user is None:
     response=HttpResponse(getAnswersJson(questionId))
-    response['message']='You must be logged in to rate an answer'
+    response['errorMessage']='You must be logged in to rate an answer'
     return response
     
   
@@ -136,7 +142,7 @@ def rateAnswer(request):
   r=Rating(_id=sha1(user.id+answerId).hexdigest())  
   if r.findById() :
     response=HttpResponse(getAnswersJson(questionId))
-    response['message']='You have already rated this answer'
+    response['errorMessage']='You have already rated this answer'
     return response
   
   
@@ -154,19 +160,19 @@ def rateAnswer(request):
       q.update()
       updated = True
 
-  message = ''
+  errorMessage = ''
   if updated:
-    message = 'updated rating'
     r.create();
   else:
-    message = 'could not update rating'
+    errorMessage = 'could not update rating'
 
   #unwrap answer dictionaries so that we can serialize into json
   answerList = []
   for answer in q.answers:
     answerList.append(answer.unwrap())
   response = HttpResponse(json.dumps(answerList))
-  response['message'] = message
+  response['errorMessage'] = errorMessage
+  response['editedId'] = answerId
   return response
 
 def getAnswersJson(questionId):

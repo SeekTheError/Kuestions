@@ -503,6 +503,9 @@ form.newResume{
   color: blue;
   font-weight: bold;
 }
+.answer.highlight {
+  background-color:  yellow;
+}
 
 .newTopic input{
   border: 1px solid #cacaca;
