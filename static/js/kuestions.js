@@ -274,9 +274,9 @@ function displayQuestionList(questionList, filterType){
       asker = question.value.asker;
       postDate = question.value.postDate;
     }
-    postDate = humane_date(postDate);
-    // TODO: post date message ex: 'posted 3 days ago'
+
     // asker and post date
+    postDate = humane_date(postDate);
     $(containerId + ' #askerAndPostDate' + i).html('<a href="/user/'+asker+'"><b>'+asker+'</b></a> posted ' + postDate);
 
     // edit question profile img
@@ -284,7 +284,50 @@ function displayQuestionList(questionList, filterType){
     $('#userLink' + i).attr('href', '/user/' + asker);
     
     // question title
-    $(containerId + ' #questionTitle' + i).text(title);
+    var titleContainer =  $(containerId + ' #questionTitle' + i);
+    if (filterType == 'search'){
+      //searchword highlighting
+      words = title.split(" ");
+      searchWords = $('#searchBar').val().split(" ");
+      searchWords = $.grep(searchWords, function(n, i){
+        return n != "";
+      });
+
+      for (j = 0; j < words.length; j++){
+        word = words[j];
+
+        //determine how many characters we need to highlight
+        var highlighted = 0;
+        for (index = 0; index < searchWords.length; index++){
+          var searchWord = searchWords[index];
+          if ( word.length < searchWord.length ){
+            continue;
+          } else {
+            if ( word.substr(0, searchWord.length).toLowerCase() == searchWord.toLowerCase() ){
+              if (highlighted < searchWord.length){
+                highlighted = searchWord.length;
+              }
+            }
+          }
+        }
+
+        //append highlighted and unhighlighted characters
+        if (highlighted > 0){
+          var highlightedPart = word.substr(0, highlighted);
+          var unhighlightedPart = word.substring(highlighted);
+          titleContainer.append('<span class="matches_search">' + highlightedPart + '</span>' + unhighlightedPart);
+        } else{
+          titleContainer.append( word );
+        }
+
+        //add a space between words, except at the end
+        if (j != words.length - 1){
+          titleContainer.append( ' ' );
+        }
+      }
+    } else{
+      $(containerId + ' #questionTitle' + i).text(title);
+    }
 
     // click handler for question detail view
     $('#questionList'+i).click( {'questionId': questionId }, function(event){

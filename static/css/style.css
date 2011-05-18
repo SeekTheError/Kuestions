@@ -479,7 +479,7 @@ form.newResume{
   padding:1px 0;
   background-color: #fff;
 }
-.answer_form #answerButton:hover{
+.answer_form #answerButton:hover {
   background-color: #FAFAFA;
 }
 .answer_form_wrapper .info{
@@ -498,6 +498,10 @@ form.newResume{
 
 .dummy{
   color:#fff;
+}
+
+.question_text .matches_search {
+  color: red;
 }
 
 .newTopic input{
