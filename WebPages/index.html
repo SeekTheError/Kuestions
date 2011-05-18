@@ -30,6 +30,8 @@ $(document).ready(function() {
       $(this).attr("class","selected");
   });
 
+  $('a[rel*=facebox]').facebox() ;
+
   //code specific to guest users
   {% if  not sessionIsOpen %}
   displayPopularQuestions();
@@ -53,7 +55,7 @@ $(document).ready(function() {
       </div>
       {% if sessionIsOpen %}
       <div class="ask_wrapper">
-        <a id="askQuestionButton" href="#question_dialog" rel=facebox>Ask Question!</a>
+        <a id="askQuestionButton" href="#question_dialog" >Ask Question!</a>
       </div>
       {% endif %}
     </div>
