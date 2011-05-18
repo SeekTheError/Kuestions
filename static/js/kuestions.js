@@ -124,11 +124,15 @@ function searchQuestions(search) {
       data : 'q=' + search,
       dataType : 'json',
       success : function(data) {
-        displayQuestionList(data.rows, 'search');
+        if (data.rows.length > 0){
+          displayQuestionList(data.rows, 'search');
+        } else{
+          $('#questionList_search').html('<h2>No results!</h2>');
+        }
       }
     });
 	} else {
-		cleanQuestionList();
+    $('#questionList_search').html('<h2>Please enter a question or a search term</h2>');
 	}
 }
 
@@ -167,7 +171,7 @@ function displayFollowedQuestions(){
       if (data.length > 0 ){
         displayQuestionList(data, 'followed');
       } else{
-        $('#questionList_followed').text('no followed questions...yet');
+        $('#questionList_followed').html('<h2>No followed questions...yet!</h2>');
       }
     }
   });
@@ -179,6 +183,7 @@ function displayRecommendedQuestions(){
 	  }
 	  if(user_session.topics.length==0){
 		  console.log("user has no topics");
+      $('#questionList_recommended').html('<h2>For question recommendations, please update your topics of interest on your profile page!</h2>');
 		  return;
 	  }
 	  
@@ -204,7 +209,7 @@ function displayRecommendedQuestions(){
           }
 	        displayQuestionList(filteredList, 'recommended');
 	      } else{
-	        $('#questionList_followed').text('no recommendation available yet... Did you edit your profile?');
+          $('#questionList_recommended').html('<h2>For question recommendations, please enter more topics of interest on your profile page!</h2>');
 	      }
 	    }
 	  });
@@ -227,7 +232,11 @@ function displayUserQuestions(userLogin){
     url: '/api/_design/question/_view/asker?key="'+ userLogin +'"&limit=15&descending=true',
     dataType: "JSON",
     success: function(data){
-      displayQuestionList(data.rows, 'user');
+      if (data.rows.length > 0){
+        displayQuestionList(data.rows, 'user');
+      } else{
+        $('#questionList_user').html('<h3>This user has not asked any questions!</h3>');
+      }
     }
   });
 }
@@ -314,7 +323,11 @@ function loadTimeline(){
 		    type: "GET",
 		    dataType: "json",
 		    success: function(data){
-		      displayTimeline(data);   
+          if (data.length > 0){
+            displayTimeline(data);   
+          } else {
+            $('#questionList_timeline').html('<h2>To view an event timeline, follow more questions!</h2>');
+          }
 		    }});
 	
 }
@@ -324,10 +337,10 @@ function displayTimeline(data){
 	console.log(timeline);
 	$("#questionList_timeline").append('<ul id="timelineList"></ul>');
 	for(i=0;i<timeline.length;i++){
-	id=timeline[i]._id.replace(".","");
-	questionId=timeline[i].question;
-	console.log("#questionList_timeline #"+timeline[i]._id);
-	 var li = $('<li>',{
+    id=timeline[i]._id.replace(".","");
+    questionId=timeline[i].question;
+    console.log("#questionList_timeline #"+timeline[i]._id);
+	  var li = $('<li>',{
 	      id: id
 	    }).appendTo($("#timelineList"));
 	  $("#questionList_timeline #"+id).click({'questionId': questionId},function(event){
