@@ -165,6 +165,45 @@ function test(){
 </div>
 </div>
 <!--Left Contents END-->
+
+
+<!--Default Contents Start-->
+<div class="default right">
+<div class="default_wrapper right_wrapper">
+<div class="title">Welcome to Kuestions!</div>
+
+<div class="default_contents">
+<script type="text/javascript" src="{{MEDIA_URL}}/tagCloud/swfobject.js"></script>
+		<div id="wpcumuluscontent3279573"></div>
+		<script type="text/javascript">
+		  var swfObject = new SWFObject("http://www.roytanck.com/wp-content/plugins/wp-cumulus/tagcloud.swf?r=6797249", "tagcloudflash", "530", "375", "9", "#ffffff");
+		  //swfObject.addParam("wmode", "transparent");
+		  swfObject.addParam("allowScriptAccess", "always");
+		  swfObject.addVariable("tcolor", "0x111111");
+		  swfObject.addVariable("tcolor2", "0x996633");
+		  swfObject.addVariable("hicolor", "0x111111");
+		  swfObject.addVariable("tspeed", "100");
+		  swfObject.addVariable("distr", "true");
+		  swfObject.addVariable("mode", "both");
+		  
+		  
+		  
+		  swfObject.addVariable("tagcloud", "<tags>{% for topic in topics %}<a+href='http://"+document.domain+":8000/?search={{ topic }}%26topic=1'+class='tag-link-207'+title='19+topics'+style='font-size:+14.0pt;'>{{ topic }}</a>{% endfor %}</tags>");
+		  swfObject.write("wpcumuluscontent3279573");
+		</script>
+
+<div class="steps">
+<p>1. Ask Questions!</p>
+<p>2. Add Topics</p>
+<p>3. Find Interesting Questions!</p>
+</div>
+
+</div>
+
+</div>
+</div>
+<!--Default Contents END-->
+
 <!--Right Contents Start-->
 <div class="right">
 <div class="right_wrapper">

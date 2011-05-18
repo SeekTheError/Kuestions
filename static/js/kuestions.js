@@ -340,19 +340,15 @@ function displayTimeline(data){
 	for(i=0;i<timeline.length;i++){
     id=timeline[i]._id.replace(".","");
     questionId=timeline[i].question;
-    console.log("#questionList_timeline #"+timeline[i]._id);
+    
 	  var li = $('<li>',{
 	      id: id
 	    }).appendTo($("#timelineList"));
 	  $("#questionList_timeline #"+id).click({'questionId': questionId},function(event){
 	   viewQuestion(event.data.questionId);
 	  });
-	  date= new Date();
-	  date.setTime(Date.parse(timeline[i].eventDate));
-	  date= date.getMonth()+"/"+date.getDay()+" "+date.getHours()+":"+date.getMinutes();
-	  var p= $('<span>',{
-		  text: date +" " +timeline[i].questionTitle+" "
-	  }).appendTo($("#timelineList #"+id));
+	  
+	  date = humane_date(timeline[i].eventDate);
 	  var a= $('<a>',{
 		  href:'/user/'+timeline[i].user,
 		  text :timeline[i].user 
@@ -360,6 +356,10 @@ function displayTimeline(data){
 	  var a= $('<span>',{
 		  text :'  post an answer'
 	  }).appendTo($("#timelineList #"+id));;
+	  var p= $('<span>',{
+		  text: date +" " +timeline[i].questionTitle+" "
+	  }).appendTo($("#timelineList #"+id));
+	  
 	    
 	}
 }

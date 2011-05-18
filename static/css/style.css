@@ -513,3 +513,34 @@ form.newResume{
   background-color: orange;
 }
 
+
+
+
+
+.default_wrapper{
+  padding:0px 0px;
+  
+}
+
+.default_wrapper .title{
+  padding:5px 10px;
+  text-shadow: 1px 1px 0 #fff;
+  font-size: 24px;
+  font-weight: bold;
+  color:black;
+  display: block;
+  background-color: #C6E4D8;
+}
+.default_wrapper .default_contents{
+  border-color: #C6E4D8;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  width:558px;
+}
+.default_wrapper .default_contents .steps{
+  padding-left: 10px;
+}
+.default_wrapper .default_contents .steps p{
+  padding: 10px 0px;
+  font-size: 16px;
+}

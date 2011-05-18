@@ -19,6 +19,7 @@ def get(request):
     view=t.findByQuestion()
     for row in view.rows :
       rows.append(row)
+      
   #then, sort it
   notSorted=True
   max=len(rows)

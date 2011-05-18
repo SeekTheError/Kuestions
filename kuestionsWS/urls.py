@@ -38,4 +38,5 @@ urlpatterns = patterns('',
         
     #For serving user proifle picture
     (r'^user/picture/(?P<login>\w+)/+$','controller.profilecontroller.userPicture'),
+
 )

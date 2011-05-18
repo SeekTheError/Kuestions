@@ -7,6 +7,9 @@ def view(request) :
   t = loader.get_template('index.html')
   context=RequestContext(request)
   context=checkSession(request,context)
+  
+  context['topics']=['Java', 'Hello', 'Hi']
+  
   return HttpResponse(t.render(context))
 
 
