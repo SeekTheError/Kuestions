@@ -754,24 +754,6 @@ var user_session=null;
 $(document).ready(function() {
 	loadSession();
 	init();
-	$(window).resize(function() {
-		var height = parseInt($(window).height()) - 200;
-		height = height + 'px';
-		$("div.panel_contents").css({
-			'height' : height
-		});
-		height = parseInt($(window).height()) - 130;
-		height = height + 'px';
-		$("div.left").css({
-			'min-height' : height
-		});
-	});
-
-	var height = parseInt($(window).height()) - 130;
-	height = height + 'px';
-	$("div.left").css({
-		'min-height' : height
-	});
 	// for loading dialog
 	$(".ld_line").fadeOut(1000);
 	// for modal dialog
@@ -798,12 +780,6 @@ $(document).ready(function() {
 		viewQuestion(vars["question"]);
 	}
 	
-  $('#coda-slider-1').codaSlider({
-    dynamicArrows: false,
-    dynamicTabs: false,
-    firstPanelToLoad: 1,
-    autoHeight: false
-  });
   
   $('ul.tabs').find('li').click(function(){
       $('ul.tabs li').attr("class","");
@@ -880,8 +856,17 @@ function init() {
 	 var size=$(window).height()-140;
 	 $(".right").css('max-height',size+'px');
 	});
+	
+	$('#coda-slider-1').codaSlider({
+    dynamicArrows: false,
+    dynamicTabs: false,
+    firstPanelToLoad: 1,
+    autoHeight: false
+  });
+  
+  $('a[rel*=facebox]').facebox() ;
 
-$('.newAnswerAlert').click(
+  $('.newAnswerAlert').click(
     function () {
       $('.newAnswerAlert').text("");
       viewQuestion($('.question_display').attr('data-questionId'));

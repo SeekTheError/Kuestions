@@ -30,7 +30,7 @@ $(document).ready(function() {
       $(this).attr("class","selected");
   });
 
-  $('a[rel*=facebox]').facebox() ;
+  
 
   //code specific to guest users
   {% if  not sessionIsOpen %}
@@ -200,10 +200,10 @@ $(document).ready(function() {
 
 <div class="default_contents">
 <script type="text/javascript" src="{{MEDIA_URL}}/tagCloud/swfobject.js"></script>
-		<div id="wpcumuluscontent3279573"></div>
+		<div id="wpcumuluscontent3279573" style="z-index: 1;"></div>
 		<script type="text/javascript">
-		  var swfObject = new SWFObject("http://www.roytanck.com/wp-content/plugins/wp-cumulus/tagcloud.swf?r=6797249", "tagcloudflash", "530", "375", "9", "#ffffff");
-		  //swfObject.addParam("wmode", "transparent");
+		  var swfObject = new SWFObject("http://www.roytanck.com/wp-content/plugins/wp-cumulus/tagcloud.swf?r=6797249", "tagcloudflash", "558", "375", "9", "#ffffff");
+		  swfObject.addParam("wmode", "transparent");
 		  swfObject.addParam("allowScriptAccess", "always");
 		  swfObject.addVariable("tcolor", "0x111111");
 		  swfObject.addVariable("tcolor2", "0x996633");
