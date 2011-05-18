@@ -501,6 +501,7 @@ form.newResume{
 }
 .question_text .highlight {
   color: blue;
+  font-weight: bold;
 }
 
 .newTopic input{
