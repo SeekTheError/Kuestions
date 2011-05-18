@@ -197,7 +197,7 @@ padding: 0 5px 1px 5px;
 
 
 /*Footer*/
-.footer{border-top: 1px solid #cdcdcd;background-color: #ededed; color: black; min-height: 50px;padding: 10px 5px; z-index: 1;width:100%; position:absolute; bottom:0px;
+.footer{border-top: 1px solid #cdcdcd;background-color: #ededed; color: black; min-height: 50px;padding: 10px 5px; z-index: 1;
 }
 .footer .logo {color:#ababab; font-size: 14px;}
 .footer .logo b{text-shadow: 1px 1px 0 #fff;
