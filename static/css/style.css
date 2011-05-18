@@ -499,9 +499,8 @@ form.newResume{
 .dummy{
   color:#fff;
 }
-
-.question_text .matches_search {
-  color: red;
+.question_text .highlight {
+  color: blue;
 }
 
 .newTopic input{

@@ -285,48 +285,16 @@ function displayQuestionList(questionList, filterType){
     
     // question title
     var titleContainer =  $(containerId + ' #questionTitle' + i);
+    titleContainer.text(title);
     if (filterType == 'search'){
       //searchword highlighting
-      words = title.split(" ");
       searchWords = $('#searchBar').val().split(" ");
       searchWords = $.grep(searchWords, function(n, i){
         return n != "";
       });
-
-      for (j = 0; j < words.length; j++){
-        word = words[j];
-
-        //determine how many characters we need to highlight
-        var highlighted = 0;
-        for (index = 0; index < searchWords.length; index++){
-          var searchWord = searchWords[index];
-          if ( word.length < searchWord.length ){
-            continue;
-          } else {
-            if ( word.substr(0, searchWord.length).toLowerCase() == searchWord.toLowerCase() ){
-              if (highlighted < searchWord.length){
-                highlighted = searchWord.length;
-              }
-            }
-          }
-        }
-
-        //append highlighted and unhighlighted characters
-        if (highlighted > 0){
-          var highlightedPart = word.substr(0, highlighted);
-          var unhighlightedPart = word.substring(highlighted);
-          titleContainer.append('<span class="matches_search">' + highlightedPart + '</span>' + unhighlightedPart);
-        } else{
-          titleContainer.append( word );
-        }
-
-        //add a space between words, except at the end
-        if (j != words.length - 1){
-          titleContainer.append( ' ' );
-        }
+      for (var j = 0; j < searchWords.length; j++){
+        titleContainer.highlight(searchWords[j]);
       }
-    } else{
-      $(containerId + ' #questionTitle' + i).text(title);
     }
 
     // click handler for question detail view
