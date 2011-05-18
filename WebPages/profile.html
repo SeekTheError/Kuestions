@@ -30,7 +30,7 @@ $(document).ready(function() {
 		document.location.href='/?search='+$('#searchBar').val();
 	});
   
-  
+  $('a[rel*=facebox]').facebox() ;
 });
 tinyMCE.init({
   mode : "textareas",
@@ -330,32 +330,40 @@ function editResume(){
 <div class="dialog_header">Register</div>
 
 <div class="dialog_main">
-  <div class="dialog_left">
-    <div class="welcome">
-      <b>Welcome To Kuestions</b>
-      Kuestions is...
+  <div class="dialog_wrapper">
+    <div class="dialog_left">
+      <div class="welcome">
+        <b>Welcome To Kuestions</b>
+        Kuestions is...
+      </div>
     </div>
   </div>
-
-  <div class="dialog_right">
-    <form action="/register/" method="post">
-		  {% csrf_token %}
-  	  <h2>Please input those information in order to create
+  
+  <div class="dialog_wrapper">
+    <div class="dialog_right">
+      <form action="/register/" method="post">
+		    {% csrf_token %}
+  	   <h2>Please input those information in order to create
 						a new account.</h2>
-		  <div class="input_item">
-		    <b>Username</b><input type="text" name="registerLogin">
-		  </div>
-		  <div class="input_item">
-		    <b>Password</b><input type="password" name="registerPassword">
-		  </div>
-		  <div class="input_item">
-		    <b>Email</b><input type="text" name="registerEmail">
-		  </div>
-		  <div class="submit">
-		    <button type="submit"class="button orange radius">Register</button>
-		  </div>
-    </form>
+		   <div class="input_item">
+		     <b>Username</b><input type="text" name="registerLogin">
+		   </div>
+		   <div class="input_item">
+		     <b>Password</b><input type="password" name="registerPassword">
+		    </div>
+		    <div class="input_item">
+		      <b>Email</b><input type="text" name="registerEmail">
+		    </div>
+		    <div class="submit">
+		      <button type="submit"class="button orange radius">Register</button>
+		    </div>
+      </form>
+    </div>
   </div>
+</div>
+
+<div class="dialog_footer"><b>Kuestions?!</b></div>
+
 </div>
 
 {% if isAdmin %}

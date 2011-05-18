@@ -500,7 +500,8 @@ form.newResume{
   color:#fff;
 }
 .question_text .highlight {
-  color: blue;
+  background-color: #C6E4D8;
+  text-shadow: 1px 1px #eee;
 }
 
 .newTopic input{

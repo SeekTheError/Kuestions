@@ -29,7 +29,7 @@ $(document).ready(function() {
       $(this).attr("class","selected");
   });
   
-  
+  $('a[rel*=facebox]').facebox();
 });
 
 
@@ -56,7 +56,7 @@ function test(){
       </div>
       {% if sessionIsOpen %}
       <div class="ask_wrapper">
-        <a id="askQuestionButton" href="#question_dialog" rel=facebox>Ask Question!</a>
+        <a id="askQuestionButton" href="#question_dialog" rel=facebox onclick="openFacebox(800);">Ask Question!</a>
       </div>
       {% endif %}
     </div>
