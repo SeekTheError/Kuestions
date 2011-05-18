@@ -381,6 +381,7 @@ function cleanQuestionList(){
 var lastAnswerCount;
 var answerDaemon;
 function viewQuestion(questionId){
+  $('.default').remove();
 	csrf = $("#security_csrf input:first").val();
   $.ajax({
     url: '/question/view/',

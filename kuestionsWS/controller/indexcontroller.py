@@ -8,7 +8,7 @@ def view(request) :
   context=RequestContext(request)
   context=checkSession(request,context)
   
-  context['topics']=['Java', 'Hello', 'Hi']
+  context['topics']=['Java', 'Hello', 'Hi', 'answer', 'kaist']
   
   return HttpResponse(t.render(context))
 
