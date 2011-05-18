@@ -457,6 +457,8 @@ function hideQuestionDetail(){
 
 function setFollowButton(questionId, button){
 	if(user_session.isOpen ){
+    button.show();
+
     // change image depending on whether user is following
     if(userIsFollowingQuestion(questionId)){
       button.attr('src', '/kuestions/media/image/icon_star_on.png');
@@ -477,6 +479,8 @@ function setFollowButton(questionId, button){
         event.stopPropagation();
         manageFollowQuestion(event.data.questionId, $(this));
     });
+  } else {
+    button.hide();
   }
 }
 
@@ -584,12 +588,22 @@ function viewAnswers(answers){
     answer.find('.rate_info').text(answers[i].score);
     answer.find('.question_text').text(answers[i].content);
     answer.find('.info').html('<a href="/user/'+answers[i].poster+'"><b>'+answers[i].poster+"</b></a> answered "+humane_date(answers[i].time));
-    answer.find('.rate_up').click({'answerId': answers[i].id}, function(e){
-      incAnswerScore(e.data.answerId);
-    });
-    answer.find('.rate_down').click({'answerId': answers[i].id}, function(e){
-      decAnswerScore(e.data.answerId);
-    });
+
+    //hide/show rating button depending on user login
+    if (user_session.isOpen){
+      answer.find('.rate_up').show();      
+      answer.find('.rate_down').show();
+
+      answer.find('.rate_up').click({'answerId': answers[i].id}, function(e){
+        incAnswerScore(e.data.answerId);
+      });
+      answer.find('.rate_down').click({'answerId': answers[i].id}, function(e){
+        decAnswerScore(e.data.answerId);
+      });
+    } else {
+      answer.find('.rate_up').hide();
+      answer.find('.rate_down').hide();
+    }
 
     $('.answers_wrapper').append(answer);
   }

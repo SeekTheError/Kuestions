@@ -28,16 +28,12 @@ $(document).ready(function() {
       $('ul.tabs li').attr("class","");
       $(this).attr("class","selected");
   });
-  
-  
+
+  //code specific to guest users
+  {% if  not sessionIsOpen %}
+  displayPopularQuestions();
+  {% endif %}
 });
-
-
-
-function test(){
-  //$("#facebox #questionTitleInput").attr('value',$('#searchBar').val());
-  
-}
 </script>
 
 </head>
@@ -108,13 +104,14 @@ function test(){
 
 <!--Left Contents Start-->
 <div class="left">
-<div class="left_wrapper">
+  <div class="left_wrapper">
             {%if message %}
 						<h3 id="message" class="message">{{ message }}</h3>
 						{% endif %}
 
+            <!-- show different tab layout based on whether user is logged in -->
+          {% if sessionIsOpen %}
           <ul class="tabs radiusTL">
-            
 					  <li class="selected"><a id="searchTab" class="xtrig" href="#1" rel="coda-slider-1">Search</a></li>
 					  <li class=""><a class="xtrig" id="timelineLink" href="#2" rel="coda-slider-1">Timeline</a></li>
 					  <li class=""><a id="followedTab" class="xtrig" href="#3" rel="coda-slider-1">Followed</a></li>
@@ -162,7 +159,33 @@ function test(){
             </div><!-- .coda-slider -->
         </div><!-- .coda-slider-wrapper -->
 
-</div>
+
+        {% else %}
+          <ul class="tabs radiusTL">
+            <li class="selected"><a id="popularTab" class="xtrig" href="#1" rel="coda-slider-1">Popular</a></li>
+            <li class=""><a id="searchTab" class="xtrig" href="#2" rel="coda-slider-1">Search</a></li>
+					</ul>
+					<div class="coda-slider-wrapper">
+            <div class="coda-slider preload" id="coda-slider-1">
+              <div class="panel">
+             	  <div class="panel-wrapper">
+                  <div class="popular list" id="questionList_popular">
+                    <div class="dummy">dummy</div>
+                  </div>
+                </div><!-- .panel-wrapper -->
+              </div><!--- .panel -->
+       	      <div class="panel">
+           	    <div class="panel-wrapper">
+                  <div class="question list" id="questionList_search">
+                    <h2>Please enter a question or a search term</h2>
+                  </div><!-- .question list -->
+            	  </div>
+              </div>
+            </div><!-- .coda-slider -->
+        </div><!-- .coda-slider-wrapper -->
+        {% endif %}
+
+  </div>
 </div>
 <!--Left Contents END-->
 <!--Right Contents Start-->
