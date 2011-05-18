@@ -84,19 +84,20 @@ function postQuestion() {
 		type : "POST",
 		url : "/question/post/",
 		data : data,
+    dataType: "json",
 		success : function(data, textStatus, jhxqr) {
-			
-			postQuestionCallback(data, jhxqr);
+      $.facebox.close();
+      displayMessage(jhxqr.getResponseHeader("message"),"messageContainer");
+
+      questionId = jhxqr.getResponseHeader("questionId");
+
+      //add question to followed list
+      user_session.followedQuestions.push( questionId );
+
+      //display posted question
+      viewQuestion( questionId );
 		}
 	});
-}
-
-function postQuestionCallback(data, jhxqr){
-	$.facebox.close();
-	displayMessage(jhxqr.getResponseHeader("message"),"messageContainer");
-
-  //add question to followed list
-  user_session.followedQuestions.push( jhxqr.getResponseHeader("questionId"));
 }
 
 /** *********Display Questions (Search/timeline/followed)*********** */
@@ -326,7 +327,7 @@ function loadTimeline(){
           if (data.length > 0){
             displayTimeline(data);   
           } else {
-            $('#questionList_timeline').html('<h2>To view an event timeline, follow more questions!</h2>');
+            $('#questionList_timeline').html('<h2>No new events! Perhaps you should follow more questions</h2>');
           }
 		    }});
 	
