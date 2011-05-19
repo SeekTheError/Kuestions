@@ -15,23 +15,36 @@ def createUser(userName):
   number=random.randrange(1, 30)
   u.picture='profile/'+str(number)+'.jpg'
   u.update()
+
+def createQuestionsFromFile(fileName):
+  f = open(fileName)
+  questions = f.read().splitlines()
+  f.close()
+
+  for question in questions:
+    createQuestion(question)
+
+def removeAllQuestions():
+  db = getDb()
+  v = db.view('question/asker') 
+  for row in v:
+    db.delete( db[row.id] )
+    print 'deleted question with id: ' + row.id
   
 def createQuestion(title):
-
   #get a random user as the asker
   userlist = getDb().view('user/login')
   randomAsker = random.choice( userlist.rows ).value['login']
-  print randomAsker
 
   #add topics
-  topics = title.replace('?','').split(' ')
+  topics = title.replace('?','').lower().split(' ')
   #remove prepositions
   f = open('prepositions')
   prepositions = f.read().splitlines()
   f.close()
+
   for preposition in prepositions:
-    print preposition
-    filter(lambda a: a != preposition, topics)
+    topics = [e for e in topics if e != preposition]
   nontopics = [
     'is',
     'the',
@@ -40,24 +53,26 @@ def createQuestion(title):
     'why',
     'how',
     'who',
-    'a'
+    'where',
+    'a',
+    'this',
+    'that',
+    'are',
+    'i',
+    'you',
+    'can',
+    'do'
   ]
   for word in nontopics:
-    filter(lambda a: a != nontopics, topics)
-  print topics
+    topics = [e for e in topics if e != word]
   
   #convert title to unicode
   title = smart_unicode(title, encoding='utf-8', strings_only=False, errors='strict')
-  print title
 
   #create question
   q = Question(asker=randomAsker, title=title, topics=topics)
-  print q
-  try:
-    q = q.create()
-  except Exception:
-    print Exception
-  
+  print '********** creating question ***********\n' + 'title: ' + title + '\nasker: ' + randomAsker + '\ntopics: ' + str(topics)
+  q.create()
   q.update()
 
 def createInitialUserList():
@@ -76,5 +91,3 @@ def createInitialUserList():
     u.update()
   
   f.close()
-
-createQuestion('what is the meaning of life?')

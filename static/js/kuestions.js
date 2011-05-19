@@ -363,17 +363,18 @@ function displayTimeline(data){
     //insert template
     container.append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'"><img id="questionProfileImg' + i +'" /></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow" /></a></span> </div> </div> </div>');
 
-    questionId = timeline[i].question;
+    questionId = timeline[i].questionId;
     title = timeline[i].questionTitle;
-    answerer = timeline[i].user;
-    postDate =  humane_date(timeline[i].eventDate);
+    postDate =  humane_date(timeline[i].date);
 
     //answerer and post date
-    $('#askerAndPostDate' + i).html('<a href="/user/'+answerer+'"><b>'+answerer+'</b></a> answered ' + postDate);
+    $('#askerAndPostDate' + i).html('new answers posted ' + postDate);
 
+    /*
     // edit question profile img
     $('#questionProfileImg' + i).attr('src', '/user/picture/' + answerer);
     $('#userLink' + i).attr('href', '/user/' + answerer);
+    */
     
     // question title
     var titleContainer =  $('#questionTitle' + i);
