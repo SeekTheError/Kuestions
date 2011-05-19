@@ -440,6 +440,11 @@ function viewQuestion(questionId){
       //initialize answer update checker daemon
       $(".newAnswerAlert").text("");
       lastAnswerCount=data.answers.length;
+      if(lastAnswerCount==0){
+    	  $("#newAnswerTop").addClass("hidden");
+      }else{
+    	  $("#newAnswerTop").removeClass("hidden");
+      }
       if (!answerDaemon){
         answerDaemon = runAnswerDaemon();
       }
