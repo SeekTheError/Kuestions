@@ -867,12 +867,7 @@ function init() {
 	});
 	
 	
-	var size=$(window).height()-140;
-	$(".right").css('max-height',size+'px');
-	$(window).resize(function(){
-	 var size=$(window).height()-140;
-	 $(".right").css('max-height',size+'px');
-	});
+	
 	
 	$('#coda-slider-1').codaSlider({
     dynamicArrows: false,
@@ -955,4 +950,15 @@ function hideQuestionDisplay(){
   $('.question_display').hide();
   $('.default').show();
   return false;
+}
+setInterval("resizeRight()",500);
+function resizeRight(){
+  var contentsSize=$('.contents').height()-20;
+  var windowSize=$(window).height()-140;
+  var size=windowSize;
+  if(contentsSize<windowSize){
+    size=contentsSize;
+  }
+	$(".right").css('max-height',size+'px');
+	
 }

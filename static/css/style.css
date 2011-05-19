@@ -19,7 +19,7 @@ a:hover {
 
 
 /*Layouts*/
-
+.wrapper{ height:100%;}
 .top{
   background-color: #004C4C;
   position: fixed;
