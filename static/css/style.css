@@ -372,12 +372,12 @@ h3.pop_message{
 }
 
 .topic ul, .topic li{margin:0px; list-style: none;}
-.topic ul{padding:5px 0 0 0;height:20px;width:310px;}
+.topic ul{padding:5px 0 0 0;width:310px; display: inline-block;}
 .topic li{display: inline; margin-right: 5px;
   background-color: #347259;
 }
 
-.topic li.topic_item{ -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;  border: 1px solid white; background: #C6E4D8; padding: 1px 10px 2px 5px; position: relative; margin-top:5px;margin-bottom:5px; float:left;}
+.topic li.topic_item{ -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;  border: 1px solid white; background: #C6E4D8; padding: 1px 10px 2px 5px; position: relative; margin-top:5px;margin-bottom:5px; line-height: 12px;float: left;}
 .topic li.topic_item.False{ padding-right:5px;}
 .topic li.topic_item .deleteButton{border:none; padding:0px;}
 .topic li.topic_item .deleteButton { position: absolute; right: 4px; top: 4px; display: block; width: 7px; height: 7px; font-size: 1px; background: url('../image/close.gif'); }
