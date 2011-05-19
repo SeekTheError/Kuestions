@@ -206,11 +206,8 @@ color:#ababab;margin-right: 10px;}
 
 #facebox .welcome_text{text-align: center;
 background-image: url(../image/register_bg.png);
-background-position: 0px 55px;
+background-position: 0px 60px;
 display: inline-block;}
-#popupFlash{
-	background-color: #f8fffc;
-}
 .question_mark,#popupFlash,.ex_mark{
   float: left;
 }

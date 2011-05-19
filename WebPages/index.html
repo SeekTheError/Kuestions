@@ -196,13 +196,19 @@ $(document).ready(function() {
 <!--Default Contents Start-->
 <div class="default right">
 <div class="default_wrapper right_wrapper">
-<div class="title">Welcome to Kuestions!</div>
+<div class="title">Welcome to <b class="logo">Kuestions!</b></div>
 
 <div class="default_contents">
+    <div class="welcome_text">
+          <p class="text"><b>Kuestions?!</b> is a Web Application which provides a simple and efficient question and answer platform for users.</p>
+          <div class="question_mark"></div>
+          <div id="wpcumuluscontent3279573" style="z-index: 1;"></div>
+		      <div class="ex_mark"></div>
+		</div>
     <script type="text/javascript" src="{{MEDIA_URL}}/tagCloud/swfobject.js"></script>
-		<div id="wpcumuluscontent3279573" style="z-index: 1;"></div>
+		
 		<script type="text/javascript">
-		  var swfObject = new SWFObject("http://www.roytanck.com/wp-content/plugins/wp-cumulus/tagcloud.swf?r=6797249", "tagcloudflash", "558", "375", "9", "#ffffff");
+		  var swfObject = new SWFObject("http://www.roytanck.com/wp-content/plugins/wp-cumulus/tagcloud.swf?r=6797249", "tagcloudflash", "358", "300", "9", "#ffffff");
 		  swfObject.addParam("wmode", "transparent");
 		  swfObject.addParam("allowScriptAccess", "always");
 		  swfObject.addVariable("tcolor", "0x111111");
@@ -211,9 +217,6 @@ $(document).ready(function() {
 		  swfObject.addVariable("tspeed", "100");
 		  swfObject.addVariable("distr", "true");
 		  swfObject.addVariable("mode", "both");
-		  
-		  
-		  
 		  swfObject.addVariable("tagcloud", "<tags>{% for topic in topics %}<a+href='http://"+document.domain+":8000/?search={{ topic }}%26topic=1'+class='tag-link-207'+title='19+topics'+style='font-size:+14.0pt;'>{{ topic }}</a>{% endfor %}</tags>");
 		  swfObject.write("wpcumuluscontent3279573");
 		</script>
