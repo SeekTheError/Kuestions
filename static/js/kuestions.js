@@ -454,6 +454,7 @@ function viewQuestion(questionId){
       
       //initialize answer update checker daemon
       $(".newAnswerAlert").text("");
+      $(".newAnswerAlert").hide("");
       lastAnswerCount=data.answers.length;
       if(lastAnswerCount==0){
     	  $("#newAnswerTop").addClass("hidden");
@@ -481,7 +482,18 @@ function runAnswerDaemon(){
         answers = data.answers;
         if(lastAnswerCount < answers.length){
           diff = answers.length-lastAnswerCount;
-          (diff == 1) ? $(".newAnswerAlert").text(diff+ " new answer") : $(".newAnswerAlert").text(diff+ " new answers");	
+          console.log('new Message')
+          if(diff == 1) {
+            $(".newAnswerAlert").text(diff+ " new answer");
+          }else{
+            $(".newAnswerAlert").text(diff+ " new answers");	
+          }
+            $(".newAnswerAlert").show();
+            $(".newAnswerAlert").click(function(){
+              $(".newAnswerAlert").hide();
+              $('.right').scrollTo( $('.answer_form_wrapper'), 500 );
+            });
+
         }
      }
   });	
