@@ -504,7 +504,9 @@ form.newResume{
   text-shadow: 1px 1px #eee;
 }
 .answer.highlight {
-  background-color:  yellow;
+  border-top: 1px solid #CC6600;
+	border-bottom: 1px solid #CC6600;
+	background: #FFEFDF;
 }
 
 .newTopic input{
@@ -512,8 +514,12 @@ form.newResume{
   width:310px;}
 
 .newAnswerAlert {
-  font-size: 12pt;
-  background-color: orange;
+  border-top: 1px solid #CC6600;
+	border-bottom: 1px solid #CC6600;
+	background: #FFEFDF;
+	padding: 10px;
+	font-size: 14px;
+	font-weight: bold;
 }
 
 
