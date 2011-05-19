@@ -517,7 +517,7 @@ form.newResume{
   border-top: 1px solid #CC6600;
 	border-bottom: 1px solid #CC6600;
 	background: #FFEFDF;
-	padding: 10px;
+	padding: 10px 0 10px 10px;
 	font-size: 14px;
 	font-weight: bold;
 }

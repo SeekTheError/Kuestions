@@ -362,7 +362,7 @@ function displayTimeline(data){
   console.log(timeline);
   for (var i = 0; i < timeline.length; i++){
     //insert template
-    container.append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'"><img id="questionProfileImg' + i +'" /></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow" /></a></span> </div> </div> </div>');
+    container.append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'"><img id="questionProfileImg' + i +'" /></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> </div> </div>');
 
     questionId = timeline[i].questionId;
     title = timeline[i].questionTitle;
@@ -482,7 +482,6 @@ function runAnswerDaemon(){
         answers = data.answers;
         if(lastAnswerCount < answers.length){
           diff = answers.length-lastAnswerCount;
-          console.log('new Message')
           if(diff == 1) {
             $(".newAnswerAlert").text(diff+ " new answer");
           }else{
@@ -490,8 +489,8 @@ function runAnswerDaemon(){
           }
             $(".newAnswerAlert").show();
             $(".newAnswerAlert").click(function(){
-              $(".newAnswerAlert").hide();
-              $('.right').scrollTo( $('.answer_form_wrapper'), 500 );
+              $(".newAnswerAlert").text("");
+              $('.right').scrollTo( $('.answer').last(), 1000);
             });
 
         }
