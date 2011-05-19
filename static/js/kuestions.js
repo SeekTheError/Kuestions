@@ -383,7 +383,6 @@ function displayTimeline(data){
     else{countSentence=count+" new answers: ";}
     $('#askerAndPostDate' + i).html(countSentence+posterHtml+' answered ' + postDate);
 
-    // edit question profile img
     $('#questionProfileImg' + i).attr('src', '/user/picture/' + poster[0]);
     $('#userLink' + i).attr('href', '/user/' + poster[0]);
     
