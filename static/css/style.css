@@ -554,7 +554,7 @@ background-position: 4px 67px;
 .default_contents .welcome_text p{padding-top:10px}
 #wpcumuluscontent3279573{float:left}
 .default_contents .question_mark,.default_contents .ex_mark{height:300px}
-
+.default_contents .ex_mark{background-position: right center;}
 
 
 .default_contents .welcome_text{background-color: #fdfce9; margin-left:10px;}
@@ -566,6 +566,7 @@ background-position: 4px 67px;
   padding-left: 0px;
   float: none;
   display: inline-block;
+  padding-bottom: 10px;
 }
 .default_wrapper .default_contents .steps p{
   padding: 5px 0px;
