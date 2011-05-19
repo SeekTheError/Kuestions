@@ -755,6 +755,29 @@ function getUrlVars()
     return vars;
 }
 
+/** ******* Slider functions ******** */
+
+function selectTab(targetPanel){
+    slider = $('#coda-slider-1');
+    panelWidth = slider.find(".panel").width();
+
+    /*
+    //adjust panel height
+    panelHeight = $('.panel:eq(' + (targetPanel - 1) + ')', slider).height();
+    slider.animate({ height: panelHeight }, 1000, 'easeInOutExpo');
+    */
+
+    // Switch the current tab:
+    slider.siblings('.coda-nav').find('a').removeClass('current').parents('ul').find('li:eq(' + (targetPanel - 1) + ') a').addClass('current');
+    // Slide
+    offset = - (panelWidth*(targetPanel - 1));
+    $('.panel-container', slider).animate({ marginLeft: offset }, 1000, 'easeInOutExpo');
+
+    //change tab visual
+    $('.selected').removeClass();
+    $('#searchTab').parent().addClass('selected');
+}
+
 /** ******* Init *************** */
 var user_session=null;
 $(document).ready(function() {
@@ -777,6 +800,11 @@ $(document).ready(function() {
 		$('#searchBar').attr('value',decodeURIComponent(search));
 		if(vars["topic"] && vars["topic"] == '1'){
 		  searchQuestionsHasTopic(vars["search"]);
+
+      //select second tab if guest page
+      if ( $('.panel:eq(1)').find('#questionList_search').length == 1 ){
+        selectTab(2);
+      }
 		}
 		else{
 		  searchQuestions(vars["search"]);		

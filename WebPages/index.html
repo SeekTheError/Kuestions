@@ -34,7 +34,11 @@ $(document).ready(function() {
 
   //code specific to guest users
   {% if  not sessionIsOpen %}
-  displayPopularQuestions();
+  
+    {% if not search %}
+    displayPopularQuestions();
+    {% endif %}
+
   {% endif %}
 });
 </script>
