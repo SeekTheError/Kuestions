@@ -314,6 +314,11 @@ function displayQuestionList(questionList, filterType){
 
     // set up follow button
     setFollowButton(questionId, $('#followButton' + i));
+    
+    // auto display first question of user list
+    if(filterType == 'user' && i == 0){
+      viewQuestion(questionId);
+    }
   }
 }
 
