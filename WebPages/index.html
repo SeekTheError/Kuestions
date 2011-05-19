@@ -22,14 +22,6 @@
 
 <script type="text/javascript" >
 $(document).ready(function() {
-	
-  
-  $('ul.tabs').find('li').click(function(){
-      
-      $('ul.tabs li').attr("class","");
-      $(this).attr("class","selected");
-  });
-
   //code specific to guest users
   {% if  not sessionIsOpen %}
   

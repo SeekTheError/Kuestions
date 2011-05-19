@@ -742,9 +742,8 @@ function displayMessage(messageContent, containerId) {
 	message.className = "message hidden";
 	message.textContent = messageContent;
 	content.appendChild(message);
-  $('body').click({'containerId': containerId}, function(event){
+  $('body').one('click', {'containerId': containerId}, function(event){
     removeMessage(event.data.containerId);
-    $(this).unbind('click');
   });
 	$("#message").removeClass("#hidden").slideToggle("fast");
 }
@@ -791,6 +790,14 @@ function getUrlVars()
 
 /** ******* Slider functions ******** */
 
+function getSearchTabNumber(){
+  for (i = 0; i < $('.panel').length; i++){
+    if ( $('.panel:eq(' + i +')').find('#questionList_search').length == 1 ){
+      return i+1; //tab numbers start at 1
+    }
+  }
+}
+
 function selectTab(targetPanel){
     slider = $('#coda-slider-1');
     panelWidth = slider.find(".panel").width();
@@ -836,9 +843,7 @@ $(document).ready(function() {
 		  searchQuestionsHasTopic(vars["search"]);
 
       //select second tab if guest page
-      if ( $('.panel:eq(1)').find('#questionList_search').length == 1 ){
-        selectTab(2);
-      }
+      selectTab(getSearchTabNumber());
 		}
 		else{
 		  searchQuestions(vars["search"]);		
@@ -848,29 +853,6 @@ $(document).ready(function() {
 		viewQuestion(vars["question"]);
 	}
 	
-  
-  $('ul.tabs').find('li').click(function(){
-      $('ul.tabs li').attr("class","");
-      $(this).attr("class","radiusT selected");
-  });
-
-  // tabs onclick
-  $('#searchTab').click(function(){
-    searchQuestions();
-  });
-  $('#followedTab').click(function(){
-    displayFollowedQuestions();
-  });
-  $('#popularTab').click(function(){
-    displayPopularQuestions();
-  });
-  $("#timelineLink").click(function () {
-	  loadTimeline();
-  });
-  $("#recommendedTab").click(function () {
-	  console.log("recommended");
-	  displayRecommendedQuestions();
-  });
   
   if(vars["show"]){
 	  if(vars["show"] == 'ask'){
@@ -894,33 +876,46 @@ function init() {
   //load session into javascript variable
 	loadSession();
 
-  //hide elements
+  //hide unnecessary elements
   $('.question_display').hide();
   $('#answer_template').hide();
 	
-  //keyup events
+  //event binding
   $('#searchBar').bind('click keyup', function(event){
+    selectTab(getSearchTabNumber());
     searchQuestions();
   });
-
-	// from the profile page, a new search redirect to the main page
-	$('#searchBarProfile').keyup(function(event) {
-		 if (event.keyCode == '13') {
-      search = document.getElementById("searchBarProfile").value;
-	    document.location.href = '/?search='+search; 
-     }
-	});
+  $('.newAnswerAlert').click(
+    function () {
+      $('.newAnswerAlert').text("");
+      viewQuestion($('.question_display').attr('data-questionId'));
+    }
+  );
+  $('ul.tabs').find('li').click(function(){
+      $('ul.tabs li').attr("class","");
+      $(this).attr("class","radiusT selected");
+  });
+  // tabs onclick
+  $('#searchTab').click(function(){
+    searchQuestions();
+  });
+  $('#followedTab').click(function(){
+    displayFollowedQuestions();
+  });
+  $('#popularTab').click(function(){
+    displayPopularQuestions();
+  });
+  $("#timelineLink").click(function () {
+	  loadTimeline();
+  });
+  $("#recommendedTab").click(function () {
+	  console.log("recommended");
+	  displayRecommendedQuestions();
+  });
+	
 	$("#searchBar").focus();
-	$('#message').click(function() {
-		removeMessage('messageContainer');
-	});
-  $('#message').click(function(){
-    $(this).slideToggle("fast");
-	});
 	
-	
-	
-	
+  //initialize slider
 	$('#coda-slider-1').codaSlider({
     dynamicArrows: false,
     dynamicTabs: false,
@@ -928,14 +923,8 @@ function init() {
     autoHeight: false
   });
   
+  //initialize facebox
   $('a[rel*=facebox]').facebox() ;
-
-  $('.newAnswerAlert').click(
-    function () {
-      $('.newAnswerAlert').text("");
-      viewQuestion($('.question_display').attr('data-questionId'));
-    }
-  );
 }
 
 

@@ -173,27 +173,6 @@ $.fn.codaSlider = function(settings) {
 			};
 		});
 
-    //HACKING BY HOONJI
-    //TODO: GENERALIZE THIS CODE
-    //trigger for search bar keyup
-    $('#searchBar').bind("click keyup", function(){
-      if (user_session.isOpen){
-        targetPanel = '1';
-      } else {
-        targetPanel = '2';
-      }
-      offset = - (panelWidth*(targetPanel - 1));
-      alterPanelHeight(targetPanel - 1);
-      currentPanel = targetPanel;
-      // Switch the current tab:
-      slider.siblings('.coda-nav').find('a').removeClass('current').parents('ul').find('li:eq(' + (targetPanel - 1) + ') a').addClass('current');
-      // Slide
-      $('.panel-container', slider).animate({ marginLeft: offset }, settings.slideEaseDuration, settings.slideEaseFunction);
-
-      //change tab visual
-      $('.selected').removeClass();
-      $('#searchTab').parent().addClass('selected');
-    });
 			
 		// Specify which tab is initially set to "current". Depends on if the loaded URL had a hash or not (cross-linking).
 		if (settings.crossLinking && location.hash && parseInt(location.hash.slice(1)) <= panelCount) {
