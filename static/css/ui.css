@@ -127,8 +127,9 @@ color:#ababab;margin-right: 10px;}
 #facebox .content .dialog_left{ 
   padding:10px;
 }
-  
-#facebox .content .dialog_left .welcome b, #facebox .content .dialog_left .dialog_main_title b{
+#facebox .welcome{text-align: center;padding-top: 15px;}
+ 
+#facebox .welcome b, #facebox .content .dialog_left .dialog_main_title b{
   text-shadow: 1px 1px 0 #fff;
   font-size: 30px;
   font-weight: bold;
@@ -136,7 +137,10 @@ color:#ababab;margin-right: 10px;}
 }
 
 #facebox .content .dialog_right{ 
+  margin:5px;
   padding:10px;
+  text-align: left;
+
 }
 
 #facebox .content .dialog_right .input_item{
@@ -198,3 +202,29 @@ color:#ababab;margin-right: 10px;}
 .dialog_wrapper h2{margin-top: 0px}
 
 .post_form input.textInput{  border: 1px solid #cacaca; width:100%;}
+
+
+#facebox .welcome_text{text-align: center;
+background-image: url(../image/register_bg.png);
+background-position: 0px 60px;
+display: inline-block;}
+.question_mark,#popupFlash,.ex_mark{
+  float: left;
+}
+.question_mark,.ex_mark{width:80px; max-width: 80px;height: 200px;vertical-align: middle;background-repeat: no-repeat; }
+
+.question_mark{background-image: url(../image/q_mark.png); background-position: 5px center;}
+.ex_mark{background-image: url(../image/bulb.png);background-position: center right;}
+
+.text{text-align: left; font-size: 1.5em; font-weight: bold; margin-bottom: 10px;}
+.text b{color:#004c4c;}
+
+.dialog_right.register_form{
+  background-color: #FFF9DB;height:280px;
+}
+
+.welcome_text{padding-top: 5px;}
+.new_come b{color:#004c4c;}
+.new_come {font-size:1.5em; margin-bottom: 10px;font-weight:bold;}
+
+.dialog_right.register_form h2{font-size: 1.4em; font-weight: normal}
