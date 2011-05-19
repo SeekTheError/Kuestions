@@ -300,7 +300,8 @@ function displayQuestionList(questionList, filterType){
 
     // asker and post date
     postDate = humane_date(postDate);
-    $(containerId + ' #askerAndPostDate' + i).html('<a href="/user/'+asker+'"><b>'+asker+'</b></a> posted ' + postDate);
+    $(containerId + ' #askerAndPostDate' + i).html('posted by <a href="/user/'+asker+
+    		'"><b>'+asker+'</b></a> ' + postDate);
 
     // edit question profile img
     $('#questionProfileImg' + i).attr('src', '/user/picture/' + asker);
@@ -363,17 +364,27 @@ function displayTimeline(data){
     //insert template
     container.append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'"><img id="questionProfileImg' + i +'" /></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow" /></a></span> </div> </div> </div>');
 
-    questionId = timeline[i].question;
+    questionId = timeline[i].questionId;
     title = timeline[i].questionTitle;
-    answerer = timeline[i].user;
-    postDate =  humane_date(timeline[i].eventDate);
-
+    poster = timeline[i].users;
+    postDate =  humane_date(timeline[i].date);
+    count=timeline[i].answerCount;
+    init=false;
+    posterHtml='';
+    for(x in poster){
+    	if(init==false)init=true;
+    posterHtml+='<a href="/user/'+poster[x]+'"><b>'+poster[x]+'</b></a>'; 
+       if(init & (x < poster.length-1)){ console.log(poster.length);posterHtml+=', ';}
+    }
     //answerer and post date
-    $('#askerAndPostDate' + i).html('<a href="/user/'+answerer+'"><b>'+answerer+'</b></a> answered ' + postDate);
+    
+    if(count==1){
+    	countSentence=count+" new answer: ";}
+    else{countSentence=count+" new answers: ";}
+    $('#askerAndPostDate' + i).html(countSentence+posterHtml+' answered ' + postDate);
 
-    // edit question profile img
-    $('#questionProfileImg' + i).attr('src', '/user/picture/' + answerer);
-    $('#userLink' + i).attr('href', '/user/' + answerer);
+    $('#questionProfileImg' + i).attr('src', '/user/picture/' + poster[0]);
+    $('#userLink' + i).attr('href', '/user/' + poster[0]);
     
     // question title
     var titleContainer =  $('#questionTitle' + i);
@@ -608,7 +619,7 @@ function viewAnswers(answers){
   });
 
   //add answer list
-  for (var i = 0; i < answers.length; i++){
+  for (i = 0; i < answers.length; i++){
     var answer = $('#answer_template').clone();
     answer.show();
     answer.attr('id', 'answer'+answers[i].id);
