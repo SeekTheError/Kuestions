@@ -171,7 +171,7 @@ padding: 0 5px 1px 5px;
   width:470px;
   padding: 0;
   min-height: 600px;
-  border-right: 1px solid #c6e4d8;
+  border-right: 1px solid #B3B3B3;
 }
 .right{
   display: inline-block;
@@ -207,7 +207,7 @@ color:#ababab;margin-right: 10px;}
 
 
 /*Tabs*/
-ul.tabs{border-bottom: 1px solid #c6e4d8;}
+ul.tabs{border-bottom: 1px solid #EEE;}
 ul.tabs, ul.tabs li{list-style: none; margin:0; padding:0; font-size: 14px; font-weight: bold;}
 ul.tabs{display: block; padding:10px;padding-bottom: 5px;}
 ul.tabs li{display: inline; padding:5px 10px 0px 10px;text-shadow: 1px 1px 0 #efefef;}
@@ -372,12 +372,12 @@ h3.pop_message{
 }
 
 .topic ul, .topic li{margin:0px; list-style: none;}
-.topic ul{padding:5px 0 0 0;height:20px;width:310px;}
+.topic ul{padding:5px 0 0 0;width:310px; display: inline-block;}
 .topic li{display: inline; margin-right: 5px;
   background-color: #347259;
 }
 
-.topic li.topic_item{ -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;  border: 1px solid white; background: #C6E4D8; padding: 1px 10px 2px 5px; position: relative; margin-top:5px;margin-bottom:5px; float:left;}
+.topic li.topic_item{ -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;  border: 1px solid white; background: #C6E4D8; padding: 1px 10px 2px 5px; position: relative; margin-top:5px;margin-bottom:5px; line-height: 12px;float: left;}
 .topic li.topic_item.False{ padding-right:5px;}
 .topic li.topic_item .deleteButton{border:none; padding:0px;}
 .topic li.topic_item .deleteButton { position: absolute; right: 4px; top: 4px; display: block; width: 7px; height: 7px; font-size: 1px; background: url('../image/close.gif'); }
@@ -521,29 +521,67 @@ form.newResume{
 
 
 .default_wrapper{
-  padding:0px 0px;
+  padding:10px 0 0 0;
   
 }
 
 .default_wrapper .title{
   padding:5px 10px;
+  padding-left: 20px;
   text-shadow: 1px 1px 0 #fff;
   font-size: 24px;
   font-weight: bold;
   color:black;
   display: block;
-  background-color: #C6E4D8;
+  border-color: #C6E4D8;
 }
 .default_wrapper .default_contents{
   border-color: #C6E4D8;
-  border-width: 0 1px 1px 0;
+  border-width: 0;
   border-style: solid;
   width:558px;
 }
+
+
+
+b.logo{color:#004C4C; text-shadow: 1px 1px #aaa;}
+
+
+.default_contents .welcome_text{padding:0 5px 0 15px; display: inline-block;
+background-image: url(../image/default_bg.png); background-repeat: no-repeat;
+background-position: 4px 67px;
+}
+.default_contents .welcome_text p{padding-top:10px}
+#wpcumuluscontent3279573{float:left}
+.default_contents .question_mark,.default_contents .ex_mark{height:300px}
+
+
+
+.default_contents .welcome_text{background-color: #fdfce9; margin-left:10px;}
+
+
+
+
 .default_wrapper .default_contents .steps{
-  padding-left: 10px;
+  padding-left: 0px;
+  float: none;
+  display: inline-block;
 }
 .default_wrapper .default_contents .steps p{
-  padding: 10px 0px;
-  font-size: 16px;
+  padding: 5px 0px;
+  font-size: 1.4em;
+  font-weight: bold;
 }
+.default_wrapper .default_contents .steps p.step{
+  padding-left: 10px;
+}
+.default_wrapper .default_contents .steps p.text{margin-bottom: 0px;}
+
+
+
+
+
+
+#questionList_search h2{padding-left: 20px;}
+
+#questionList_user h3{padding-left:20px;}

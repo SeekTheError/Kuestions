@@ -314,6 +314,11 @@ function displayQuestionList(questionList, filterType){
 
     // set up follow button
     setFollowButton(questionId, $('#followButton' + i));
+    
+    // auto display first question of user list
+    if(filterType == 'user' && i == 0){
+      viewQuestion(questionId);
+    }
   }
 }
 
@@ -381,7 +386,7 @@ function cleanQuestionList(){
 var lastAnswerCount;
 var answerDaemon;
 function viewQuestion(questionId){
-  $('.default').remove();
+  $('.default').hide();
 	csrf = $("#security_csrf input:first").val();
   $.ajax({
     url: '/question/view/',
@@ -523,6 +528,7 @@ function manageFollowQuestion(questionId, button){
         if ( $('#followedTab').parent().attr('className').indexOf('selected') != -1 ) {
           if ( $('.question_display').attr('data-questionId') == questionId ){
             $('.question_display').hide();
+            $('.default').show();
           }
         }
 	    }
