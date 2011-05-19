@@ -482,7 +482,6 @@ function runAnswerDaemon(){
         answers = data.answers;
         if(lastAnswerCount < answers.length){
           diff = answers.length-lastAnswerCount;
-          console.log('new Message')
           if(diff == 1) {
             $(".newAnswerAlert").text(diff+ " new answer");
           }else{
@@ -490,8 +489,8 @@ function runAnswerDaemon(){
           }
             $(".newAnswerAlert").show();
             $(".newAnswerAlert").click(function(){
-              $(".newAnswerAlert").hide();
-              $('.right').scrollTo( $('.answer_form_wrapper'), 500 );
+              $(".newAnswerAlert").text("");
+              $('.right').scrollTo( $('.answer').last(), 1000);
             });
 
         }
