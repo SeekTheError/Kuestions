@@ -5,17 +5,18 @@ function loadQuestionTags(questionContent) {
 	questionContent=questionContent.replace("?","");
 	// words = replaceAll(questionContent, '\u003F', '').split(" ");
 	words = questionContent.split(" ");
-	zone = document.getElementById('tagsZone');
-	tags = zone.getElementsByTagName('span');
-	for (i = 0; i < tags.length; i++) {
-		zone.removeChild(tags[i]);
-	}
+	//zone = document.getElementById('tagsZone');
+	//tags = zone.getElementsByTagName('li');
+	//for (i = 0; i < tags.length; i++) {
+	//	zone.removeChild(tags[i]);
+	//}
+	$("#facebox .tagsZone .topic ul li").remove();
 	checkIfTag(words);
 }
 
 function checkIfTag(words) {
 
-	$(".popup #tagsZone .tag").remove();
+	$(".tagsZone .topic ul li").remove();
 	for (i = 0; i < words.length; i++) {
 		if (words[i] != '') {
 			word = words[i].toLowerCase();
@@ -34,15 +35,27 @@ function checkIfTag(words) {
 
 function addTag(value){
 	$(".popup #tagBar").attr("value","");
+	
 	d=new Date();
 	id=  d.getMilliseconds();
+	tag_item=$('#topic_item_template').clone();
+	tag_item.find('b').text(value);
+	tag_item.attr('id',id);
+	tag_item.show();
+	tag_item.find('input').click(function(){
+	 $(this).parent().remove();
+  });
+
+	$("#facebox .tagsZone .topic ul").append(tag_item);
+	
+	/*
 	$('<span>', {
 		id : id,
 		text : value,
 		class : "tag"
 	}).appendTo(".popup #tagsZone");
-	$("#"+id).click(function(){$("#"+this.id).remove();});
-	
+	*/
+	//$("li#"+id).click(function(){$("#"+this.id).remove();});
 }
 
 function appendTag(data) {
@@ -67,7 +80,7 @@ function postQuestion() {
 
 	// retrieve tags
 	tags=[];
-	arr=$(".popup #tagsZone .tag");
+	arr=$("#facebox .tagsZone .topic ul li b");
 	i=0;
 	$.each(arr,function (){tags[i]=$(this).text();i++; });
 	console.log(tags);
@@ -841,8 +854,6 @@ $(document).ready(function() {
   if(vars["show"]){
 	  if(vars["show"] == 'ask'){
 	    $(".ask_wrapper a").click();
-      var left=parseInt($("#facebox").css('left'));
-      $("#facebox").css('left',(left-215)+'px');
 	  }
 	}
 });
@@ -965,3 +976,11 @@ if ( typeof jQuery != "undefined" )
 				jQuery(this).text( date );
 		});
 	};
+
+
+
+function hideQuestionDisplay(){
+  $('.question_display').hide();
+  $('.default').show();
+  return false;
+}

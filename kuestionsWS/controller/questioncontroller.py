@@ -4,6 +4,7 @@ from django.utils.encoding import smart_unicode
 from security.userauth import checkSession, getCurrentUser
 import json
 from hashlib import sha1
+from datetime import datetime
 
 #retrival of the couchdb credentials
 file = open('.couchDbCredentials', 'r')
@@ -99,7 +100,7 @@ def postAnswer(request):
       return HttpResponse(json.dumps({'error':1, 'errorMessage': 'You have already posted an answer for this Kuestion!'}))
   '''
   content = request.POST["answer"]
-  newAnswer = {'content': content, 'id': answerId, 'poster':user.login }
+  newAnswer = {'content': content, 'id': answerId, 'poster':user.login}
   q.answers.append(newAnswer)
   q.update()
   #time line event creation

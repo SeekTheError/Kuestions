@@ -144,7 +144,7 @@ color:#ababab;margin-right: 10px;}
 }
 
 #facebox .content .dialog_right .input_item{
-  background-color: #181818;
+  background-color: #232323;
   color: white;
   height: 25px;
   vertical-align: middle;
@@ -206,6 +206,7 @@ color:#ababab;margin-right: 10px;}
 
 #facebox .welcome_text{text-align: center;
 background-image: url(../image/register_bg.png);
+background-repeat: no-repeat;
 background-position: 0px 60px;
 display: inline-block;}
 .question_mark,#popupFlash,.ex_mark{
@@ -214,7 +215,7 @@ display: inline-block;}
 .question_mark,.ex_mark{width:80px; max-width: 80px;height: 200px;vertical-align: middle;background-repeat: no-repeat; }
 
 .question_mark{background-image: url(../image/q_mark.png); background-position: 5px center;}
-.ex_mark{background-image: url(../image/bulb.png);background-position: center right;}
+.ex_mark{background-image: url(../image/bulb.png);background-position:18px center;}
 
 .text{text-align: left; font-size: 1.5em; font-weight: bold; margin-bottom: 10px;}
 .text b{color:#004c4c;}
