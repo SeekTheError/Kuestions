@@ -30,13 +30,13 @@ $(document).ready(function() {
       $(this).attr("class","selected");
   });
 
-  
-
   //code specific to guest users
   {% if  not sessionIsOpen %}
   displayPopularQuestions();
   {% endif %}
 });
+
+
 </script>
 
 </head>
@@ -55,7 +55,7 @@ $(document).ready(function() {
       </div>
       {% if sessionIsOpen %}
       <div class="ask_wrapper">
-        <a id="askQuestionButton" href="#question_dialog" >Ask Question!</a>
+        <a id="askQuestionButton" href="#question_dialog" onclick="openFacebox(800)">Ask Question!</a>
       </div>
       {% endif %}
     </div>
@@ -264,7 +264,11 @@ $(document).ready(function() {
       
       <div class="actions">
       <span class="follow"><img id="followButton" src="{{MEDIA_URL}}/image/icon_star_off.png" title="follow"/></span>
-    </div>
+      <a href="#" onClick="hideQuestionDisplay();">close</a>
+      </div>
+      <div class="actions close">
+        
+      </div>
     </div>
     <div class="newAnswerAlert radius"></div>
 
@@ -372,25 +376,35 @@ $(document).ready(function() {
   <div class="dialog_wrapper">
     <div class="dialog_left">
       <div class="post_form">
-		    <h2>#1 Enter a question</h2>
-		    <p>What do you want to know?</p>
-		    <input type="text" id="questionTitleInput" class="i.postBar textInput" onchange="loadQuestionTags(value);" />
-
-        <h2>#2 Enter question description</h2>
-        <p>(optional) If you would like to add a description to your question, please input it here<p>
-        <input type="text" id="questionDescriptionInput" class="i.postBar textInput" onchange="loadQuestionTags(value);" />
+		    <div class="post_title">
+		      <h2 class="ask_h2">Question title<img src="{{MEDIA_URL}}/image/q_mark.png" width=17></h2>
+		      <input type="text" id="questionTitleInput" class="i.postBar textInput" onchange="loadQuestionTags(value);" />
+        </div>
+        
+        <div class="post_description">
+        <h2 class="ask_h2_small">Description (optional)</h2>
+        <textarea type="text" id="questionDescriptionInput" class="i.postBar textInput"></textarea>
+        </div>
 	    </div>
     </div>
   </div>
   
   <div class="dialog_wrapper">
-    <div class="dialog_right">
+    <div class="dialog_right" style="padding-bottom:0px;">
       <div class="post_form">
-        <h2>#3 Tag it</h2>
+        <h2 class="ask_h2">
+          Tag it<img src="{{MEDIA_URL}}/image/bulb.png" width=17>
+          <input type="text" id="tagBar" class="i.postBar newTopic" onchange="addTag(value);"/>
+        </h2>
+	      
+	      <div id='tagsZone' class="tagsZone radius">
+	       <div class="topic">
+	         <li class="topic_item True" id="topic_item_template" style="display:none"><b>123</b><input type="button" class="deleteButton" value=""/></li>
+	         <ul name="topic_area"></ul>
+	       </div>
+	      </div>
 	      <p class="justified">To increase your chances of receiving an answer quickly, we automatically added some tags that could match. However, you can edit this list, or add tags manually</p>
-	      <div id='tagsZone' class="tagsZone"></div>
-	      <input type="text" id="tagBar" class="i.postBar newTopic" size=20 onchange="addTag(value);"/>
-        <div>
+        <div class="post_button">
 	       <input type="button" value="Post your Question"
 	         onclick="postQuestion();" class="button orange"/>
 	      </div>
