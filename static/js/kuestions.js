@@ -836,6 +836,8 @@ var user_session=null;
 $(document).ready(function() {
 	init();
 
+  /* visual elements */
+
 	// for loading dialog
 	$(".ld_line").fadeOut(1000);
 	// for modal dialog
@@ -844,6 +846,17 @@ $(document).ready(function() {
     $('.popup #questionTitleInput').val( $('#searchBar').val() );
     loadQuestionTags( $('.popup #questionTitleInput').val() );
   });
+
+  //initialize slider
+	$('#coda-slider-1').codaSlider({
+    dynamicArrows: false,
+    dynamicTabs: false,
+    firstPanelToLoad: 1,
+    autoHeight: false
+  });
+  
+  //initialize facebox
+  $('a[rel*=facebox]').facebox() ;
 
 
 	// Display a search comming from the profile page
@@ -864,8 +877,6 @@ $(document).ready(function() {
 	if(vars["question"]){
 		viewQuestion(vars["question"]);
 	}
-	
-  
   if(vars["show"]){
 	  if(vars["show"] == 'ask'){
 	    $(".ask_wrapper a").click();
@@ -927,16 +938,6 @@ function init() {
 	
 	$("#searchBar").focus();
 	
-  //initialize slider
-	$('#coda-slider-1').codaSlider({
-    dynamicArrows: false,
-    dynamicTabs: false,
-    firstPanelToLoad: 1,
-    autoHeight: false
-  });
-  
-  //initialize facebox
-  $('a[rel*=facebox]').facebox() ;
 }
 
 

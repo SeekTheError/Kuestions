@@ -28,5 +28,3 @@ def view(request) :
   
   return HttpResponse(t.render(context))
 
-
-

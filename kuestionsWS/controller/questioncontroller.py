@@ -86,20 +86,16 @@ def postAnswer(request):
   q = q.findById()
 
   #create answer ID by hashing (userId, questionId) 
-  #answerId = sha1(user.id + questionId).hexdigest()
-
-  #FOR TESTING PURPOSES TODO:change to original
-  answerId = sha1(user.id + questionId + request.POST["answer"]).hexdigest();
+  answerId = sha1(user.id + questionId).hexdigest()
 
   #check if answer ID already exists
   #this means that this user already posted an answer for this question -> abort post
   #the following is deactivated for development purposes
-  '''
   for answer in q.answers:
     if answer.id == answerId:
       return HttpResponse(json.dumps({'error':1, 'errorMessage': 'You have already posted an answer for this Kuestion!'}))
-  '''
-  content = request.POST["answer"]
+
+  content = smart_unicode(request.POST["answer"], encoding='utf-8', strings_only=False, errors='strict')
   newAnswer = {'content': content, 'id': answerId, 'poster':user.login}
   q.answers.append(newAnswer)
   q.update()
