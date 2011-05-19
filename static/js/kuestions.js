@@ -90,9 +90,9 @@ function postQuestion() {
 
   // concatenate data
 	data= "title=" + title + "&description=" + description + "&csrfmiddlewaretoken="+tokenValue;
-	if( tags.length > 0)
-		data=data+"&tags="+tags;
-	
+	if( tags.length > 0){
+		data+="&tags="+tags;
+		}
 	$.ajax({
 		type : "POST",
 		url : "/question/post/",
@@ -352,34 +352,38 @@ function loadTimeline(){
 }
 
 function displayTimeline(data){
-	timeline=eval(data);
-	console.log(timeline);
-	$("#questionList_timeline").append('<ul id="timelineList"></ul>');
-	for(i=0;i<timeline.length;i++){
-    id=timeline[i]._id.replace(".","");
-    questionId=timeline[i].question;
+  cleanQuestionList();
+
+  var container = $('#questionList_timeline');
+
+  //fill in data
+  timeline = eval(data);
+  console.log(timeline);
+  for (var i = 0; i < timeline.length; i++){
+    //insert template
+    container.append('<div id="questionList'+i+'" class="speech_wrapper"> <div class="profile question"><a id="userLink'+i+'"><img id="questionProfileImg' + i +'" /></div> <div class="speech"></a><div class="question"> <p class="bubble"></p> <p class="question_text" id="questionTitle'+i+'"></p> </div><div class="info"> <span id="askerAndPostDate'+i+'"></span> </div> <div class="actions"> <span class="follow"><a href="#"><img id="followButton' + i +'" src="/kuestions/media/image/icon_star_off.png" title="follow" /></a></span> </div> </div> </div>');
+
+    questionId = timeline[i].question;
+    title = timeline[i].questionTitle;
+    answerer = timeline[i].user;
+    postDate =  humane_date(timeline[i].eventDate);
+
+    //answerer and post date
+    $('#askerAndPostDate' + i).html('<a href="/user/'+answerer+'"><b>'+answerer+'</b></a> answered ' + postDate);
+
+    // edit question profile img
+    $('#questionProfileImg' + i).attr('src', '/user/picture/' + answerer);
+    $('#userLink' + i).attr('href', '/user/' + answerer);
     
-	  var li = $('<li>',{
-	      id: id
-	    }).appendTo($("#timelineList"));
-	  $("#questionList_timeline #"+id).click({'questionId': questionId},function(event){
-	   viewQuestion(event.data.questionId);
-	  });
-	  
-	  date = humane_date(timeline[i].eventDate);
-	  var a= $('<a>',{
-		  href:'/user/'+timeline[i].user,
-		  text :timeline[i].user 
-	  }).appendTo($("#timelineList #"+id));;
-	  var a= $('<span>',{
-		  text :'  post an answer'
-	  }).appendTo($("#timelineList #"+id));;
-	  var p= $('<span>',{
-		  text: date +" " +timeline[i].questionTitle+" "
-	  }).appendTo($("#timelineList #"+id));
-	  
-	    
-	}
+    // question title
+    var titleContainer =  $('#questionTitle' + i);
+    titleContainer.text(title);
+
+    // click handler for question detail view
+    $('#questionList'+i).click( {'questionId': questionId }, function(event){
+      viewQuestion(event.data.questionId);
+    });
+  }
 }
 
 function cleanQuestionList(){
@@ -440,6 +444,11 @@ function viewQuestion(questionId){
       //initialize answer update checker daemon
       $(".newAnswerAlert").text("");
       lastAnswerCount=data.answers.length;
+      if(lastAnswerCount==0){
+    	  $("#newAnswerTop").addClass("hidden");
+      }else{
+    	  $("#newAnswerTop").removeClass("hidden");
+      }
       if (!answerDaemon){
         answerDaemon = runAnswerDaemon();
       }
@@ -640,11 +649,12 @@ function postAnswer(answerText){
 
   // obtain csrftoken needed to post data
   var csrf = $("#security_csrf input:first").val();
+  data="answer=" + answer + '&questionId=' + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf;
   $.ajax({
     url: '/question/postAnswer/',
     type: "POST",
-    dataType: "JSON",
-    data: "answer=" + answer + '&questionId=' + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    dataType: "json",
+    data: data,
     success: function(data,textStatus, jqxhr){
       if (data.error){
         displayMessage(data.errorMessage,'answerMessageContainer');
