@@ -527,13 +527,13 @@ form.newResume{
 
 .default_wrapper .title{
   padding:5px 10px;
+  padding-left: 20px;
   text-shadow: 1px 1px 0 #fff;
   font-size: 24px;
   font-weight: bold;
   color:black;
   display: block;
   border-color: #C6E4D8;
-  text-align: center;
 }
 .default_wrapper .default_contents{
   border-color: #C6E4D8;
@@ -541,13 +541,7 @@ form.newResume{
   border-style: solid;
   width:558px;
 }
-.default_wrapper .default_contents .steps{
-  padding-left: 10px;
-}
-.default_wrapper .default_contents .steps p{
-  padding: 10px 0px;
-  font-size: 16px;
-}
+
 
 
 b.logo{color:#004C4C; text-shadow: 1px 1px #aaa;}
@@ -555,7 +549,7 @@ b.logo{color:#004C4C; text-shadow: 1px 1px #aaa;}
 
 .default_contents .welcome_text{padding:0 5px 0 15px; display: inline-block;
 background-image: url(../image/default_bg.png); background-repeat: no-repeat;
-background-position: 10px 44px;
+background-position: 4px 67px;
 }
 .default_contents .welcome_text p{padding-top:10px}
 #wpcumuluscontent3279573{float:left}
@@ -564,3 +558,22 @@ background-position: 10px 44px;
 
 
 .default_contents .welcome_text{background-color: #fdfce9; margin-left:10px;}
+
+
+
+
+.default_wrapper .default_contents .steps{
+  padding-left: 0px;
+  float: none;
+  display: inline-block;
+}
+.default_wrapper .default_contents .steps p{
+  padding: 5px 0px;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+.default_wrapper .default_contents .steps p.step{
+  padding-left: 10px;
+}
+.default_wrapper .default_contents .steps p.text{margin-bottom: 0px;}
+
