@@ -37,6 +37,9 @@ def get(request):
   temp = []
   for row in rows:
     temp.append(row)
+  dir(temp)  
+  if len(temp)==0:
+    return HttpResponse()
   #the bloc class is used as a data wraper for the timeline info
   class Bloc:
     pass  
@@ -46,11 +49,14 @@ def get(request):
   b.count = 0;
   b.questionTitle = temp[0].value['questionTitle']
   b.date = temp[0].value['eventDate']
-  currentBloc = b
+  b.users = []
+  currentBloc=b
   #concatenate it by continuous block, and count the number of occurencies
   for row in temp:
     if row.value['question'] == currentBloc.questionId:
       currentBloc.count += 1
+      if currentBloc.users.__contains__(row.value['user']) == False:
+        currentBloc.users.append(row.value['user'])
     else :
       results.append(currentBloc)
       currentBloc = Bloc()
@@ -58,6 +64,7 @@ def get(request):
       currentBloc.questionTitle = row.value['questionTitle']
       currentBloc.date = row.value['eventDate']
       currentBloc.questionId = row.value['question']
+      currentBloc.users.append(row.value['user'])
   results.append(currentBloc)    
   #generating the final timeline
 
@@ -66,7 +73,8 @@ def get(request):
     timeline.append({'questionTitle':item.questionTitle,
                       'date':item.date, 
                       'questionId':item.questionId,
-                      'answerCount':item.count})
+                      'answerCount':item.count,
+                      'users':item.users})
     
   print json.dumps(timeline)
   #limit the size of the time line to 20   
