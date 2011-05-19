@@ -25,11 +25,18 @@ def createQuestionsFromFile(fileName):
     createQuestion(question)
 
 def removeAllQuestions():
+  removeAllFromView('question/asker')
+  removeAllFromView('timeLineEvent/question')
+
+def removeAllFromView(view):
   db = getDb()
-  v = db.view('question/asker') 
+  v = db.view(view)
   for row in v:
     db.delete( db[row.id] )
-    print 'deleted question with id: ' + row.id
+    print 'deleted id: ' + row.id + ' in view: ' + view
+
+def removeAllUsers():
+  removeAllFromView('user/login')
   
 def createQuestion(title):
   #get a random user as the asker
@@ -46,6 +53,7 @@ def createQuestion(title):
   for preposition in prepositions:
     topics = [e for e in topics if e != preposition]
   nontopics = [
+    'some',
     'is',
     'the',
     'what',

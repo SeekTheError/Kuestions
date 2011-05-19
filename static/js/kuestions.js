@@ -805,8 +805,8 @@ function selectTab(targetPanel){
 /** ******* Init *************** */
 var user_session=null;
 $(document).ready(function() {
-	loadSession();
 	init();
+
 	// for loading dialog
 	$(".ld_line").fadeOut(1000);
 	// for modal dialog
@@ -881,15 +881,18 @@ function loadSession(){
 }
 
 function init() {
+  //load session into javascript variable
+	loadSession();
+
+  //hide elements
   $('.question_display').hide();
   $('#answer_template').hide();
 	
-  $('#searchBar').keyup(function(event) {
-		searchQuestions();
-	});
-  $('#searchBar').click(function(event){
+  //keyup events
+  $('#searchBar').bind('click keyup', function(event){
     searchQuestions();
   });
+
 	// from the profile page, a new search redirect to the main page
 	$('#searchBarProfile').keyup(function(event) {
 		 if (event.keyCode == '13') {
