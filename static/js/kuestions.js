@@ -90,9 +90,9 @@ function postQuestion() {
 
   // concatenate data
 	data= "title=" + title + "&description=" + description + "&csrfmiddlewaretoken="+tokenValue;
-	if( tags.length > 0)
-		data=data+"&tags="+tags;
-	
+	if( tags.length > 0){
+		data+="&tags="+tags;
+		}
 	$.ajax({
 		type : "POST",
 		url : "/question/post/",
@@ -444,6 +444,11 @@ function viewQuestion(questionId){
       //initialize answer update checker daemon
       $(".newAnswerAlert").text("");
       lastAnswerCount=data.answers.length;
+      if(lastAnswerCount==0){
+    	  $("#newAnswerTop").addClass("hidden");
+      }else{
+    	  $("#newAnswerTop").removeClass("hidden");
+      }
       if (!answerDaemon){
         answerDaemon = runAnswerDaemon();
       }
@@ -644,11 +649,12 @@ function postAnswer(answerText){
 
   // obtain csrftoken needed to post data
   var csrf = $("#security_csrf input:first").val();
+  data="answer=" + answer + '&questionId=' + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf;
   $.ajax({
     url: '/question/postAnswer/',
     type: "POST",
-    dataType: "JSON",
-    data: "answer=" + answer + '&questionId=' + $(".question_display").attr("data-questionId") + '&csrfmiddlewaretoken=' + csrf,
+    dataType: "json",
+    data: data,
     success: function(data,textStatus, jqxhr){
       if (data.error){
         displayMessage(data.errorMessage,'answerMessageContainer');
