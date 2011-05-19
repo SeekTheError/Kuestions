@@ -6,7 +6,7 @@
 
 /*Basic Component*/
 html,body,a,p,span,div,fieldset,legend{margin:0; padding:0}
-body{font-size:8pt; font-family:"Helvetica Neue", "FreeSans","Lucida Grande",tahoma, verdana, arial, sans-serif;overflow-y:visible;}
+body{font-size:8pt; font-family:"Helvetica Neue", "FreeSans",tahoma, verdana, arial, sans-serif;overflow-y:visible;}
 a {
 	color: #004C4C;
 	text-decoration: none;
