@@ -554,7 +554,7 @@ background-position: 4px 67px;
 .default_contents .welcome_text p{padding-top:10px}
 #wpcumuluscontent3279573{float:left}
 .default_contents .question_mark,.default_contents .ex_mark{height:300px}
-
+.default_contents .ex_mark{background-position: right center;}
 
 
 .default_contents .welcome_text{background-color: #fdfce9; margin-left:10px;}
@@ -566,6 +566,7 @@ background-position: 4px 67px;
   padding-left: 0px;
   float: none;
   display: inline-block;
+  padding-bottom: 10px;
 }
 .default_wrapper .default_contents .steps p{
   padding: 5px 0px;
@@ -585,3 +586,23 @@ background-position: 4px 67px;
 #questionList_search h2{padding-left: 20px;}
 
 #questionList_user h3{padding-left:20px;}
+
+.ask_h2{margin-bottom: 0px; padding-bottom: 0px; font-size: 20px; line-height: 28px;}
+.ask_h2 img{position:relative; top: 1px; padding-left: 3px;}
+.ask_h2_small{margin-bottom: 0px; padding-bottom: 0px; font-size: 18px;line-height: 28px;}
+
+.post_title{padding-bottom: 10px;}
+.post_title input{padding:5px;}
+.post_description{}
+.post_form input{font-size: 14px;}
+
+
+textarea.textInput{border:1px solid #CACACA; width: 100%; height:120px; resize: none;padding:5px;}
+
+
+input.newTopic{margin-left: 0px; border: 1px solid #CACACA; width:200px}
+
+#tagsZone{height:112px; max-height: 112px; background-color: #FDFCE9; padding:0 10px; margin:5px 0px;}
+p.justified{font-size: 12px; padding:5px 0px; padding-bottom: 0px;}
+
+.post_button{text-align: right;}
