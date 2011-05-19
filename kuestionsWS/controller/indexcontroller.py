@@ -14,6 +14,9 @@ def view(request) :
     if topics.__contains__(row.key)==False:
       topics.append(row.key)
   context['topics']=topics
+
+  if request.GET.__contains__('search'):
+    context['search'] = request.GET['search'];
   
   return HttpResponse(t.render(context))
 
