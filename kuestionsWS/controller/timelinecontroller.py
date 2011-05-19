@@ -64,6 +64,7 @@ def get(request):
       currentBloc.questionTitle = row.value['questionTitle']
       currentBloc.date = row.value['eventDate']
       currentBloc.questionId = row.value['question']
+      currentBloc.users=[]
       currentBloc.users.append(row.value['user'])
   results.append(currentBloc)    
   #generating the final timeline
