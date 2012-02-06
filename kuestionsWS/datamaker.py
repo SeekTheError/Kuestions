@@ -99,3 +99,4 @@ def createInitialUserList():
     u.update()
   
   f.close()
+\n
